@@ -1,0 +1,74 @@
+﻿DBCollection
+
+Personal Info:
+var User = new Schema({
+     id : String,
+     name : String,
+     pass : String,
+     role:String,
+     level:{
+              current_level: String,
+              target_level: String
+              }
+})
+
+
+
+Documents:
+
+var Document = new Schema({
+    userId: String,
+    date:String,
+    level:{
+                 previous_level: String,
+                 target_leverl:String  
+            }
+    course:[{
+                         courseId: String,
+                         status: String,
+                         details:[],
+                         sign:bool,
+                         coach:String,
+                         coachId: String
+               }]
+ currentCourse: String,
+  workflowId: String
+})
+
+data:创建时间
+course:上过的课程
+course.status: 包括pending，completed 未开始不存入
+coach: 教员
+
+
+course:
+var Course = new Course({
+     courseId: String,
+     title: String,
+     description: String,
+     category: String,
+     details:[],
+     overallComment:String
+})
+
+
+workflow:
+
+var Workflow = new Workflow({
+     workflowId: String,
+     previous_level: String, 
+     target_level: String,
+     steps:[ (different courseId) ]
+})
+
+
+
+
+React Store
+
+Pilot:
+{
+     personalInfo:{},
+     document:{}
+}
+
