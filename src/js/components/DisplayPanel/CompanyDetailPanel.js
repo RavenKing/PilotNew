@@ -108,7 +108,7 @@ export default class CompanyDetail extends React.Component {
 
 
 
-  const departmentsdisplay = company.departments.map((department)=><Tag onClose={this.onClose.bind(this)}>{department.name}</Tag>);
+  const departmentsdisplay = company.departments.map((department)=><Tag key={department.name} onClose={this.onClose.bind(this)}>{department.name}</Tag>);
 
 
 

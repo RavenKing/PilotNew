@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom"
-import { Button,Card,Icon,message } from "antd";
+import { Button,Card,Icon,message,Modal } from "antd";
 
 import { connect } from "react-redux";
 import CreateCompanyForm from "./CreateCompanyForm"
@@ -22,7 +22,8 @@ export default class CompanyView extends React.Component {
 		this.state={
 			companys:this.props.pilotinfo.Companys,
 			visible:false,
-      targetdata:null
+      targetdata:null,
+      deletevisible:false
 		}
 
 	}
@@ -65,8 +66,8 @@ export default class CompanyView extends React.Component {
               case "Delete":
               {
                if(that.state.targetdata) 
-              {const newcompanys = that.state.companys.filter((company)=>{if(company.company_id!= that.state.targetdata.company_id)return company})
-                that.setState({companys:newcompanys,targetdata:null})                
+              {              
+                that.setState({deletevisible:true})
               }
               else 
                 message.error("请选择一个公司")
@@ -144,6 +145,21 @@ if(this.state.targetdata == null)
 
 }
 
+
+// for delete modal 
+
+handleCancel()
+{
+  this.setState({deletevisible:false})
+}
+handleDelete()
+{
+  const newcompanys = this.state.companys.filter((company)=>{if(company.company_id!= this.state.targetdata.company_id)return company})
+  this.setState({companys:newcompanys,targetdata:null,deletevisible:false})  
+}
+
+
+//
 GoToDetail(company_id)
 {
   const detaildata = this.state.companys.filter((company)=>{
@@ -199,8 +215,10 @@ GoToDetail(company_id)
 
     	})
 
-
-
+  console.log(this.state.targetdata);
+  let companyname = "测试";
+  if(this.state.targetdata)
+    companyname= this.state.targetdata.company_name;
 
    return (
       <Card className="detail-panel workFlowDetailPanel" title="公司概况" extra={<Icon type="cross" onClick = {this.RemoveCard.bind(this)}/>}>
@@ -216,6 +234,12 @@ GoToDetail(company_id)
     onCreate = { this.onCreate.bind(this)}
      ref={this.saveFormRef.bind(this)}
         />
+
+        <Modal title="确定要删除吗" visible={this.state.deletevisible}
+          onOk={this.handleDelete.bind(this)} onCancel={this.handleCancel.bind(this)}
+        >
+        {"确定删除?"+companyname}
+        </Modal>
           </Card>
 
         
