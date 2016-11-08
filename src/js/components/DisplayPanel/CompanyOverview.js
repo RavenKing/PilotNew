@@ -41,7 +41,6 @@ export default class CompanyView extends React.Component {
               var x = event.dragEvent.clientX + window.scrollX;
               var y = event.dragEvent.clientY + window.scrollY;
               var data_id = draggableElement.getAttribute('data-id');
-              console.log(data_id);
               var data = {
                 x:x,
                 y:y
@@ -179,7 +178,6 @@ GoToDetail(company_id)
       if(this.state.targetdata)
         detaildata = <CompanyDetailPanel company={this.state.targetdata}/>
       else{
-        alert("gekki")
           detaildata = <div></div>
       }
     	const displaycards=companys.map((company)=>{

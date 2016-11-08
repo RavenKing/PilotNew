@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
-import {Card,Icon,Button,Form,Input,InputNumber,Steps,Timeline, Menu, Dropdown,Progress,Row,Col} from "antd";
+import {Card,Icon,Button,Form,Input,InputNumber,Steps,Timeline, Menu, Dropdown,Progress,Row,Col,message} from "antd";
 import {RemoveCard} from "../../Actions/pilotAction"
 
 import PersonalForm from "./personalform"
@@ -15,13 +15,42 @@ import PersonalForm from "./personalform"
     
 })
 export default class PersonnalPanel extends React.Component {
- 
-    componentDidMount() {
-       setCardDragable(ReactDOM.findDOMNode(this));
-    }
-    componentWillUnmount() {
-    }
+  constructor(props)
+  {
+      super(props)
+      this.state={disabled:true}
 
+  }
+ 
+    componentDidMount(){
+      const that = this;
+       setCardDragable(ReactDOM.findDOMNode(this));
+       handleFocus(ReactDOM.findDOMNode(this));
+           this.interactable = setAreaDropable({
+          element: ReactDOM.findDOMNode(this),
+          accept: '.function-button',
+          ondrop: function(event) {
+             let draggableElement = event.relatedTarget;
+             var data_id = draggableElement.getAttribute('data-id');
+             switch(data_id)
+             {
+              case "Create":
+              {
+                message.error("请在首页注册")
+
+              }
+              case "Edit" : 
+              {
+                that.setState({disabled:false})
+                break;
+              }
+             }
+
+              
+          }
+      });
+
+    }
   RemoveCard()
   {
     var data={
@@ -34,10 +63,8 @@ export default class PersonnalPanel extends React.Component {
 
     render() {
       const { pilotinfo} = this.props;
-      console.log(pilotinfo)
       const {Pilot} = pilotinfo;
       const {flightinfo} = Pilot;
-
         return (
 				<div class="detail-panel">
 
@@ -59,7 +86,10 @@ export default class PersonnalPanel extends React.Component {
        </Col>
     </Row>
      
-    <PersonalForm personaldata={pilotinfo.Pilot} />
+    <PersonalForm personaldata={pilotinfo.Pilot} 
+      disabled={this.state.disabled}
+  
+    />
 
 				</Card>
 				</div>

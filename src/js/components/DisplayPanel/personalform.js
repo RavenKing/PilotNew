@@ -17,13 +17,14 @@ const NormalLoginForm = Form.create()(React.createClass({
   render() {
     const {personaldata} = this.props;
     const { getFieldDecorator } = this.props.form;
+    let editdisabled = this.props.disabled;
     return (
       <Form onSubmit={this.handleSubmit} className="Personal-Form" horizontal>
              <FormItem label="名字">
           {getFieldDecorator('username', {
             initialValue:personaldata.name
           })(
-            <Input addonBefore={<Icon type="user" />} placeholder="name" disabled className="inputwidth300"/>
+            <Input addonBefore={<Icon type="user" />} placeholder="name" disabled={editdisabled} className="inputwidth300"/>
           )}
         </FormItem>
 
@@ -45,14 +46,14 @@ const NormalLoginForm = Form.create()(React.createClass({
           {getFieldDecorator('company', {
             initialValue:personaldata.company
           })(
-            <Input addonBefore={<Icon type="user" />} placeholder="company" disabled/>
+            <Input addonBefore={<Icon type="user" />} placeholder="company"  disabled={editdisabled} />
           )}
         </FormItem>
         <FormItem label="所在部门">
           {getFieldDecorator('department', {
             initialValue:personaldata.department
           })(
-            <Input addonBefore={<Icon type="user" />} placeholder="department" disabled/>
+            <Input addonBefore={<Icon type="user" />} placeholder="department"  disabled={editdisabled} />
           )}
         </FormItem>
         <FormItem label="注册时间">
@@ -61,19 +62,6 @@ const NormalLoginForm = Form.create()(React.createClass({
           })(
             <Input addonBefore={<Icon type="user" />} placeholder="create_time" disabled/>
           )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true,
-          })(
-            <Checkbox>Remember me</Checkbox>
-          )}
-          <a className="login-form-forgot">Forgot password</a>
-          <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
-          </Button>
-          Or <a>register now!</a>
         </FormItem>
       </Form>
     );
