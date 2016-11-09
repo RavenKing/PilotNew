@@ -5,7 +5,7 @@ import { Button,Card,Icon,message,Modal } from "antd";
 import { connect } from "react-redux";
 import CreateCompanyForm from "./CreateCompanyForm"
 import CompanyDetailPanel from "./CompanyDetailPanel"
-import {RemoveCard,AddCardToDisplay} from "../../Actions/pilotAction"
+import {RemoveCard,AddCardToDisplay,DeleteTest,CreateCompany,EditCompany} from "../../Actions/pilotAction"
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
 @connect((store)=>{    
@@ -20,7 +20,6 @@ export default class CompanyView extends React.Component {
 	{
 		super(props)
 		this.state={
-			companys:this.props.pilotinfo.Companys,
 			visible:false,
       targetdata:null,
       deletevisible:false
@@ -101,40 +100,29 @@ onCreate(){
       if (err) {
         return;
       }
-
-//get maxid 
- const {companys} = this.state;
+      console.log(values)
+      const {pilotinfo} = this.props;
+      const {Companys} = pilotinfo;
 if(this.state.targetdata == null)
       {
-
+        //create
        let keys = form.getFieldValue('keys');
        values.departments=keys.map((key)=>{
-
         return{
           name:form.getFieldValue('department'+key)
         }
 
        })
-
-      companys.push(values); 
-
-
+       this.props.dispatch(CreateCompany(values));
       }
       else
       {
-        const newdetail = companys.filter((obj)=>{
-        if(obj.company_id == this.state.targetdata.company_id)
-        {
-          obj.company_name = values.company_name;
-          obj.address=values.address;
-
-        }
-          return obj;
-       });
-        this.setState(detail:newdetail)
+        //edit 
+        values.company_id = this.state.targetdata.company_id;
+        console.log(values)
+        this.props.dispatch(EditCompany(values))
       }
       form.resetFields();
-      
 
       this.setState({ 
         visible: false});
@@ -154,15 +142,21 @@ handleCancel()
 }
 handleDelete()
 {
-  const newcompanys = this.state.companys.filter((company)=>{if(company.company_id!= this.state.targetdata.company_id)return company})
-  this.setState({companys:newcompanys,targetdata:null,deletevisible:false})  
+//  const newcompanys = this.state.companys.filter((company)=>{if(company.company_id!= this.state.targetdata.company_id)return company})
+//  this.setState({companys:newcompanys,targetdata:null,deletevisible:false}) ;
+  this.setState({targetdata:null,deletevisible:false})
+  this.props.dispatch(DeleteTest());
+
 }
 
 
 //
 GoToDetail(company_id)
 {
-  const detaildata = this.state.companys.filter((company)=>{
+
+      const {pilotinfo} = this.props;
+      const {Companys} = pilotinfo;
+  const detaildata = Companys.filter((company)=>{
     if(company.company_id == company_id)
       {return company}
   })
@@ -189,14 +183,16 @@ GoToDetail(company_id)
 
 
     render() {
-    	const {companys} = this.state;
+      const {pilotinfo} = this.props;
+      const {Companys} = pilotinfo;
+      console.log(Companys);
       var detaildata;
       if(this.state.targetdata)
         detaildata = <CompanyDetailPanel company={this.state.targetdata}/>
       else{
           detaildata = <div></div>
       }
-    	const displaycards=companys.map((company)=>{
+    	const displaycards=Companys.map((company)=>{
 
     		let display=
     (<Card class="margin10" style={{ width: 200 }} key={company.company_id} onClick={this.GoToDetail.bind(this,company.company_id)}>
@@ -215,7 +211,6 @@ GoToDetail(company_id)
 
     	})
 
-  console.log(this.state.targetdata);
   let companyname = "测试";
   if(this.state.targetdata)
     companyname= this.state.targetdata.company_name;

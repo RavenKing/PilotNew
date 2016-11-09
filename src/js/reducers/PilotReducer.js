@@ -183,6 +183,15 @@ export default function Pilot (
     case "CHANGE_TO_MODIFY":{
       return {...state,status:"MODIFY",activeworkflow:action.payload}
     }
+    case "DELETE_TEST":{
+      return {...state,Companys:[{
+    company_id:"SH1001",
+    company_name:"国航上海分公司",
+    departments:[{name:"飞行部"},{name:"信管部"}],
+    address:"xxxxx",
+    }]}
+
+    }
 
     case "Remove_Card":
     {
@@ -197,6 +206,27 @@ export default function Pilot (
       return {...state,display:newdata}
     }
           
+  //create company
+  case "CREATE_COMPANY":
+  {
+    const {Companys} = state;
+    Companys.push(action.payload)
+    return {...state};
+
+  }
+  case "EDIT_COMPANY":
+  {
+    const targetdata = action.payload;
+    const newCompanys = state.Companys.filter((company)=>{
+      if(company.company_id == targetdata.company_id)
+      {
+        company.company_name=targetdata.company_name;
+        company.address=targetdata.address;
+      }
+      return company;
+    })
+      return {...state,Companys:newCompanys}
+  }
 
     default:{
 

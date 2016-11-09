@@ -63,7 +63,11 @@ export default class CompanyDetail extends React.Component {
   dataIndex: 'role',
   key: 'role',
 },
-
+{
+  title: '升级因素',
+  dataIndex: 'upgrade_factor',
+  key: 'upgrade_factor',
+}
 ] ; 
     const sourcedata = {Pilots:[
         {
@@ -83,7 +87,8 @@ export default class CompanyDetail extends React.Component {
             department:"国航第九飞行编队",
             company_id:"SH1001",
             company:"国航上海分公司",
-            create_time:"2016-07-07"
+            create_time:"2016-07-07",
+            upgrade_factor:1.2
         },
         {
             userid:"2",
@@ -102,7 +107,8 @@ export default class CompanyDetail extends React.Component {
             department:"国航第九飞行编队",
             company_id:"SH1001",
             company:"国航上海分公司",
-            create_time:"2016-07-07"
+            create_time:"2016-07-07",
+            upgrade_factor:1.1
         }
       ] };
 

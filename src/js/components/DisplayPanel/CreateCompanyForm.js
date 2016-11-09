@@ -10,15 +10,13 @@ const CollectionCreateForm = Form.create()(
 React.createClass({
 
   getInitialState(){
-
-
     return {
-      counter:0
+      counter:0,
+      update:false
     }
   },
   componentWillMount(){
         this.props.form.setFieldsValue({keys:[0]});
-
   },
 addDepartment()
     {
@@ -33,7 +31,8 @@ addDepartment()
        this.props.form.setFieldsValue({keys:[0]});
     }
     else
-    {const nextkeys= keys.concat(newcounter);
+    {
+    const nextkeys= keys.concat(newcounter);
     form.setFieldsValue({keys:nextkeys});
     }
     },
@@ -52,20 +51,23 @@ addDepartment()
 
   render(){
    const { visible, onCancel, onCreate, form } = this.props;
-    const { getFieldDecorator,getFieldValue } = form;
+    const { getFieldDecorator,getFieldValue,setFieldsValue } = form;
     const { initdata } = this.props;
+    //init null
 
-    let formitemsdata =getFieldValue('keys');
-    var formItems=null
+    var formItems=null;
+if(initdata==null)
+ {let formitemsdata =getFieldValue('keys'); 
     if(formitemsdata)
-    { formItems = formitemsdata.map((k) => {
+    { 
+      formItems = formitemsdata.map((k) => {
       return (
         <Form.Item  label={`部门：`} key={k}>
           {getFieldDecorator(`department${k}`, {
             rules: [{
               required: true,
               whitespace: true,
-              message: "department",
+              message: "department"
             }],
           })(
             <Input style={{ width: '60%', marginRight: 8 }} />
@@ -76,6 +78,22 @@ addDepartment()
     });}
   else
    {  formItems=<div></div>}
+}
+else{
+    formItems=initdata.departments.map((department,k)=>{
+      return (
+        <Form.Item label={`部门：`} key={k}>
+          {getFieldDecorator(`department${k}`, {
+            initialValue:department?department.name:"无",
+          })(
+            <Input style={{ width: '60%', marginRight: 8 }} />
+          )}
+          <Button onClick={() => this.removeDepartment(k)}>Remove</Button>
+        </Form.Item>
+      );
+    });
+}
+
 return (
       <Modal
         visible={this.props.visible}
@@ -91,7 +109,7 @@ return (
               initialValue: initdata?initdata.company_id:""
 
             })(
-              <Input />
+              <Input disabled={initdata?true:false}/>
             )}
           </FormItem>
                     <FormItem label="公司名称">

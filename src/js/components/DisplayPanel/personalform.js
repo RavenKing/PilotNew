@@ -10,8 +10,6 @@ const NormalLoginForm = Form.create()(React.createClass({
       if (err) {
         return;
       }
-
-      console.log('Received values of form: ', values);
     });
   },
   render() {

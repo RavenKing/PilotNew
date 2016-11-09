@@ -65,3 +65,30 @@ export function ChangeToModify(workflowid)
     dispatch({type:"CHANGE_TO_MODIFY",payload:workflowid});
     }
 }
+
+export function DeleteTest()
+{
+  return dispatch=>{
+    dispatch({type:"DELETE_TEST"})
+  }
+
+
+}
+
+export function CreateCompany(data)
+{ 
+return dispatch=>{
+  dispatch({type:"CREATE_COMPANY",payload:data})
+}
+
+}
+
+export function EditCompany(data){
+
+  return dispatch=>{
+    dispatch({type:"EDIT_COMPANY",payload:data})
+  }
+
+
+
+}
