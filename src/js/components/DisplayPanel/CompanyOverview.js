@@ -122,12 +122,13 @@ if(this.state.targetdata == null)
         values.departments = form.getFieldValue('departments');
          let keys = form.getFieldValue('keys');
          console.log(keys);
+        if(keys)
        keys.map((key)=>{
         values.departments.push({
           name:form.getFieldValue('department'+key)
         });
        });
-
+      console.log(values)
         this.props.dispatch(EditCompany(values))
       }
       form.resetFields();

@@ -20,7 +20,6 @@ export default class CompanyDetail extends React.Component {
   {
       super(props)
 
-      this.state={company:this.props.company}
   }
 
  onClose(){}
@@ -111,7 +110,6 @@ export default class CompanyDetail extends React.Component {
             upgrade_factor:1.1
         }
       ] };
-
 
 
   const departmentsdisplay = company.departments.map((department)=><Tag key={department.name} onClose={this.onClose.bind(this)}>{department.name}</Tag>);

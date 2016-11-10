@@ -214,6 +214,7 @@ export default function Pilot (
       {
         company.company_name=targetdata.company_name;
         company.address=targetdata.address;
+        company.departments = targetdata.departments;
       }
       return company;
     })
