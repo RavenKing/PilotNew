@@ -146,6 +146,7 @@ export default class DisplayPanel extends React.Component {
       const { status } = pilotinfo;
       const { activeworkflow } = pilotinfo;
       var { Workflows } = pilotinfo;
+      var { Courses } = pilotinfo;
 
       // var steps = this.props.pilotinfo.steps;
       if(status == "INIT")
@@ -210,9 +211,9 @@ export default class DisplayPanel extends React.Component {
         
         });
         var steps = targetdata[0].steps;
-        console.log("steps",steps);
-        if(steps.length!=0)
-          displayarea =  <ChangePanel steps = {steps} />;
+        displayarea =  
+        <ChangePanel steps = {steps} workflowid = {activeworkflow} courses = {Courses}/>
+
       }
 
       return (

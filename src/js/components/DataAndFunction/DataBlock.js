@@ -13,7 +13,10 @@ import { setNodeDragable } from "../../interactScript";
     
 })
 export default class DataBlock extends React.Component {
-    
+  
+onDrop(e){
+  console.log("onDrop sucess here");
+}  
 
     render() { 
     var DataItems;
@@ -60,29 +63,43 @@ export default class DataBlock extends React.Component {
   ]
 
 
+
 var topfive1;
 const {pilot} = this.props;
+console.log("let us see what is pilot",pilot);
+var courses = pilot.Courses;
 if(pilot.status == "INIT")
-  {topfive1=topfive}
-else if(pilot.status == "MODIFY")
-  topfive1 = dataselection;
-
+{
+  topfive1=topfive;
   if(topfive1.length>0)
   {
-    DataItems = topfive1.map((item,i)=><DataItem title = {item.NAME} key = {i} uniquekey={item.ID} />);
+    DataItems = topfive1.map((item,i)=><DataItem className="data-item" title = {item.NAME} key = {i} uniquekey={item.ID}/>);
   }
   else
   {
     DataItems = <h1> No Data Found</h1>
   }
 
-        return (
-          <div className="data-block" data-type="TITLE"> 
-          <div className="data-title" >
-            <span> 欢迎曹斌登录国航 </span>
-          </div>
-          { DataItems }
-          </div>
-      );
+}
+else if(pilot.status == "MODIFY"){
+  topfive1 = courses;
+  if(topfive1.length>0)
+  {
+    DataItems = topfive1.map((item,i)=><DataItem className="course-item" title = {item.title} key = {i} uniquekey={item.ID} courseid = {item.course_id}/>);
   }
+  else
+  {
+    DataItems = <h1> No Data Found</h1>
+  }
+}
+
+return(
+  <div className="data-block" data-type="TITLE"> 
+    <div className="data-title" >
+      <span> 欢迎曹斌登录国航 </span>
+    </div>
+      { DataItems }
+  </div>
+);
+}
 }

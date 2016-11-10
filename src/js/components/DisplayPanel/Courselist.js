@@ -6,13 +6,7 @@ import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../.
 
 import {RemoveCard,AddCardToDisplay} from "../../Actions/pilotAction"
 import {Button,Table,Card,Icon,Form,Modal} from "antd";
-
-
-
 import NewCourseForm from "./NewCourseForm";
-
-
-
 
 
 @connect((store)=>{    
@@ -178,7 +172,6 @@ const columns = [{
         <span>
         <a onClick={this.RemoveRow.bind(this)} rel={record.course_id}>删除|</a>
         <a onClick={this.EditRow.bind(this)} rel={JSON.stringify(record)}>修改</a>
-
         </span>
        )}
 

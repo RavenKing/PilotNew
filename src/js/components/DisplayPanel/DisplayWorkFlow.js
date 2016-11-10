@@ -4,8 +4,9 @@ import { connect } from "react-redux"
 
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
-import {RemoveCard,AddCardToDisplay} from "../../Actions/pilotAction"
-import {Table,Card,Icon} from "antd";
+import {RemoveCard,AddCardToDisplay,AddNewWorkFlow} from "../../Actions/pilotAction"
+import {Table,Card,Icon,Button,Form,Modal} from "antd";
+import NewCourseForm from "./NewWorkflowForm";
 
 
 @connect((store)=>{    
@@ -15,6 +16,14 @@ import {Table,Card,Icon} from "antd";
     
 })
 export default class DisplayWorkFlow extends React.Component { 
+
+    constructor(props)
+    {
+      super(props);
+      this.state={
+        visible:false
+      }
+    }
 
     componentDidMount() {
      setCardDragable(ReactDOM.findDOMNode(this));
@@ -43,6 +52,40 @@ export default class DisplayWorkFlow extends React.Component {
     this.props.dispatch(RemoveCard(targetcard));
 
   }
+  newWorkflow(){
+    this.setState({visible:true});
+  }
+
+
+  saveFormRef(form){this.form = form;}
+
+
+  onCancel(){
+    this.setState({visible:false});
+  }
+
+
+  onCreate(){
+  const form = this.form;
+  console.log("Let us see whta is in form",form);
+
+  form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+      var steps = [];
+      let newWorkflow = values;
+      newWorkflow = {...newWorkflow,steps:steps};
+      console.log("what is in newWorkflow",newWorkflow);
+
+      this.props.dispatch(AddNewWorkFlow(newWorkflow)); 
+    })
+    form.resetFields();
+    this.setState({ 
+    visible: false });
+  
+}
+
 
   render() {
 
@@ -76,18 +119,23 @@ const columns = [{
 }];
 
 const {Workflows} = this.props.pilot;
-
-
-
-
-
+var temp = Number(Workflows.length)+1;
+const newWorkflowId = "workflow"+ temp;
 
         return (
         <div className="detail-panel">  
-        <Card title="流程列表" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
-        <h1>飞行员训练等级选择</h1>
-         <Table columns={columns} dataSource={Workflows}  />
-        </Card>
+          <Card title="流程列表" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
+          <h1>飞行员训练等级选择</h1>
+          <Button type="primary" onClick={this.newWorkflow.bind(this)}>新建流程</Button>
+          <Table columns={columns} dataSource={Workflows}  />
+          </Card>
+          <NewCourseForm 
+          visible={ this.state.visible} 
+          onCancel={ this.onCancel.bind(this)} 
+          workflowid={newWorkflowId} 
+          onCreate={this.onCreate.bind(this)}
+          ref={this.saveFormRef.bind(this)}
+          />
         </div>
       );
   }
