@@ -20,7 +20,7 @@ import PersonalInfo from "./PersonalInfo";
 import DisplayPromotion from "./Jinsheng";
 import Stepdetail from "./Stepdetail";
 import CompanyOverview from "./CompanyOverview";
-
+import NotificationPanel from "./NotificationPanel"
 
 @connect((store)=>{    
     return {
@@ -69,6 +69,17 @@ export default class DisplayPanel extends React.Component {
                       x:x,
                       y:y,
                       type:"displaypromotion"
+                    }
+                    props.dispatch(AddCardToDisplay(cardinfo))
+
+                }             
+               else if(data_id ==3)
+                {
+
+                    var cardinfo ={
+                      x:x,
+                      y:y,
+                      type:"notification"
                     }
                     props.dispatch(AddCardToDisplay(cardinfo))
 
@@ -192,6 +203,11 @@ export default class DisplayPanel extends React.Component {
           case "companyoverview":{
               return <CompanyOverview key={one.cardid} cardid={one.cardid} />
               break;
+          }
+          case "notification":
+          {
+            return <NotificationPanel   key ={one.cardid} cardid ={one.cardid}   />
+            break;
           }
 
           }
