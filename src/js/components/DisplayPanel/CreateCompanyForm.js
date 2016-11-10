@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {Button,Table,Card,Icon,Form,Modal,Input,Select} from "antd";
+import {Button,Table,Card,Icon,Form,Modal,Input,Select,Tag} from "antd";
 const FormItem = Form.Item;
 const Option=Select.Option;
 
@@ -8,19 +8,31 @@ const Option=Select.Option;
 
 const CollectionCreateForm = Form.create()(
 React.createClass({
-
   getInitialState(){
     return {
-      counter:0,
-      update:false
+      counter:0
     }
   },
   componentWillMount(){
+
         this.props.form.setFieldsValue({keys:[0]});
+  },
+  componentWillReceiveProps(nextProps){
+     if(nextProps.initdata)
+        this.setState({counter:nextProps.initdata.departments.length})
+
+      console.log(this.state.counter)
+     },
+  onCloseTag(department1)
+  {
+    const {initdata} = this.props;
+
+    var newdepartments = initdata.departments.filter((department)=>{if(department.name!=  department1.name)return department1});
+   this.props.form.setFieldsValue({departments:newdepartments});
   },
 addDepartment()
     {
-
+    
     let newcounter = this.state.counter;
     newcounter++;
     this.setState({counter:newcounter})
@@ -54,10 +66,10 @@ addDepartment()
     const { getFieldDecorator,getFieldValue,setFieldsValue } = form;
     const { initdata } = this.props;
     //init null
-
+    var departmenttag =null
     var formItems=null;
-if(initdata==null)
- {let formitemsdata =getFieldValue('keys'); 
+
+ let formitemsdata =getFieldValue('keys'); 
     if(formitemsdata)
     { 
       formItems = formitemsdata.map((k) => {
@@ -78,20 +90,27 @@ if(initdata==null)
     });}
   else
    {  formItems=<div></div>}
-}
-else{
-    formItems=initdata.departments.map((department,k)=>{
-      return (
-        <Form.Item label={`部门：`} key={k}>
-          {getFieldDecorator(`department${k}`, {
-            initialValue:department?department.name:"无",
-          })(
-            <Input style={{ width: '60%', marginRight: 8 }} />
-          )}
-          <Button onClick={() => this.removeDepartment(k)}>Remove</Button>
-        </Form.Item>
-      );
-    });
+if(initdata)
+{    
+  if(initdata.departments.length!=0)
+  {
+  let displaydata =  initdata.departments.map((department,k)=><Tag closable key={k} onClose={this.onCloseTag.bind(this,department)}>{department.name}</Tag>);
+  
+  departmenttag=
+  <FormItem>
+  {getFieldDecorator('departments',{
+    initialValue:initdata.departments
+  })(
+  
+  <div>
+  {displaydata}
+  </div>
+
+  )
+  }
+</FormItem>
+   
+  }
 }
 
 return (
@@ -135,6 +154,7 @@ return (
             {initialValue:initdata?initdata.description:""}
             )(<Input type="textarea" />)}
           </FormItem>
+          {departmenttag?departmenttag:<div></div>}
           {formItems?formItems:<div></div>}
           
           <FormItem wrapperCol={{ span: 18, offset: 6 }}>

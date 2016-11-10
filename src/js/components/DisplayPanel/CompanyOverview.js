@@ -119,7 +119,15 @@ if(this.state.targetdata == null)
       {
         //edit 
         values.company_id = this.state.targetdata.company_id;
-        console.log(values)
+        values.departments = form.getFieldValue('departments');
+         let keys = form.getFieldValue('keys');
+         console.log(keys);
+       keys.map((key)=>{
+        values.departments.push({
+          name:form.getFieldValue('department'+key)
+        });
+       });
+
         this.props.dispatch(EditCompany(values))
       }
       form.resetFields();
@@ -228,6 +236,7 @@ GoToDetail(company_id)
 		onCancel ={this.onCancel.bind(this)}
     onCreate = { this.onCreate.bind(this)}
      ref={this.saveFormRef.bind(this)}
+     deplength={this.state.targetdata?this.state.targetdata.departments.length:0}
         />
 
         <Modal title="确定要删除吗" visible={this.state.deletevisible}
