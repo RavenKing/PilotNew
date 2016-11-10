@@ -66,7 +66,6 @@ export function ChangeToModify(workflowid)
     }
 }
 
-<<<<<<< HEAD
 export function DeleteCompany(data)
 {
   return dispatch=>{
@@ -93,7 +92,6 @@ export function EditCompany(data){
 
 
 }
-=======
 export function AddCourseToStep(courseTitle,workflowid,stepSequence,courseid){
   return dispatch=>{
     dispatch({type:"ADD_COURSE_TO_STEP",payload:courseTitle,payload1:workflowid,payload2:stepSequence,payload3:courseid})
@@ -140,4 +138,3 @@ export function AddNewStep(stepName,workflowid)
 }
 
 
->>>>>>> origin/frank

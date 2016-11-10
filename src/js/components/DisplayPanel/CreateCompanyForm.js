@@ -1,10 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-<<<<<<< HEAD
 import {Button,Table,Card,Icon,Form,Modal,Input,Select,Tag} from "antd";
-=======
-import {Button,Table,Card,Icon,Form,Modal,Input,Select} from "antd";
->>>>>>> origin/frank
+
 const FormItem = Form.Item;
 const Option=Select.Option;
 

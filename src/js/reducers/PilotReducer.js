@@ -1,9 +1,5 @@
 export default function Pilot (
   state = {
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/frank
    Pilot:{
     userid:"1",
     username:"caobin",
@@ -114,31 +110,17 @@ export default function Pilot (
     steps:[
     {
       sequence:1,
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/frank
       courses:[{course_id:"course1",sequence:1},{course_id:"course2",sequence:2}],
       name:"固态模拟机学习"
     },
     {
       sequence:2,
-<<<<<<< HEAD
       courses:[{course_id:"table1"}],
           name:"注册学习"
     },
     {
       sequence:3,
       courses:"course3",
-=======
-      courses:[{course_id:"course1",sequence:1}],
-      name:"FFS"
-    },
-    {
-      sequence:3,
-      courses:[{course_id:"course2",sequence:1}],
-
->>>>>>> origin/frank
       name:"FTD第三课"
     }
     ]
@@ -278,18 +260,6 @@ export default function Pilot (
     })
       return {...state,Companys:newCompanys}
   }
-
-    default:{
-
-      return state
-      var displayarray=state.display;
-      var newdata =   displayarray.filter((displayone)=>{
-
-        return displayone.cardid != payload.cardid
-      })
-
-      return {...state,display:newdata}
-    }
 
     case "ADD_COURSE_TO_STEP":
     {

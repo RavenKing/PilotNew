@@ -2,11 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
-<<<<<<< HEAD
 import {Card,Icon,Button,Form,Input,InputNumber,Steps,Timeline, Menu, Dropdown,Progress,Row,Col,message} from "antd";
-=======
-import {Card,Icon,Button,Form,Input,InputNumber,Steps,Timeline, Menu, Dropdown,Progress,Row,Col} from "antd";
->>>>>>> origin/frank
+
 import {RemoveCard} from "../../Actions/pilotAction"
 
 import PersonalForm from "./personalform"

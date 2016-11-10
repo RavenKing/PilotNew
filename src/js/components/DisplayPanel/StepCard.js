@@ -24,6 +24,7 @@ export default class StepCard extends React.Component {
 
   componentWillMount(){
     var allCourses = this.props.allCourses;
+    console.log(this.props.courses)
     var courses = this.props.courses;
     this.setState({course:courses});
     allCourses.map((lesson,i)=>{

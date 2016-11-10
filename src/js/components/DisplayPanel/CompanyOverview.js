@@ -1,10 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom"
-<<<<<<< HEAD
 import { Button,Card,Icon,message,Modal } from "antd";
-=======
-import { Button,Card,Icon } from "antd";
->>>>>>> origin/frank
+
 
 import { connect } from "react-redux";
 import CreateCompanyForm from "./CreateCompanyForm"
