@@ -22,6 +22,7 @@ import Stepdetail from "./Stepdetail";
 import CompanyOverview from "./CompanyOverview";
 import NotificationPanel from "./NotificationPanel"
 
+
 @connect((store)=>{    
     return {
         pilotinfo:store.pilotinfo
@@ -71,6 +72,7 @@ export default class DisplayPanel extends React.Component {
                       type:"displaypromotion"
                     }
                     props.dispatch(AddCardToDisplay(cardinfo))
+
 
                 }             
                else if(data_id ==3)
@@ -157,6 +159,8 @@ export default class DisplayPanel extends React.Component {
       const { status } = pilotinfo;
       const { activeworkflow } = pilotinfo;
       var { Workflows } = pilotinfo;
+      var { Courses } = pilotinfo;
+
 
       // var steps = this.props.pilotinfo.steps;
       if(status == "INIT")
@@ -204,12 +208,12 @@ export default class DisplayPanel extends React.Component {
               return <CompanyOverview key={one.cardid} cardid={one.cardid} />
               break;
           }
+
           case "notification":
           {
             return <NotificationPanel   key ={one.cardid} cardid ={one.cardid}   />
             break;
           }
-
           }
           });
 
@@ -226,9 +230,9 @@ export default class DisplayPanel extends React.Component {
         
         });
         var steps = targetdata[0].steps;
-        console.log("steps",steps);
-        if(steps.length!=0)
-          displayarea =  <ChangePanel steps = {steps} />;
+
+        displayarea =  
+        <ChangePanel steps = {steps} workflowid = {activeworkflow} courses = {Courses}/>
       }
 
       return (

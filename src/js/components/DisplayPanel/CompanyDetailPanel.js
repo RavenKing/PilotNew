@@ -5,7 +5,11 @@ import { connect } from "react-redux"
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
 import {RemoveCard,AddCardToDisplay} from "../../Actions/pilotAction"
+<<<<<<< HEAD
 import {Button,Table,Card,Icon,Form,Modal,Tag} from "antd";
+=======
+import {Button,Table,Card,Icon,Form,Modal} from "antd";
+>>>>>>> origin/frank
 
 
 
@@ -23,6 +27,7 @@ export default class CompanyDetail extends React.Component {
   }
 
  onClose(){}
+
 
 
 ////

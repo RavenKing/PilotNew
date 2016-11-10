@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 node_modules/*
 Server/node_modules/*
+=======
+node_modules/
+>>>>>>> origin/frank

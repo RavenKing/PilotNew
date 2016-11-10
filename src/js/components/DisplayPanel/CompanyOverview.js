@@ -1,6 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom"
+<<<<<<< HEAD
 import { Button,Card,Icon,message,Modal } from "antd";
+=======
+import { Button,Card,Icon } from "antd";
+>>>>>>> origin/frank
 
 import { connect } from "react-redux";
 import CreateCompanyForm from "./CreateCompanyForm"
@@ -48,7 +52,6 @@ export default class CompanyView extends React.Component {
               switch(data_id){
               case "Create":
               { 
-
                that.setState({
                 targetdata:null,
                 visible:true})
@@ -71,7 +74,6 @@ export default class CompanyView extends React.Component {
               else 
                 message.error("请选择一个公司")
               }
-
               default:
                   ;
               }
@@ -132,7 +134,6 @@ if(this.state.targetdata == null)
         this.props.dispatch(EditCompany(values))
       }
       form.resetFields();
-
       this.setState({ 
         visible: false});
     });
@@ -141,7 +142,6 @@ if(this.state.targetdata == null)
 
 
 }
-
 
 // for delete modal 
 
@@ -166,6 +166,7 @@ GoToDetail(company_id)
       const {pilotinfo} = this.props;
       const {Companys} = pilotinfo;
   const detaildata = Companys.filter((company)=>{
+
     if(company.company_id == company_id)
       {return company}
   })

@@ -22,6 +22,7 @@ export default class DataItem extends React.Component {
    
         return (
            <Button className="data-item" data-type="ITEM" type="dashed" data-id={this.props.uniquekey}>
+
              <Badge dot={this.props.uniquekey==3?true:false} > {this.props.title}  </Badge>
             </Button>
           

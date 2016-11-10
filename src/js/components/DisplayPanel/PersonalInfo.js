@@ -2,7 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
+<<<<<<< HEAD
 import {Card,Icon,Button,Form,Input,InputNumber,Steps,Timeline, Menu, Dropdown,Progress,Row,Col,message} from "antd";
+=======
+import {Card,Icon,Button,Form,Input,InputNumber,Steps,Timeline, Menu, Dropdown,Progress,Row,Col} from "antd";
+>>>>>>> origin/frank
 import {RemoveCard} from "../../Actions/pilotAction"
 
 import PersonalForm from "./personalform"
@@ -51,6 +55,7 @@ export default class PersonnalPanel extends React.Component {
       });
 
     }
+
   RemoveCard()
   {
     var data={
@@ -65,6 +70,7 @@ export default class PersonnalPanel extends React.Component {
       const { pilotinfo} = this.props;
       const {Pilot} = pilotinfo;
       const {flightinfo} = Pilot;
+
         return (
 				<div class="detail-panel">
 
@@ -85,7 +91,6 @@ export default class PersonnalPanel extends React.Component {
        </p>
        </Col>
     </Row>
-     
     <PersonalForm personaldata={pilotinfo.Pilot} 
       disabled={this.state.disabled}
   

@@ -10,12 +10,14 @@ const NormalLoginForm = Form.create()(React.createClass({
       if (err) {
         return;
       }
+
     });
   },
   render() {
     const {personaldata} = this.props;
     const { getFieldDecorator } = this.props.form;
     let editdisabled = this.props.disabled;
+
     return (
       <Form onSubmit={this.handleSubmit} className="Personal-Form" horizontal>
              <FormItem label="名字">
@@ -61,7 +63,7 @@ const NormalLoginForm = Form.create()(React.createClass({
             <Input addonBefore={<Icon type="user" />} placeholder="create_time" disabled/>
           )}
         </FormItem>
-      </Form>
+              </Form>
     );
   },
 }));
