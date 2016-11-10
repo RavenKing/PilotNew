@@ -66,10 +66,10 @@ export function ChangeToModify(workflowid)
     }
 }
 
-export function DeleteTest()
+export function DeleteCompany(data)
 {
   return dispatch=>{
-    dispatch({type:"DELETE_TEST"})
+    dispatch({type:"DELETE_COMPANY",payload:data})
   }
 
 

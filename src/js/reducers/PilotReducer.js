@@ -183,25 +183,17 @@ export default function Pilot (
     case "CHANGE_TO_MODIFY":{
       return {...state,status:"MODIFY",activeworkflow:action.payload}
     }
-    case "DELETE_TEST":{
-      return {...state,Companys:[{
-    company_id:"SH1001",
-    company_name:"国航上海分公司",
-    departments:[{name:"飞行部"},{name:"信管部"}],
-    address:"xxxxx",
-    }]}
-
+    case "DELETE_COMPANY":{
+    const targetdata = action.payload;
+    const newCompanys = state.Companys.filter((company)=>{if(company.company_id != targetdata.company_id) return company;  })
+      return {...state,Companys:newCompanys}
     }
 
     case "Remove_Card":
     {
       var payload = action.payload;
        var displayarray=state.display;
-    var newdata =   displayarray.filter((displayone)=>{
-        console.log(displayone);
-
-        return displayone.cardid != payload.cardid
-      })
+    var newdata =   displayarray.filter((displayone)=>{return displayone.cardid != payload.cardid})
 
       return {...state,display:newdata}
     }

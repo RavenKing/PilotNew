@@ -5,7 +5,7 @@ import { Button,Card,Icon,message,Modal } from "antd";
 import { connect } from "react-redux";
 import CreateCompanyForm from "./CreateCompanyForm"
 import CompanyDetailPanel from "./CompanyDetailPanel"
-import {RemoveCard,AddCardToDisplay,DeleteTest,CreateCompany,EditCompany} from "../../Actions/pilotAction"
+import {RemoveCard,AddCardToDisplay,DeleteCompany,CreateCompany,EditCompany} from "../../Actions/pilotAction"
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
 @connect((store)=>{    
@@ -144,9 +144,9 @@ handleDelete()
 {
 //  const newcompanys = this.state.companys.filter((company)=>{if(company.company_id!= this.state.targetdata.company_id)return company})
 //  this.setState({companys:newcompanys,targetdata:null,deletevisible:false}) ;
-  this.setState({targetdata:null,deletevisible:false})
-  this.props.dispatch(DeleteTest());
 
+  this.props.dispatch(DeleteCompany(this.state.targetdata));
+  this.setState({targetdata:null,deletevisible:false})
 }
 
 
