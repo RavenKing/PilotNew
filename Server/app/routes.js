@@ -4,7 +4,6 @@ var Document = require('./models/documents')
 
 // grab the nerd model we just created
 var Nerd = require('./models/pilot');
-var Test = require('./models/pilot');
 var personalInfo = require('./models/pilot');
 var Kevin = new Nerd({name:'Kevin'});
 // var Frank = new personalInfo({
@@ -90,7 +89,7 @@ var Kevin = new Nerd({name:'Kevin'});
 
         });
         app.get('*', function(req, res) {
-            res.sendfile('./public/views/index.html'); // load our public/index.html file
+            res.render('index'); // load our public/index.html file
         });
 
     };

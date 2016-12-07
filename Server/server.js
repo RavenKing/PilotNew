@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var swig =require('swig');
 // modules =================================================
 var express        = require('express');
 var app            = express();
@@ -16,6 +17,10 @@ var port = process.env.PORT || 8083;
 // connect to our mongoDB database 
 // (uncomment after you enter in your own credentials in config/db.js)
 mongoose.connect(db.url); 
+app.set('views','./public/views');
+app.set('view engine', 'html');
+app.engine('html',require('ejs').renderFile);
+
 
 // get all data/stuff of the body (POST) parameters
 // parse application/json 
