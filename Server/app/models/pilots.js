@@ -17,16 +17,16 @@ var Pilot = new Schema({
       flightTime:Number,
       flightRoute:Number
     },
+    basemonth:Number,
+    health_check:Date,
     department:String,
     company_id:String,
     company:String,
+    schools:[Schema.Types.Mixed],
+    trained_flights:[Schema.Types.Mixed], 
+    company_flights:[Schema.Types.Mixed],   
     create_time:{type:Date,default:Date.now}
-})
-
-
-
-
-
+});
 module.exports = mongoose.model('Pilot', Pilot,'Pilots');
 /*
 

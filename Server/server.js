@@ -16,7 +16,23 @@ var port = process.env.PORT || 8083;
 
 // connect to our mongoDB database 
 // (uncomment after you enter in your own credentials in config/db.js)
-mongoose.connect(db.url); 
+mongoose.connect(db.url,function(err){
+console.log("try to connect");
+if(err)
+{
+	console.log(err)
+}
+else
+console.log("connected");
+}); 
+
+var db = mongoose.connection;
+db.on('error',console.error.bind(console,'connection error:'));
+db.once('open',function(){
+     console.log("connection successfully");
+})
+
+
 app.set('views','./public/views');
 app.set('view engine', 'html');
 app.engine('html',require('ejs').renderFile);
