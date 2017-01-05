@@ -4,7 +4,7 @@ import axios from "axios"
 export function GET_PILOT_DATA()
 {
 	 return dispatch=>{
-    axios.get("http://localhost:8083/api/pilots?id=I011111",{
+    axios.get("http://localhost:8083/api/pilots?id=1",{
        headers:{
         'X-My-Custom-Header': 'Header-Value',
         'content-type':'application/json'
