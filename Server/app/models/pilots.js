@@ -17,6 +17,7 @@ var Pilot = new Schema({
       flightTime:Number,
       flightRoute:Number
     },
+    personnel_type:String,
     basemonth:Number,
     health_check:Date,
     department:String,
