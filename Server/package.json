@@ -1,0 +1,11 @@
+{
+  "name": "start-node-angular",
+  "main": "censortext",
+  "description": "Kevin Yang test inec1",
+  "dependencies": {
+    "body-parser": "~1.4.2",
+    "express": "~4.5.1",
+    "method-override": "~2.0.2",
+    "mongoose": "^4.7.6"
+  }
+}

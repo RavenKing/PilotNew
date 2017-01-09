@@ -20,7 +20,10 @@ import PersonalInfo from "./PersonalInfo";
 import DisplayPromotion from "./Jinsheng";
 import Stepdetail from "./Stepdetail";
 import CompanyOverview from "./CompanyOverview";
-import NotificationPanel from "./NotificationPanel"
+import NotificationPanel from "./NotificationPanel";
+
+// fill info panel
+import FillInfoPanel from "./fillPersonalInfoPanel";
 
 
 @connect((store)=>{    
@@ -30,6 +33,35 @@ import NotificationPanel from "./NotificationPanel"
     
 })
 export default class DisplayPanel extends React.Component {   
+
+  constructor(props)
+  {
+    super(props)
+
+
+    const {pilotinfo} = this.props;
+    const {Pilot} = pilotinfo;
+
+    console.log(Pilot);
+
+    //check logic for the data .
+    if(!Pilot.company||!Pilot.trained_flights)
+    {
+       var cardinfo ={
+                      type:"fillpersonalinfo"
+                    }
+      this.props.dispatch(AddCardToDisplay(cardinfo))
+
+    }
+
+
+
+
+
+  }
+
+
+
    
 
    CloseMainCard(){
@@ -207,6 +239,13 @@ export default class DisplayPanel extends React.Component {
           case "companyoverview":{
               return <CompanyOverview key={one.cardid} cardid={one.cardid} />
               break;
+          }
+          case "fillpersonalinfo":
+          {
+            return <FillInfoPanel key={one.cardid} cardid={one.cardid} />
+            break;
+
+
           }
 
           case "notification":

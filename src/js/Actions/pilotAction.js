@@ -1,10 +1,10 @@
 import axios from "axios"
 
-
+//pilot actions for information
 export function GET_PILOT_DATA()
 {
 	 return dispatch=>{
-    axios.get("http://localhost:8083/api/pilots?id=I011111",{
+    axios.get("http://localhost:8083/api/pilots?id=1",{
        headers:{
         'X-My-Custom-Header': 'Header-Value',
         'content-type':'application/json'
@@ -18,10 +18,20 @@ export function GET_PILOT_DATA()
  		 })
   
     }
-
-
-
 }
+
+export function UPDATE_PILOT_DATA(pilot_data)
+{
+
+   return dispatch=>{
+
+    dispatch({type:"UPDATE_PILOT_DATA",payload:pilot_data});
+   }
+}
+
+
+//end of pilot information
+
 
 export function AddCardToDisplay(test)
 { 
