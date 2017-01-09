@@ -38,8 +38,15 @@ export default class Login extends React.Component {
       });
     }
     setAuth(){
-      
-        this.props.dispatch(setAuthToken(this.state));
+        var cert_id = this.refs.cert_id_login.refs.input.value;
+        var password = this.refs.password_login.refs.input.value;
+        // var targetLevel = this.state.targetLevel;
+        
+          var userInfo = {};
+          userInfo.cert_id = cert_id;
+          userInfo.password = password;
+          console.log("user info is ",userInfo);
+        this.props.dispatch(setAuthToken(userInfo));
         setTimeout(function(){
           const {auth} = this.props;
           const { token } = auth;
@@ -79,11 +86,9 @@ export default class Login extends React.Component {
     }
     saveCusInfo(){
       //customer information
-        var userId = this.refs.userId.refs.input.value;
+        var cert_id = this.refs.cert_id.refs.input.value;
         var name = this.refs.name.refs.input.value;
-        var pass = this.refs.pass.refs.input.value;
-        var role = this.refs.role.refs.input.value;
-        var currentLevel = this.state.currentLevel;
+        var password = this.refs.password.refs.input.value;
         // var targetLevel = this.state.targetLevel;
         var valid = true;
         var token;
@@ -91,13 +96,11 @@ export default class Login extends React.Component {
         //customer id is filled
         if(valid){
           var userInfo = {};
-          userInfo.userId = userId;
+          userInfo.cert_id = cert_id;
           userInfo.name = name;
-          userInfo.pass = pass;
-          userInfo.role = role;
-          userInfo.currentLevel = currentLevel;
+          userInfo.password = password;
           this.props.dispatch(personalInfoRegister(userInfo));   
-        console.log(userInfo);
+        console.log("user info is ",userInfo);
         }
 
     }
@@ -124,33 +127,24 @@ export default class Login extends React.Component {
 
             <Form horizontal id="login-form">
               <FormItem               
-    
+
                 wrapperCol={{ span: 16 }}
                 validateStatus={token.error=="customer_id"?"error":""}
                 help={token.error=="customer_id"?token.hint:""}
               
               >
-                
-                <Input placeholder="Customer ID" onChange={this.CustomerIdChange.bind(this)}/>             
+                <Input placeholder="身份证号码" onChange={this.CustomerIdChange.bind(this)} ref="cert_id_login"/>             
                                
-              </FormItem>
-
-              <FormItem
-                wrapperCol={{ span: 16 }}
-                validateStatus={token.error=="username"?"error":""}
-                help={token.error=="username"?token.hint:""}
-              >
-                <Input placeholder="UserName" onChange={this.UserChange.bind(this)}/>
               </FormItem>
               
               <FormItem                
-    
+               
                 wrapperCol={{ span: 16 }}
                 validateStatus={token.error=="password"?"error":""}
                 help={token.error=="password"?token.hint:""}
               >
                 
-                <Input type="password" placeholder="Password" onChange= { this.PasswordChange.bind(this)}/>             
+                <Input type="password" placeholder="密码" onChange= { this.PasswordChange.bind(this)} ref="password_login"/>             
                                
               </FormItem>
         
@@ -159,7 +153,7 @@ export default class Login extends React.Component {
                 wrapperCol={{ span:16 }}
               >
 
-              <Button type="primary" id="login-btn" onClick={this.setAuth.bind(this)}>login</Button>
+              <Button type="primary" id="login-btn" onClick={this.setAuth.bind(this)}>登录</Button>
               
              
               </FormItem>
@@ -186,11 +180,11 @@ export default class Login extends React.Component {
                 <br />
                 <Form horizontal className="reg-form">
                   <FormItem
-                    label="工号:"
+                    label="身份证号码:"
                     labelCol={{ span: 7 }}
                     wrapperCol={{ span: 12 }}
                   >
-                  <Input  ref="userId"/>
+                  <Input  ref="cert_id"/>
                   </FormItem>
                   <FormItem
                     label="姓名:"
@@ -204,33 +198,9 @@ export default class Login extends React.Component {
                     labelCol={{ span: 7 }}
                     wrapperCol={{ span: 12 }}
                   >
-                  <Input  ref="pass"/>
-                  </FormItem>
-                  <FormItem
-                    label="职务:"
-                    labelCol={{ span: 7 }}
-                    wrapperCol={{ span: 12 }}
-                  >
-                  <Input  ref="role"/>
+                  <Input  ref="password"/>
                   </FormItem>     
-                  <FormItem
-                    label="当前等级:"
-                    labelCol={{ span: 7 }}
-                    wrapperCol={{ span: 12 }}
-                    
-                  >
-                  <Select showSearch
-                    placeholder="请输入你的当前等级"                   
-                    onChange={this.currentLevel.bind(this)}                    
-                    
-                  >
-                    <Option value="F0">F0</Option>
-                    <Option value="F1">F1</Option>
-                    <Option value="F2">F2</Option>
-                    <Option value="F3">F3</Option>
-                    <Option value="F4">F4</Option>
-                  </Select>
-                  </FormItem> 
+
                   <Button type="primary" className="reg-btn" onClick={this.saveCusInfo.bind(this)}>Register</Button>               
                   </Form>
                   </TabPane>
