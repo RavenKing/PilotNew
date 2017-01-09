@@ -73,6 +73,7 @@ var Workflow=require('./models/WorkFlow');
 
       app.post('/api/pilots', function(req, res) {
         var newOne = new Pilot(req.body);
+        console.log("req.body is",req.body);
         newOne.save(function(err){
                 if(err)
                 {    console.log(err);
