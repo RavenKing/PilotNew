@@ -215,12 +215,24 @@ export default function Pilot (
     displayarray.push(payload)
     return {...state,display:displayarray}
      }
+
+     //pilot info section
     case "FETCH_PILOT_INFO":{
       return {...state,Pilot:action.payload}
     }
+    
+    case "UPDATE_PILOT_DATA":{
+      return {...state,Pilot:action.payload}
+
+    }
+
+
+    //end of pilot info section 
+    
     case "CHANGE_TO_MODIFY":{
       return {...state,status:"MODIFY",activeworkflow:action.payload}
     }
+
 
     case "DELETE_COMPANY":{
     const targetdata = action.payload;

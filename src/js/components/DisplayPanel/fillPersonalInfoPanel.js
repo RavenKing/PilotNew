@@ -3,7 +3,9 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 import {Card,Icon,Button,Form} from "antd";
+import {UPDATE_PILOT_DATA} from "../../Actions/pilotAction.js";
 
+  
 import {RemoveCard} from "../../Actions/pilotAction"
 
 import PersonalForm from "./fillpersonalInfo"
@@ -20,6 +22,13 @@ export default class PersonnalPanel extends React.Component {
   {
       super(props)
       this.state={disabled:true}
+
+  }
+
+
+  update_pilot_data(data)
+  {
+    this.props.dispatch(UPDATE_PILOT_DATA(data));
 
   }
  
@@ -43,7 +52,6 @@ export default class PersonnalPanel extends React.Component {
       const {Pilot} = pilotinfo;
       const {flightinfo} = Pilot;
       const {Companys}= pilotinfo;
-      console.log(Companys)
 
         return (
 				<div class="detail-panel">
@@ -52,6 +60,7 @@ export default class PersonnalPanel extends React.Component {
  <PersonalForm personaldata={pilotinfo.Pilot} 
       companys={Companys}
       disabled={false}
+      update_data={this.update_pilot_data.bind(this)}
   
     />
 

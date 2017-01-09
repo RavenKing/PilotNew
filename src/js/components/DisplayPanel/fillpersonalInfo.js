@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox,Select,DatePicker,Row,Col,InputNumber } from 'antd';
+import {UPDATE_PILOT_DATA} from "../../Actions/pilotAction.js";
 const FormItem = Form.Item;
 const Option = Select.Option;
 const OptGroup = Select.OptGroup;
@@ -8,6 +9,8 @@ const MonthPicker = DatePicker.MonthPicker;
 
 
 let uuid = 0;
+
+
 const NormalLoginForm = Form.create()(React.createClass({
 
 	getInitialState (props){
@@ -39,8 +42,10 @@ const NormalLoginForm = Form.create()(React.createClass({
     e.preventDefault();
 
     this.props.form.validateFields((err, values) => {
-      console.log(values);
-      if (err) {
+  
+        this.props.update_data(values);
+
+        if (err) {
         return;
       }
 
@@ -143,7 +148,7 @@ componentWillMount() {
           key={k}
         >
           {getFieldDecorator(`schooltime-${k}`, { 
-            rules: [{ type: 'array', required: true, message: '请选择时间!' }]
+            rules: [{ type: 'array' }]
           })(
             <RangePicker showTime format="YYYY-MM-DD" />
           )}
@@ -159,7 +164,7 @@ componentWillMount() {
           key={k}
         >
           {getFieldDecorator(`flight_type-${k}`, { 
-            rules: [{ type: 'array', required: false, message: '请选择类型!' }]
+            rules: [{ type: 'array'}]
           })(
             <Select>
             <Option value="航校">航校机型</Option>
@@ -199,6 +204,15 @@ componentWillMount() {
 
     return (
       <Form onSubmit={this.handleSubmit} className="Personal-Form" horizontal>
+      <FormItem label="userid">
+          {getFieldDecorator('userid', {
+            initialValue:personaldata.userid
+          })(
+            <Input addonBefore={<Icon type="user" />} placeholder="userid" disabled={true} className="inputwidth300"/>
+          )}
+        </FormItem>
+
+
           
 <Row>
       <Col span={12}>
@@ -354,8 +368,8 @@ componentWillMount() {
         {formItems}
 
         <FormItem {...formItemLayoutWithOutLabel}>
-          <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
-            <Icon type="plus" /> 添加学院
+          <Button type="dashed" onClick={this.add} style={{ width: '40%' }}>
+            <Icon type="plus" /> 添加机型
           </Button>
 
         <FormItem>

@@ -1,6 +1,6 @@
 import axios from "axios"
 
-
+//pilot actions for information
 export function GET_PILOT_DATA()
 {
 	 return dispatch=>{
@@ -18,10 +18,20 @@ export function GET_PILOT_DATA()
  		 })
   
     }
-
-
-
 }
+
+export function UPDATE_PILOT_DATA(pilot_data)
+{
+
+   return dispatch=>{
+
+    dispatch({type:"UPDATE_PILOT_DATA",payload:pilot_data});
+   }
+}
+
+
+//end of pilot information
+
 
 export function AddCardToDisplay(test)
 { 
