@@ -60,7 +60,6 @@ var Workflow=require('./models/WorkFlow');
      app.get('/api/pilots', function(req, res) {
 
         console.log(req.query);
-
             Pilot.find(req.query,function(err, pilots) {
                 // if there is an error retrieving, send the error. 
                                 // nothing after res.send(err) will execute
@@ -269,7 +268,40 @@ var Workflow=require('./models/WorkFlow');
             );
   });
 
-
+        app.post('/api/login', function(req, res){
+    // attempt automatic login //
+            console.log("fdsafdsafsda",req.body.cert_id);
+            Pilot.findOne({cert_id:req.body.cert_id},function(e, o,callback){
+                // if there is an error retrieving, send the error. 
+                                // nothing after res.send(err) will execute
+                if (o==null)
+                {
+                    res.send('未找到该用户');
+                }
+                else{
+                    if(o.password == req.body.password)
+                    {
+                        res.json(o);
+                    }
+                    else
+                        res.send("密码错误");
+                } 
+            }
+            );            
+            // Pilot.find(req.query,function(err, pilots) {
+            //     // if there is an error retrieving, send the error. 
+            //                     // nothing after res.send(err) will execute
+            //     if (err)
+            //         res.send(err);
+            //     res.json(pilots); // return all nerds in JSON format
+            // });
+            // if (true){
+            // res.redirect('/');
+            // } else{
+            // res.render('login', { title: 'Hello - Please Login To Your Account' });
+            // }
+            
+    });
 
 
 // end of workflows

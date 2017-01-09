@@ -6,6 +6,7 @@
   "dependencies": {
     "antd": "^2.0.0",
     "axios": "^0.12.0",
+    "babel-core": "^6.21.0",
     "babel-loader": "^6.2.0",
     "babel-plugin-add-module-exports": "^0.1.2",
     "babel-plugin-react-html-attrs": "^2.0.0",
@@ -18,6 +19,8 @@
     "highcharts": "^4.2.5",
     "interact.js": "^1.2.6",
     "jquery": "^3.1.1",
+    "js-md5": "^0.4.1",
+    "md5": "^2.2.1",
     "md5-js": "0.0.3",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
