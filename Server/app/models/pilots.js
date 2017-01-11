@@ -3,8 +3,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Pilot = new Schema({
-     	userid:String,
-      cert_id:Number,
+    userid:String,
+    cert_id:String,
     username:String,
     name:String,
     password:String,
