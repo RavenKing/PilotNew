@@ -50,19 +50,17 @@ export default class DisplayPanel extends React.Component {
 
     //check logic for the data .
     
-setTimeout(function(){
-if(!Pilot.company||!Pilot.trained_flights)
-    {
-       var cardinfo ={
-                      type:"fillpersonalinfo"
-                    }
-      this.props.dispatch(AddCardToDisplay(cardinfo))
+            setTimeout(function(){
+            if(!Pilot.company||!Pilot.trained_flights)
+                {
+                   var cardinfo ={
+                                  type:"fillpersonalinfo"
+                                }
+                  this.props.dispatch(AddCardToDisplay(cardinfo))
 
-    }
-}.bind(this),1000);
-}
-
-
+                }
+            }.bind(this),1000);
+            }
   }
 
 

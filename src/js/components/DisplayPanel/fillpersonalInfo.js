@@ -21,7 +21,8 @@ const NormalLoginForm = Form.create()(React.createClass({
     const {personaldata} =this.props;
     return {
       departments:companys[0].departments,
-      existingf:personaldata.trained_flights
+      existingf:personaldata.trained_flights,
+      ekeys:personaldata.trained_flights.length
     }
 	},
 
@@ -54,9 +55,26 @@ const NormalLoginForm = Form.create()(React.createClass({
     console.log("health chheck" , health_check);
 
 
+    var flightdata=[];
+//exsiting flights
+if(this.state.ekeys)
+{
+      for(var i=0;i<this.state.ekeys;i++)
+      {
+        var flight={
+            planeType:values[`eflight-${i}`],
+            schoolType:values[`eflight_type-${i}`],
+            train_time:values[`eschooltime-${i}`]
+        };
+        flightdata.push(flight);
+      }
+}
+
+// end of existing flights
+
+
 //format flights 
 
-    var flightdata=[];
     for(var i =0;i<values.keys.length;i++)
     {
         var flight={
@@ -112,7 +130,8 @@ componentWillMount() {
       return  flight;
     })
     this.setState({
-      existingf:newdata
+      existingf:newdata,
+      ekeys:newdata.length
     })
   },
 
