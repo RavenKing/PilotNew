@@ -110,17 +110,19 @@ export default function Pilot (
     steps:[
     {
       sequence:1,
+
       courses:[{course_id:"course1",sequence:1},{course_id:"course2",sequence:2}],
       name:"固态模拟机学习"
     },
     {
       sequence:2,
-      courses:[{course_id:"table1"}],
-          name:"注册学习"
+      courses:[{course_id:"course1",sequence:1}],
+      name:"FFS"
     },
     {
       sequence:3,
-      courses:"course3",
+      courses:[{course_id:"course2",sequence:1}],
+
       name:"FTD第三课"
     }
     ]
@@ -215,24 +217,12 @@ export default function Pilot (
     displayarray.push(payload)
     return {...state,display:displayarray}
      }
-
-     //pilot info section
     case "FETCH_PILOT_INFO":{
       return {...state,Pilot:action.payload}
     }
-    
-    case "UPDATE_PILOT_DATA":{
-      return {...state,Pilot:action.payload}
-
-    }
-
-
-    //end of pilot info section 
-    
     case "CHANGE_TO_MODIFY":{
       return {...state,status:"MODIFY",activeworkflow:action.payload}
     }
-
 
     case "DELETE_COMPANY":{
     const targetdata = action.payload;
