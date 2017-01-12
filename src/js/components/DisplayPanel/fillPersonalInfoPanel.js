@@ -13,7 +13,8 @@ import PersonalForm from "./fillpersonalInfo"
 
 @connect((store)=>{    
     return {
-        pilotinfo:store.pilotinfo
+        pilotinfo:store.pilotinfo,
+        auth:store.auth.token
     };
     
 })
@@ -28,7 +29,9 @@ export default class PersonnalPanel extends React.Component {
 
   update_pilot_data(data)
   {
-    this.props.dispatch(UPDATE_PILOT_DATA(data));
+    const {user}=this.props.auth;
+
+    this.props.dispatch(UPDATE_PILOT_DATA(user.cert_id,data));
 
   }
  

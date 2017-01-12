@@ -14,10 +14,10 @@ var Pilot = new Schema({
       target_level:String
     },
     flightinfo:{
-      flightTime:Number,
-      flightRoute:Number
+      flightTime:{type:Number,default:0},
+      flightRoute:{type:Number,default:0}
     },
-    personnel_type:String,
+    personnal_type:String,
     basemonth:Number,
     health_check:Date,
     department:String,
@@ -25,7 +25,6 @@ var Pilot = new Schema({
     company:String,
     schools:[Schema.Types.Mixed],
     trained_flights:[Schema.Types.Mixed], 
-    company_flights:[Schema.Types.Mixed],   
     create_time:{type:Date,default:Date.now}
 });
 module.exports = mongoose.model('Pilot', Pilot,'Pilots');

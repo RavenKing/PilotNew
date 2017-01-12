@@ -4,7 +4,7 @@ import { Button,Card,Icon,Col,Row } from "antd";
 import { Link } from "react-router";
 import CreatePanel from "../CreatePanel/CreatePanel";
 //pilot 
-import {AddCardToDisplay} from "../../Actions/pilotAction"
+import {AddCardToDisplay,GET_PILOT_DATA} from "../../Actions/pilotAction"
 import { setAreaDropable } from "../../interactScript";
 
 import { connect } from "react-redux";
@@ -28,7 +28,8 @@ import FillInfoPanel from "./fillPersonalInfoPanel";
 
 @connect((store)=>{    
     return {
-        pilotinfo:store.pilotinfo
+        pilotinfo:store.pilotinfo,
+        auth:store.auth
     };
     
 })
@@ -41,11 +42,16 @@ export default class DisplayPanel extends React.Component {
 
     const {pilotinfo} = this.props;
     const {Pilot} = pilotinfo;
+    const {auth} = this.props;
+      //get initial data
 
-    console.log(Pilot);
+      if(auth.token.authorized)
+{    this.props.dispatch(GET_PILOT_DATA(auth.token.user.cert_id));
 
     //check logic for the data .
-    if(!Pilot.company||!Pilot.trained_flights)
+    
+setTimeout(function(){
+if(!Pilot.company||!Pilot.trained_flights)
     {
        var cardinfo ={
                       type:"fillpersonalinfo"
@@ -53,9 +59,8 @@ export default class DisplayPanel extends React.Component {
       this.props.dispatch(AddCardToDisplay(cardinfo))
 
     }
-
-
-
+}.bind(this),1000);
+}
 
 
   }
@@ -91,7 +96,7 @@ export default class DisplayPanel extends React.Component {
                     var cardinfo ={
                       x:x,
                       y:y,
-                      type:"personalinfo"
+                      type:"fillpersonalinfo"
                     }
                     props.dispatch(AddCardToDisplay(cardinfo))
                 }

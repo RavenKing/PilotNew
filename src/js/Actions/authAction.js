@@ -51,6 +51,7 @@ return dispatch=>{
           authorized:true,
           user:{
               USERNAME:response.data.name,
+              cert_id:response.data.cert_id,
               ROLE:"BSC"
              },
              hint:"logged"

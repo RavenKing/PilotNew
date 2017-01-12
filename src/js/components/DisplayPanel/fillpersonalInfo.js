@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { Form, Icon, Input, Button, Checkbox,Select,DatePicker,Row,Col,InputNumber } from 'antd';
 import {UPDATE_PILOT_DATA} from "../../Actions/pilotAction.js";
 const FormItem = Form.Item;
@@ -17,22 +18,27 @@ const NormalLoginForm = Form.create()(React.createClass({
 
 
 		const {companys} = this.props;
-
-		return {departments:companys[0].departments}
+    const {personaldata} =this.props;
+    return {
+      departments:companys[0].departments,
+      existingf:personaldata.trained_flights
+    }
 	},
 
  handleChange(value) {
 //change value
     const {companys} = this.props;
-
+    var changedcompany;
     let departments = companys.filter((company)=>{
 
     	if(company.company_id == value)
-    		return company;
-
+    	{	
+        changedcompany = company.company_name;
+        return company;
+      }
     });
-    console.log(departments[0].departments)
  	this.setState({
+    newcompanyname:changedcompany,
  		departments: departments[0].departments
  	})
 
@@ -42,7 +48,30 @@ const NormalLoginForm = Form.create()(React.createClass({
     e.preventDefault();
 
     this.props.form.validateFields((err, values) => {
-  
+    
+//format health check 
+    const health_check = values['health_check'].format('YYYY-MM-DD');
+    console.log("health chheck" , health_check);
+
+
+//format flights 
+
+    var flightdata=[];
+    for(var i =0;i<values.keys.length;i++)
+    {
+        var flight={
+            planeType:values[`flight-${i}`],
+            schoolType:values[`flight_type-${i}`],
+            train_time:values[`schooltime-${i}`]
+        };
+        flightdata.push(flight);
+    }
+    values.trained_flights = flightdata;
+    values.health_check = health_check;
+    values.level={"current_level":values.current_level};
+// end of format
+      values.company=this.state.newcompanyname;
+      console.log(values)
         this.props.update_data(values);
 
         if (err) {
@@ -73,6 +102,18 @@ componentWillMount() {
     form.setFieldsValue({
       keys: keys.filter(key => key !== k),
     });
+  },
+  removee(indexx)
+  {
+
+    var newdata=this.state.existingf.filter((flight,index)=>{
+
+      if(index!==indexx)
+      return  flight;
+    })
+    this.setState({
+      existingf:newdata
+    })
   },
 
   add () {
@@ -106,7 +147,100 @@ componentWillMount() {
       wrapperCol: { span: 20, offset: 1},
     };
 
-    // dynamic add 
+
+var existingflights;
+    // dynamic add
+    console.log(this.state)
+    if(this.state.existingf)
+    {if(this.state.existingf.length>0)
+    {
+
+      var existingid = 0 ;
+      existingflights=this.state.existingf.map((flight,index)=>{
+      return (
+                      <Row>
+
+                      <Col span={8}>
+                              <FormItem
+                                {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                                label={index === 0 ? '已存机型及时间' : ''}
+                                required={false}
+                                key={'exsting'+index}
+                              >
+                                {getFieldDecorator(`eflight-${index}`, {
+                                  initialValue:flight.planeType,
+                                  validateTrigger: ['onChange', 'onBlur'],
+                                  rules: [{
+                                    required: true,
+                                    whitespace: true,
+                                    message: "机型",
+                                  }],
+                                })(
+                                  <Input placeholder="机型" style={{ width: '60%', marginRight: 8 }} />
+                                )}
+                                <Icon
+                                  className="dynamic-delete-button"
+                                  type="minus-circle-o"                               
+                                  onClick={() => this.removee(index)}
+                                />
+                              </FormItem>
+                      </Col>
+                      <Col span={8}>  
+                            <FormItem
+                                {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                                label={index === 0 ? '飞行时间' : ''}
+                                required={false}
+                                key={'eschool'+index}
+                              >
+                                {getFieldDecorator(`eschooltime-${index}`,{
+                                    initialValue:[moment(flight.train_time[0],'YYYY-MM-DD' ),moment(flight.train_time[1],'YYYY-MM-DD' )]
+
+
+                                })(
+                                  <RangePicker showTime format="YYYY-MM-DD" />
+                                )}
+
+                            </FormItem>
+                          </Col>
+
+                      <Col span={8}>
+                             <FormItem
+                                {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                                label={index === 0 ? '类型' : ''}
+                                required={true}
+                                key={'eflighttype'+index}
+                              >
+                                {getFieldDecorator(`eflight_type-${index}`,{
+                                   initialValue:flight.schoolType,
+                                })(
+                                  <Select>
+                                  <Option value="航校">航校机型</Option>
+                                  <Option value="航空">航空公司机型</Option>
+                                  </Select>
+                                    )}
+
+                            </FormItem>
+
+
+
+                      </Col>
+
+                      </Row>
+
+                                   );
+
+
+
+
+
+      })
+
+
+    }
+
+
+}
+
 
     getFieldDecorator('keys', { initialValue: [] });
     const keys = getFieldValue('keys');
@@ -147,9 +281,7 @@ componentWillMount() {
           required={false}
           key={k}
         >
-          {getFieldDecorator(`schooltime-${k}`, { 
-            rules: [{ type: 'array' }]
-          })(
+          {getFieldDecorator(`schooltime-${k}`)(
             <RangePicker showTime format="YYYY-MM-DD" />
           )}
 
@@ -163,8 +295,7 @@ componentWillMount() {
           required={true}
           key={k}
         >
-          {getFieldDecorator(`flight_type-${k}`, { 
-            rules: [{ type: 'array'}]
+          {getFieldDecorator(`flight_type-${k}`,{
           })(
             <Select>
             <Option value="航校">航校机型</Option>
@@ -261,8 +392,8 @@ componentWillMount() {
 
         <FormItem label="密码">
           {getFieldDecorator('password', {
-            initialValue:"test"
-          })(
+            initialValue:personaldata.password
+                      })(
             <Input addonBefore={<Icon type="lock" />} type="password" placeholder="Password" disabled/>
           )}
         </FormItem>
@@ -271,7 +402,7 @@ componentWillMount() {
         <Row>
         <Col span={12}>
         <FormItem label="所在公司">
-          {getFieldDecorator('company', {
+          {getFieldDecorator('company_id', {
             initialValue:personaldata.company
           })(
             <Select
@@ -301,7 +432,10 @@ componentWillMount() {
     <Row>
     <Col span={12}>
   <FormItem label="生源类型">
-          {getFieldDecorator('personnal_type')(
+          {getFieldDecorator('personnal_type',{
+        initialValue:personaldata.personnal_type
+
+          })(
             <Select
     style={{ width: 200 }}
     placeholder="请选择类型"
@@ -315,10 +449,11 @@ componentWillMount() {
          <FormItem
           label="体检日期"
         >
-        {getFieldDecorator('health_check', {
-      rules: [{ type: 'object', required: true, message: 'Please select time!' }],
+        {getFieldDecorator('health_check', { 
+          initialValue:moment(personaldata.health_check,'YYYY-MM-DD' ),
+        rules: [{ type: 'object', required: false, message: 'Please select time!' }],
     })(
-                   <DatePicker />
+                   <DatePicker format = 'YYYY-MM-DD' />
           )}
         </FormItem>
   </Col>
@@ -332,6 +467,7 @@ componentWillMount() {
           label="基准月"
         >
         {getFieldDecorator('basemonth', {
+          initialValue:personaldata.basemonth,
       rules: [{ type: 'object', required: true, message: 'Please select time!' }],
     })(
                    <InputNumber />
@@ -346,6 +482,7 @@ componentWillMount() {
           label="当前飞行等级"
         >
         {getFieldDecorator('current_level', {
+          initialValue:personaldata.level?personaldata.level.current_level:"F0",
       rules: [{ type: 'object', required: true, message: 'Please select time!' }],
     })(
   <Select
@@ -363,7 +500,7 @@ componentWillMount() {
 
 
 
-      
+      {existingflights}
 
         {formItems}
 

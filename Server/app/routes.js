@@ -33,6 +33,7 @@ var Workflow=require('./models/WorkFlow');
     {
         var query = req.body.target;
         var updatepart = req.body.updatepart;
+        console.log("updatepart:",req.body.updatepart);
         Document.findOneAndUpdate(query,updatepart,function(err,data)
             {
                if(err)
@@ -86,9 +87,9 @@ var Workflow=require('./models/WorkFlow');
 
   app.put('/api/pilots',function(req,res)
     {
-        console.log(req.body)
-        var query = req.body.target;
-        var updatepart = req.body.updatepart;
+
+        var query = req.body.data.target;
+        var updatepart = req.body.data.updatepart;
         Pilot.findOneAndUpdate(query,updatepart,function(err,data)
             {
                if(err)

@@ -1,10 +1,15 @@
 import axios from "axios"
 
 //pilot actions for information
-export function GET_PILOT_DATA()
+export function GET_PILOT_DATA(data)
 {
+if(!data)
+{
+  data = 1
+}
+console.log(data);
 	 return dispatch=>{
-    axios.get("http://localhost:8083/api/pilots?id=1",{
+    axios.get("http://localhost:8083/api/pilots?cert_id="+data,{
        headers:{
         'X-My-Custom-Header': 'Header-Value',
         'content-type':'application/json'
@@ -20,12 +25,25 @@ export function GET_PILOT_DATA()
     }
 }
 
-export function UPDATE_PILOT_DATA(pilot_data)
+export function UPDATE_PILOT_DATA(cert_id,pilot_data)
 {
 
-   return dispatch=>{
+  var data={
 
-    dispatch({type:"UPDATE_PILOT_DATA",payload:pilot_data});
+    "target":{"cert_id":cert_id},
+    "updatepart":pilot_data
+  }
+   return dispatch=>{
+axios.put("http://localhost:8083/api/pilots",{
+       data:data,
+       headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        }
+    })
+    .then(function (response,err) {
+        dispatch({type:"UPDATE_PILOT_DATA",payload:pilot_data})    
+     })
    }
 }
 
