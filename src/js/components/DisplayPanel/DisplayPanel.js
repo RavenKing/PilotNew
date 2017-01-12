@@ -38,10 +38,7 @@ export default class DisplayPanel extends React.Component {
   constructor(props)
   {
     super(props)
-
-
     const {pilotinfo} = this.props;
-    const {Pilot} = pilotinfo;
     const {auth} = this.props;
       //get initial data
 
@@ -51,7 +48,7 @@ export default class DisplayPanel extends React.Component {
     //check logic for the data .
     
             setTimeout(function(){
-            if(!Pilot.company||!Pilot.trained_flights)
+            if(!pilotinfo.company||!pilotinfo.trained_flights)
                 {
                    var cardinfo ={
                                   type:"fillpersonalinfo"

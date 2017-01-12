@@ -181,7 +181,7 @@ var Workflow=require('./models/WorkFlow');
 
 
       app.post('/api/companys', function(req, res) {
-        var newOne = new Company(req.body);
+        var newOne = new Company(req.body.data);
         newOne.save(function(err){
                 if(err)
                 {    console.log(err);
@@ -194,8 +194,8 @@ var Workflow=require('./models/WorkFlow');
 
   app.put('/api/companys',function(req,res)
     {
-        var query = req.body.target;
-        var updatepart = req.body.updatepart;
+        var query = req.body.data.target;
+        var updatepart = req.body.data.updatepart;
         Company.findOneAndUpdate(query,updatepart,function(err,data)
             {
                if(err)
@@ -207,7 +207,7 @@ var Workflow=require('./models/WorkFlow');
 
   app.delete('/api/companys',function(req,res){
       console.log(req.body)
-        var query = req.body.target;
+        var query = req.body;
         Company.findOneAndRemove(query,function(err,data)
             {
                if(err)

@@ -173,19 +173,7 @@ export default function Pilot (
     ]
    }
    ],
-    Companys:[{
-    company_id:"SH1001",
-    company_name:"国航上海分公司",
-    departments:[{name:"飞行部"},{name:"信管部"}],
-    address:"xxxxx",
-    },
-    {
-     company_id:"BJ1001",
-     company_name:"国航北京分公司",
-     departments:[{name:"飞行部"},{name:"信管部"},{name:"外交部"}],
-     address:"XXXXXXXXX"
-    }
-    ]
+    Companys:[]
   }, action
 ) {
   switch (action.type) {
@@ -223,6 +211,10 @@ export default function Pilot (
     }
           
   //create company
+  case "GET_COMPANY_ALL":{
+
+    return {...state,Companys:action.payload}
+  }
   case "CREATE_COMPANY":
   {
     const {Companys} = state;

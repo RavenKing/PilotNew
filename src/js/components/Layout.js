@@ -20,7 +20,8 @@ import DisplayPanel from "./DisplayPanel/DisplayPanel"
 
 
 //
-import {GET_PILOT_DATA} from "../Actions/pilotAction";
+import {GET_PILOT_DATA,GetCompanyAll} from "../Actions/pilotAction";
+
 
 @connect((store)=>{    
     return {
@@ -51,7 +52,12 @@ this.props.dispatch(fetchArticles(user))
 
 
   componentWillMount()
-  {/*
+  {
+
+
+this.props.dispatch(GetCompanyAll());
+
+  /*
 const {auth} = this.props;
 
 const {user} = auth.token ; 
