@@ -28,15 +28,15 @@ export default class StepCard extends React.Component {
     var courses = this.props.courses;
     console.log("courses are ", courses);
     this.setState({course:courses});
-    // allCourses.map((lesson,i)=>{
-    // var newcourse = courses.map((course,j)=>{
-    //     if(course.course_id == lesson.course_id){
-    //       course.title = lesson.title;
-    //   }
-    //    return course;
-    // })
-    // this.setState({course:newcourse});   
-    // });
+    allCourses.map((lesson,i)=>{
+    var newcourse = courses.map((course,j)=>{
+        if(course.course_id == lesson.course_id){
+          course.title = lesson.title;
+      }
+       return course;
+    })
+    this.setState({course:newcourse});   
+    });
   }
 
 

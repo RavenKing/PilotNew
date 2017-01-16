@@ -6,32 +6,44 @@ import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../.
 
 
 import {RemoveCard,AddCardToDisplay,AddNewWorkFlow} from "../../Actions/pilotAction"
-import {Table,Card,Icon,Button,Form,Modal} from "antd";
-import NewCourseForm from "./NewWorkflowForm";
+import {Table,Card,Icon,Button,Form,Modal,Input} from "antd";
+import NewWorkflowForm from "./NewWorkflowForm";
+import NewConditionForm from "./NewConditionForm";
+const FormItem = Form.Item;
+let uuid = 0;
 
-
-@connect((store)=>{    
-    return {
-        pilot:store.pilotinfo
-    };
+// @connect((store)=>{    
+//     return {
+//         pilot:store.pilotinfo
+//     };
     
-})
-export default class DisplayWorkFlow extends React.Component { 
+// })
+const DisplayWorkFlow = Form.create()(React.createClass({
 
+  getInitialState (props){
 
-    constructor(props)
-    {
-      super(props);
-      this.state={
-        visible:false
-      }
+    console.log('this.props is ',this.props);
+    const {pilotinfo} = this.props;
+    return {
+      pilot:this.props.pilotinfo
     }
+  },   
+
+
+
+    // constructor(props)
+    // {
+    //   super(props);
+    //   this.state={
+    //     visible:false
+    //   }
+    // }
 
     componentDidMount() {
      setCardDragable(ReactDOM.findDOMNode(this));
           handleFocus(ReactDOM.findDOMNode(this));   
 
-      }
+    },
 
     WorkFlowDetail(e){
       console.log(e.target.rel)
@@ -43,7 +55,7 @@ export default class DisplayWorkFlow extends React.Component {
       }
       this.props.dispatch(AddCardToDisplay(data))
 
-    }
+    },
 
   RemoveCard()
   {
@@ -53,18 +65,57 @@ export default class DisplayWorkFlow extends React.Component {
     }
     this.props.dispatch(RemoveCard(targetcard));
 
-  }
+  },
   newWorkflow(){
     this.setState({visible:true});
-  }
+  },
 
 
-  saveFormRef(form){this.form = form;}
+  saveFormRef(form){this.form = form;},
+
+//下面的函数都是给newcondition form用的
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  },
+  add()
+    {
+    uuid++;
+    const { form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue('keys');
+    const nextKeys = keys.concat(uuid);
+    // can use data-binding to set
+    // important! notify form to detect changes
+    form.setFieldsValue({
+      keys: nextKeys,
+    });
+  },
+
+  remove (k){
+    const { form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue('keys');
+    // We need at least one passenger
+    if (keys.length === 1) {
+      return;
+    }
+
+    // can use data-binding to set
+    form.setFieldsValue({
+      keys: keys.filter(key => key !== k),
+    });
+  },
 
 
   onCancel(){
     this.setState({visible:false});
-  }
+  },
 
 
   onCreate(){
@@ -86,61 +137,109 @@ export default class DisplayWorkFlow extends React.Component {
     this.setState({ 
     visible: false });
   
-}
+},
 
 
   render() {
-
-const columns = [{
-  title: 'workflow_id',
+  const { getFieldDecorator, getFieldValue } = this.props.form;
+  const columns = [{
+  title: '流程编号',
   dataIndex: 'workflow_id',
   key: 'workflow_id',
-  render: (text,record) => <a href="#" onClick={this.WorkFlowDetail.bind(this)} rel={record.workflow_id}>{text}</a>,
-}, {
-  title: 'description',
-  dataIndex: 'description',
-  key: 'description',
-}, {
-  title: 'title',
+  render: (text,record) => <a href="#" onClick={this.WorkFlowDetail} rel={record.workflow_id}>{text}</a>,
+} , {
+  title: '流程名称',
   dataIndex: 'title',
   key: 'title',
-}, {
-  title: 'Action',
-  key: 'action',
-  render: (text, record) => (
-    <span>
-      <a href="#">Action 一 {record.name}</a>
-      <span className="ant-divider" />
-      <a href="#">Delete</a>
-      <span className="ant-divider" />
-      <a href="#" className="ant-dropdown-link">
-        More actions<Icon type="down" />
-      </a>
-    </span>
-  ),
+},{
+  title: '流程描述',
+  dataIndex: 'description',
+  key: 'description',
 }];
 
-const {Workflows} = this.props.pilot;
+const {Workflows} = this.state.pilot;
 
 var temp = Number(Workflows.length)+1;
 const newWorkflowId = "workflow"+ temp;
 
+
+//return 前面这一段都是给newcondition form增加的
+    
+    const formItemLayout = {
+      labelCol: { span: 4 },
+      wrapperCol: { span: 20 },
+    };
+    const formItemLayoutWithOutLabel = {
+      wrapperCol: { span: 20, offset: 4 },
+    };
+    getFieldDecorator('keys', { initialValue: [] });
+    const keys = getFieldValue('keys');
+    const formItems = keys.map((k, index) => {
+      return (
+        <FormItem
+          {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+          label={index === 0 ? 'Passengers' : ''}
+          required={false}
+          key={k}
+        >
+          {getFieldDecorator(`names-${k}`, {
+            validateTrigger: ['onChange', 'onBlur'],
+            rules: [{
+              required: true,
+              whitespace: true,
+              message: "Please input passenger's name or delete this field.",
+            }],
+          })(
+            <Input placeholder="passenger name" style={{ width: '60%', marginRight: 8 }} />
+          )}
+          <Icon
+            className="dynamic-delete-button"
+            type="minus-circle-o"
+            disabled={keys.length === 1}
+            onClick={() => this.remove(k)}
+          />
+        </FormItem>
+      );
+    });
+
+
         return (
         <div className="detail-panel">  
-          <Card title="流程列表" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
+          <Card title="流程列表" extra={<Icon type="cross" onClick={this.RemoveCard} />}>
           <h1>飞行员训练等级选择</h1>
-          <Button type="primary" onClick={this.newWorkflow.bind(this)}>新建流程</Button>
+          <Button type="primary" onClick={this.newWorkflow}>新建流程</Button>
           <Table columns={columns} dataSource={Workflows}  />
           </Card>
-          <NewCourseForm 
+          <NewWorkflowForm 
           visible={ this.state.visible} 
-          onCancel={ this.onCancel.bind(this)} 
+          onCancel={ this.onCancel} 
           workflowid={newWorkflowId} 
-          onCreate={this.onCreate.bind(this)}
-          ref={this.saveFormRef.bind(this)}
+          onCreate={this.onCreate}
+          ref={this.saveFormRef}
           />
+          <Modal
+          visible={true}
+          title={"设置条件"}
+          okText="保存"
+          onCancel={this.onCancel}
+          onOk={this.onCreate}
+          >
+          <Form onSubmit={this.handleSubmit}>
+          {formItems}
+          <FormItem {...formItemLayoutWithOutLabel}>
+          <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
+            <Icon type="plus" /> Add field
+          </Button>
+          </FormItem>
+          <FormItem {...formItemLayoutWithOutLabel}>
+           <Button type="primary" htmlType="submit" size="large">Submit</Button>
+          </FormItem>
+          </Form>
+          <p>请在成功创建流程后添加课程 </p>
+        </Modal>
         </div>
       );
-  }
+  },
+}));
 
-}
+export default DisplayWorkFlow;

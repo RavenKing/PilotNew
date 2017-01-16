@@ -206,7 +206,7 @@ export default class DisplayPanel extends React.Component {
           switch(one.type){
           case "workflowlist":
             {
-              return <DisplayWorkFlow key={one.cardid}  cardid={one.cardid}/> ;
+              return <DisplayWorkFlow key={one.cardid}  cardid={one.cardid} pilotinfo={pilotinfo}/> ;
                   break;
             }
           case "workflowdetail":
