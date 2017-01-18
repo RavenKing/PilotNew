@@ -7,7 +7,6 @@ if(!data)
 {
   data = 1
 }
-console.log(data);
 	 return dispatch=>{
     axios.get("http://localhost:8083/api/pilots?cert_id="+data,{
        headers:{
@@ -106,11 +105,7 @@ export function DeleteCompany(data)
     dispatch({type:"DELETE_COMPANY",payload:data})  
 
     })
-
-
   }
-
-
 }
 
 
@@ -184,6 +179,95 @@ export function ChangeToModify(workflowid)
     dispatch({type:"CHANGE_TO_MODIFY",payload:workflowid});
     }
 }
+
+
+//Courses actions
+
+export function GET_ALL_COURSES(){
+
+   return dispatch=>{
+    axios.get("http://localhost:8083/api/courses",{
+       headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        }
+    })
+    .then(function (response,err) {
+      console.log(response)
+        dispatch({type:"FETCH_COURSES_ALL",payload:response.data})    
+     })
+  
+    }
+
+
+
+}
+
+export function CreateNewCourse(data){
+
+      return dispatch=>{
+              axios.post("http://localhost:8083/api/courses",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+                dispatch({type:"CREATE_COURSE",payload:data})
+
+              })
+
+}
+}
+
+export function EditCourse(data)
+{
+  return dispatch=>{
+
+       axios.put("http://localhost:8083/api/courses",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+             dispatch({type:"EDIT_COURSE",payload:data.updatepart})
+
+              })
+
+
+  }
+
+
+}
+
+export function DeleteCourse(ddata){
+
+  return dispatch=>{
+
+    axios.delete("http://localhost:8083/api/courses",{
+                      data:ddata,
+                      headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+    })
+    .then(function(){
+    dispatch({type:"DELETE_COURSE",payload:ddata})  
+
+    })
+
+
+  }
+}
+
+
+
+//end of Courses action 
 
 
 

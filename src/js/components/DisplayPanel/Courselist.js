@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
-import {RemoveCard,AddCardToDisplay} from "../../Actions/pilotAction"
+import {RemoveCard,AddCardToDisplay,CreateNewCourse,EditCourse,DeleteCourse} from "../../Actions/pilotAction"
 import {Button,Table,Card,Icon,Form,Modal} from "antd";
 
 
@@ -77,17 +77,21 @@ saveFormRef(form){this.form = form;}
     RemoveRow(e){
 
       const deletedata = e.target.rel;
-      const {list} = this.state;
-      let newlist = list.filter((obj)=>{
-          if(obj.course_id != deletedata)
-            return obj
-      });
-      this.setState({list:newlist})
+      let ddata={"target":{"course_id":deletedata}};
+      this.props.dispatch(DeleteCourse(ddata))
+      let newCourses = this.state.list.filter((course)=>{ if(course.course_id!=deletedata) return course });
+      this.setState({
+        list:newCourses
+      })
+
+
+
     }
 
 
     EditRow(e){
        let data = JSON.parse(e.target.rel);
+
       this.setState({
         visible:true,
         editdata:data}
@@ -109,32 +113,17 @@ saveFormRef(form){this.form = form;}
       }
       if(this.state.editdata==null )
       {
-        list.push(values)
+        this.props.dispatch(CreateNewCourse(values));
+
       }
       else
       {
         //find target 
-          let newcourse=list.filter((course)=>{
-
-                if(course.course_id == this.state.editdata.course_id)
-                {
-              
-                    course.course_id   = values.course_id;
-                    course.title = values.title;
-                    course.description = values.description;
-                    course.category = values.category;
-                }
-                return course
-          })
-        //setState
-
-        this.setState({list:newcourse,editdata:null})
+          let updatedata = {target:{"course_id": values.course_id},
+                      updatepart:values
+                    };
+          this.props.dispatch(EditCourse(updatedata));
       }
-
-
-
-
-
     })
 
 

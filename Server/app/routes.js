@@ -127,7 +127,7 @@ var Workflow=require('./models/WorkFlow');
 
 
       app.post('/api/courses', function(req, res) {
-        var newOne = new Course(req.body);
+        var newOne = new Course(req.body.data);
         newOne.save(function(err){
                 if(err)
                 {    console.log(err);
@@ -140,8 +140,8 @@ var Workflow=require('./models/WorkFlow');
 
   app.put('/api/courses',function(req,res)
     {
-        var query = req.body.target;
-        var updatepart = req.body.updatepart;
+        var query = req.body.data.target;
+        var updatepart = req.body.data.updatepart;
         Course.findOneAndUpdate(query,updatepart,function(err,data)
             {
                if(err)
