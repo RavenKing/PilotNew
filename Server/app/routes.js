@@ -4,6 +4,7 @@ var Document = require('./models/documents');
 var Course = require('./models/Courses');
 var Company = require('./models/Company');
 var Workflow=require('./models/WorkFlow');
+var Level = require('./models/Level');
     module.exports = function(app) {
 
       ///documents  
@@ -93,7 +94,7 @@ var Workflow=require('./models/WorkFlow');
         Pilot.findOneAndUpdate(query,updatepart,function(err,data)
             {
                if(err)
-                            res.send(err);
+                            res.send(err);  
                         res.send("update success");
             }
             );
@@ -307,6 +308,64 @@ var Workflow=require('./models/WorkFlow');
 
 
 // end of workflows
+
+
+//levels
+
+
+
+
+     app.get('/api/levels', function(req, res) {
+        console.log(req.query);
+            Company.find(req.query,function(err, pilots) {
+                // if there is an error retrieving, send the error. 
+                                // nothing after res.send(err) will execute
+                if (err)
+                    res.send(err);
+                res.json(pilots); // return all nerds in JSON format
+            });
+
+            });
+
+
+      app.post('/api/levels', function(req, res) {
+        var newOne = new Company(req.body.data);
+        newOne.save(function(err){
+                if(err)
+                {    console.log(err);
+                    res.send(false);  
+                }
+        })
+        res.send(true);
+
+        });
+
+  app.put('/api/levels',function(req,res)
+    {
+        var query = req.body.data.target;
+        var updatepart = req.body.data.updatepart;
+        Company.findOneAndUpdate(query,updatepart,function(err,data)
+            {
+               if(err)
+                            res.send(err);
+                        res.send("update success");
+            }
+            );
+    });
+
+  app.delete('/api/levels',function(req,res){
+      console.log(req.body)
+        var query = req.body;
+        Company.findOneAndRemove(query,function(err,data)
+            {
+               if(err)
+                            res.send(err);
+                        res.send("delete success");
+            }
+            );
+  });
+
+//end of levels
 
 
         app.get('*', function(req, res) {

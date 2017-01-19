@@ -92,6 +92,7 @@ export function CreateCompany(data)
 
 export function DeleteCompany(data)
 {
+
   return dispatch=>{
 
     axios.delete("http://localhost:8083/api/companys",{
