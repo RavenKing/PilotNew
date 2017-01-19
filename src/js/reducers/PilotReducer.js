@@ -83,6 +83,7 @@ export default function Pilot (
    status:"INIT",
    activeworkflow:"",
    display:[],
+<<<<<<< HEAD
    Workflows:[],
    Courses:[{
     course_id:"course1",
@@ -161,6 +162,36 @@ export default function Pilot (
      address:"XXXXXXXXX"
     }
     ]
+=======
+   Workflows:[{
+    workflow_id:"workflow1",
+    title:"转生流程1",
+    description:"F0->F1 转升流程",
+    previous_level:"F0",
+    target_level:"F1",
+    steps:[
+    {
+      sequence:1,
+
+      courses:[{course_id:"course1",sequence:1},{course_id:"course2",sequence:2}],
+      name:"固态模拟机学习"
+    },
+    {
+      sequence:2,
+      courses:[{course_id:"course1",sequence:1}],
+      name:"FFS"
+    },
+    {
+      sequence:3,
+      courses:[{course_id:"course2",sequence:1}],
+
+      name:"FTD第三课"
+    }
+    ]
+   }],
+   Courses:[],
+    Companys:[]
+>>>>>>> origin/kevin
   }, action
 ) {
   switch (action.type) {
@@ -198,6 +229,10 @@ export default function Pilot (
     }
           
   //create company
+  case "GET_COMPANY_ALL":{
+
+    return {...state,Companys:action.payload}
+  }
   case "CREATE_COMPANY":
   {
     const {Companys} = state;
@@ -219,7 +254,56 @@ export default function Pilot (
     })
       return {...state,Companys:newCompanys}
   }
+//couses reducer
+case "FETCH_COURSES_ALL":{
+        
 
+    return {...state,Courses:action.payload}
+
+
+
+            }
+
+    case "CREATE_COURSE":{
+                const coursedata=state.Courses;
+
+                    coursedata.push(action.payload);
+
+              return {...state,Courses:coursedata}
+            }
+
+            case "EDIT_COURSE":{
+
+                let values = action.payload;
+
+                let newcourse=state.Courses.filter((course)=>{
+
+                if(course.course_id == values.course_id)
+                {
+              
+                    course.course_id   = values.course_id;
+                    course.title = values.title;
+                    course.description = values.description;
+                    course.category = values.category;
+                }
+                return course
+          })
+        return {...state,Courses:newcourse};
+
+            }
+
+    case "DELETE_COURSE":{
+          
+    const {target} = action.payload;
+    console.log(target);
+    let newCourses = state.Courses.filter((course)=>{if(course.course_id != target.course_id) return course;  })
+      return {...state,Courses:newCourses}
+
+
+        }
+
+
+    //end of courses
     case "ADD_COURSE_TO_STEP":
     {
       var courseTitle = action.payload;
@@ -265,6 +349,7 @@ export default function Pilot (
 
     case "DELETE_COURSE_FROM_STEP":
     {
+
       var workflowid = action.payload;
       var stepSequence = action.payload1;
       var courseid = action.payload2;

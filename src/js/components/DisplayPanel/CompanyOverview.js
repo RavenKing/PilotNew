@@ -128,8 +128,14 @@ if(this.state.targetdata == null)
         });
        });
       console.log(values)
-        this.props.dispatch(EditCompany(values))
+
+      var senddata = {
+        target:{"company_id":values.company_id},
+        updatepart:values
       }
+        this.props.dispatch(EditCompany(senddata))
+      }
+     
       form.resetFields();
       this.setState({ 
         visible: false});

@@ -50,6 +50,94 @@ axios.put("http://localhost:8083/api/pilots",{
 //end of pilot information
 
 
+
+
+//Company infos
+
+export function GetCompanyAll()
+{
+  return dispatch=>{
+    axios.get("http://localhost:8083/api/companys",{
+                           headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+                    }).then(function(response,err){
+
+                      var data = response.data;
+                      dispatch({type:"GET_COMPANY_ALL",payload:data})
+
+                    })
+  }
+
+}
+export function CreateCompany(data)
+{
+  return dispatch=>{
+              axios.post("http://localhost:8083/api/companys",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+                dispatch({type:"CREATE_COMPANY",payload:data})
+
+              })
+
+}
+}
+
+export function DeleteCompany(data)
+{
+
+  return dispatch=>{
+
+    axios.delete("http://localhost:8083/api/companys",{
+                      data:{company_id:data.company_id},
+                      headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+    })
+    .then(function(){
+    dispatch({type:"DELETE_COMPANY",payload:data})  
+
+    })
+  }
+}
+
+
+
+export function EditCompany(data){
+  return dispatch=>{
+
+       axios.put("http://localhost:8083/api/companys",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+             dispatch({type:"EDIT_COMPANY",payload:data.updatepart})
+
+              })
+
+
+  }
+}
+
+
+
+
+
+//end of Companys
+
+
 export function AddCardToDisplay(test)
 { 
 
@@ -93,32 +181,97 @@ export function ChangeToModify(workflowid)
     }
 }
 
-export function DeleteCompany(data)
+
+//Courses actions
+
+export function GET_ALL_COURSES(){
+
+   return dispatch=>{
+    axios.get("http://localhost:8083/api/courses",{
+       headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        }
+    })
+    .then(function (response,err) {
+      console.log(response)
+        dispatch({type:"FETCH_COURSES_ALL",payload:response.data})    
+     })
+  
+    }
+
+
+
+}
+
+export function CreateNewCourse(data){
+
+      return dispatch=>{
+              axios.post("http://localhost:8083/api/courses",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+                dispatch({type:"CREATE_COURSE",payload:data})
+
+              })
+
+}
+}
+
+export function EditCourse(data)
 {
   return dispatch=>{
-    dispatch({type:"DELETE_COMPANY",payload:data})
+
+       axios.put("http://localhost:8083/api/courses",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+             dispatch({type:"EDIT_COURSE",payload:data.updatepart})
+
+              })
+
+
   }
 
 
 }
 
-export function CreateCompany(data)
-{ 
-return dispatch=>{
-  dispatch({type:"CREATE_COMPANY",payload:data})
-}
-
-}
-
-export function EditCompany(data){
+export function DeleteCourse(ddata){
 
   return dispatch=>{
-    dispatch({type:"EDIT_COMPANY",payload:data})
+
+    axios.delete("http://localhost:8083/api/courses",{
+                      data:ddata,
+                      headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+    })
+    .then(function(){
+    dispatch({type:"DELETE_COURSE",payload:ddata})  
+
+    })
+
+
   }
-
-
-
 }
+
+
+
+//end of Courses action 
+
+
+
 export function AddCourseToStep(courseTitle,workflowid,stepSequence,courseid){
   return dispatch=>{
     dispatch({type:"ADD_COURSE_TO_STEP",payload:courseTitle,payload1:workflowid,payload2:stepSequence,payload3:courseid})

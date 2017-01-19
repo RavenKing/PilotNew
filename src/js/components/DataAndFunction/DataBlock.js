@@ -47,6 +47,10 @@ onDrop(e){
   {
     ID:"6",
     NAME:"公司概况"
+  },
+  {
+      ID:"7",
+      NAME:"等级设置"
   }
   ];
 
@@ -66,7 +70,6 @@ onDrop(e){
 
 var topfive1;
 const {pilot} = this.props;
-console.log("let us see what is pilot",pilot);
 var courses = pilot.Courses;
 if(pilot.status == "INIT")
 {

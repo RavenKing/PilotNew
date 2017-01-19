@@ -24,6 +24,7 @@ import NotificationPanel from "./NotificationPanel";
 
 // fill info panel
 import FillInfoPanel from "./fillPersonalInfoPanel";
+import LevelPanel from "./levels/LevelCard";
 
 
 @connect((store)=>{    
@@ -38,10 +39,7 @@ export default class DisplayPanel extends React.Component {
   constructor(props)
   {
     super(props)
-
-
     const {pilotinfo} = this.props;
-    const {Pilot} = pilotinfo;
     const {auth} = this.props;
       //get initial data
 
@@ -51,7 +49,7 @@ export default class DisplayPanel extends React.Component {
     //check logic for the data .
     
             setTimeout(function(){
-            if(!Pilot.company||!Pilot.trained_flights)
+            if(!pilotinfo.company||!pilotinfo.trained_flights)
                 {
                    var cardinfo ={
                                   type:"fillpersonalinfo"
@@ -149,11 +147,20 @@ export default class DisplayPanel extends React.Component {
                       type:"companyoverview"
 
                     }
-               props.dispatch(AddCardToDisplay(cardinfo))
 
-
+                   props.dispatch(AddCardToDisplay(cardinfo))
+                        
                   }
-                  break;
+                   else if(data_id==7)
+                  {
+                    var cardinfo = {
+                      x:x,
+                      y:y,
+                      type:"leveloverview"
+                    }
+               props.dispatch(AddCardToDisplay(cardinfo))
+                  }
+              break;
               }
               case "TITLE":
               {
@@ -247,10 +254,11 @@ export default class DisplayPanel extends React.Component {
           {
             return <FillInfoPanel key={one.cardid} cardid={one.cardid} />
             break;
-
-
           }
-
+          case "leveloverview":{
+            return <LevelPanel key={one.cardid} cardid={one.cardid} />
+            break;
+          }
           case "notification":
           {
             return <NotificationPanel   key ={one.cardid} cardid ={one.cardid}   />
