@@ -276,7 +276,7 @@ export default class DisplayPanel extends React.Component {
         displayarea =  
         <ChangePanel steps = {steps} workflowid = {activeworkflow} courses = {Courses}/>
       }
-
+      console.log("in DisplayPanel courses are",Courses);
       return (
       <div className="display-panel helpbgkm">  
         { displayarea }
