@@ -49,8 +49,9 @@ export default class StepCard extends React.Component {
     this.interactable = setAreaDropable(
     {
     element: ReactDOM.findDOMNode(this),
-    accept: '.data-item',
+    accept: '.course-item',
     ondrop(event) {
+      console.log("event is",event);
       let draggableElement = event.relatedTarget;
       var courseid  = draggableElement.getAttribute('data-courseid');
       var courseTitle = draggableElement.getAttribute('title');

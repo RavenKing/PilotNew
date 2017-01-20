@@ -86,10 +86,10 @@ if(pilot.status == "INIT")
 }
 else if(pilot.status == "MODIFY"){
   topfive1 = courses;
-  console.log("wo cao ni daye");
+  console.log("Hello every one let us see what is in courses",courses);
   if(topfive1.length>0)
   {
-    DataItems = topfive1.map((item,i)=><DataItem className="data-item" title = {item.title} key = {i} uniquekey={item.ID} courseid = {item.course_id}/>);
+    DataItems = topfive1.map((item,i)=><DataItem className="course-item" title = {item.title} key = {i} uniquekey={item.ID} courseid = {item.course_id}/>);
   }
   else
   {

@@ -4,10 +4,10 @@ import { connect } from "react-redux"
 
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
-import {RemoveCard,AddCardToDisplay,AddNewWorkFlow,InitialWorkflows} from "../../Actions/pilotAction"
+import {RemoveCard,AddCardToDisplay,AddNewWorkFlow,InitialWorkflows,DeleteWorkflowForm} from "../../Actions/pilotAction"
 import {Table,Card,Icon,Button,Form,Modal} from "antd";
-import NewCourseForm from "./NewWorkflowForm";
-
+import NewWorkflowForm from "./NewWorkflowForm";
+import ChangeWorkflowForm from "./ChangeWorkflowForm"
 
 @connect((store)=>{    
     return {
@@ -26,7 +26,10 @@ export default class DisplayWorkFlow extends React.Component {
     {
       super(props);
       this.state={
-        visible:false
+        visible:false,
+        visible1:false,
+        changeWorkflowId:"",
+        workflow:{}
       }
     }
 
@@ -37,14 +40,18 @@ export default class DisplayWorkFlow extends React.Component {
       }
 
     WorkFlowDetail(e){
-      console.log(e.target.rel)
-      console.log("workflow detail view")
+      // console.log(e.target.rel)
+      // console.log("workflow detail view")
       var data = {
         type:"workflowdetail",
         workflowid:e.target.rel,
         cardid:Math.random()*10000000
       }
       this.props.dispatch(AddCardToDisplay(data))
+    }
+
+    ConditionDetail(e){
+
 
     }
 
@@ -60,15 +67,34 @@ export default class DisplayWorkFlow extends React.Component {
   newWorkflow(){
     this.setState({visible:true});
   }
+  ChangeWorkflowForm(e){
+    this.setState({changeWorkflowId:e.target.rel});
+    var workflows = this.props.pilot.Workflows;
+    console.log("this.props in changeWorkflow is ",workflows);
+    workflows.map((workflow,i)=>{
+      if(workflow.workflow_id == e.target.rel)
+      {
+        this.setState({workflow:workflow})
+      }
+
+    })
+    this.setState({visible1:true});
+  }
+
 
 
   saveFormRef(form){this.form = form;}
 
+  DeleteWorkflowForm(e){
+    this.props.dispatch(DeleteWorkflowForm(e.target.rel));
+  }
 
   onCancel(){
     this.setState({visible:false});
   }
-
+  CancelChangeWorkflowForm(){
+    this.setState({visible1:false})
+  }
 
   onCreate(){
   const form = this.form;
@@ -119,11 +145,12 @@ const columns = [{
   dataIndex: 'title',
   key: 'title',
 }, {
-  title: '条件列别',
+  title: '操作',
   key: 'action',
   render: (text, record) => (
     <span>
-      <a href="#">转升条件</a>
+      <a href="#" onClick={this.ChangeWorkflowForm.bind(this)} rel={record.workflow_id}>编辑  </a>
+      <a href="#" onClick={this.DeleteWorkflowForm.bind(this)} rel={record.workflow_id}>  删除</a>
       <span className="ant-divider" />
     </span>
   ),
@@ -140,13 +167,22 @@ const newWorkflowId = "workflow"+ temp;
           <Button type="primary" onClick={this.newWorkflow.bind(this)}>新建流程</Button>
           <Table columns={columns} dataSource={Workflows}  />
           </Card>
-          <NewCourseForm 
+          <NewWorkflowForm 
           visible={ this.state.visible} 
           onCancel={ this.onCancel.bind(this)} 
           workflowid={newWorkflowId} 
           onCreate={this.onCreate.bind(this)}
           ref={this.saveFormRef.bind(this)}
           />
+          <ChangeWorkflowForm
+          visible={ this.state.visible1 } 
+          onCancel={ this.CancelChangeWorkflowForm.bind(this)} 
+          workflowid={this.state.changeWorkflowId} 
+          workflow={this.state.workflow}
+          onCreate={this.onCreate.bind(this)}
+          ref={this.saveFormRef.bind(this)}
+          />
+
         </div>
       );
   }

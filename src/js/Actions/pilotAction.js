@@ -173,6 +173,24 @@ export function ChangeWorkflow()
   }
 }
 
+export function DeleteWorkflowForm(workflowid)
+{
+  return dispatch=>{
+    axios.delete("http://localhost:8083/api/workflows",{
+                      data:{workflow_id:workflowid},
+                      headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+    })
+    .then(function(){
+    dispatch({type:"DELETE_WORKFLOW_FORM",payload:workflowid})  
+
+    })
+
+
+  }
+}
 
 export function ChangeToModify(workflowid)
 {

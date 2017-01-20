@@ -83,115 +83,9 @@ export default function Pilot (
    status:"INIT",
    activeworkflow:"",
    display:[],
-<<<<<<< HEAD
    Workflows:[],
-   Courses:[{
-    course_id:"course1",
-    title:"固态模拟机乱飞",
-    description:"必须飞的",
-    category:"课程",
-    details:[{
-      id:1,
-      title:"测试飞行"},{
-        id:2,
-        title:"使用操作杆"}]
-   },
-   {
-    course_id:"course2",
-    title:"熟练检查工作单",
-    description:"必须飞的324432",
-    category:"课程",
-    details:[
-    {id:1,
-      title:"学会模拟"},
-      {id:2,
-        title:"误操作"}
-
-    ]
-   },
-   {
-    course_id:"course3",
-    title:"航线运输驾驶员执照",
-    description:"加油加油！",
-    category:"课程",
-    details:[
-    {id:1,
-      title:"航线"},
-      {id:2,
-        title:"牛逼"}
-
-    ]
-   },
-   {
-    course_id:"course4",
-    title:"机长转机型训练",
-    description:"来来来，训练！",
-    category:"课程",
-    details:[
-    {id:1,
-      title:"开门"},
-      {id:2,
-        title:"上飞机"}
-
-    ]
-   },
-   {
-    course_id:"course5",
-    title:"熟练检查工作单",
-    description:"必须飞的324432",
-    category:"课程",
-    details:[
-    {id:1,
-      title:"学会模拟"},
-      {id:2,
-        title:"误操作"}
-
-    ]
-   }
-   ],
-    Companys:[{
-    company_id:"SH1001",
-    company_name:"国航上海分公司",
-    departments:[{name:"飞行部"},{name:"信管部"}],
-    address:"xxxxx",
-    },
-    {
-     company_id:"BJ1001",
-     company_name:"国航北京分公司",
-     departments:[{name:"飞行部"},{name:"信管部"},{name:"外交部"}],
-     address:"XXXXXXXXX"
-    }
-    ]
-=======
-   Workflows:[{
-    workflow_id:"workflow1",
-    title:"转生流程1",
-    description:"F0->F1 转升流程",
-    previous_level:"F0",
-    target_level:"F1",
-    steps:[
-    {
-      sequence:1,
-
-      courses:[{course_id:"course1",sequence:1},{course_id:"course2",sequence:2}],
-      name:"固态模拟机学习"
-    },
-    {
-      sequence:2,
-      courses:[{course_id:"course1",sequence:1}],
-      name:"FFS"
-    },
-    {
-      sequence:3,
-      courses:[{course_id:"course2",sequence:1}],
-
-      name:"FTD第三课"
-    }
-    ]
-   }],
    Courses:[],
     Companys:[]
->>>>>>> origin/kevin
   }, action
 ) {
   switch (action.type) {
@@ -217,6 +111,13 @@ export default function Pilot (
     const newCompanys = state.Companys.filter((company)=>{if(company.company_id != targetdata.company_id) return company;  })
       return {...state,Companys:newCompanys}
     }
+
+    case "DELETE_WORKFLOW_FORM":{
+    const targetdata = action.payload;
+    const NewWorkflows = state.Workflows.filter((workflow)=>{if(workflow.workflow_id != targetdata) return workflow;  })
+      return {...state,Workflows:NewWorkflows}
+    }
+    
 
     case "Remove_Card":
     {
