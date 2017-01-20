@@ -20,7 +20,7 @@ const NormalLoginForm = Form.create()(React.createClass({
 		const {companys} = this.props;
     const {personaldata} =this.props;
     return {
-      departments:companys[0].departments,
+      departments:companys.length!=0?companys[0].departments:[],
       existingf:personaldata.trained_flights,
       ekeys:personaldata.trained_flights.length
     }
@@ -159,7 +159,7 @@ componentWillMount() {
     const {levels} = this.props;
     var levelOption;
     // levels setup
-    if(levels.entries.length>0)
+    if(levels)
     {
   levelOption = levels.entries.map((one)=>{
 

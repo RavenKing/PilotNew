@@ -10,18 +10,19 @@ const Option=Select.Option;
 const CollectionCreateForm = Form.create()(
 React.createClass({
   getInitialState(){
+
+    this.props.form.setFieldsValue({keys:[0]});
     return {
       counter:0
     }
   },
   componentWillMount(){
+    this.props.form.setFieldsValue({shit:1});
         this.props.form.setFieldsValue({keys:[0]});
   },
   componentWillReceiveProps(nextProps){
      if(nextProps.initdata)
         this.setState({counter:nextProps.initdata.departments.length})
-
-      console.log(this.state.counter)
      },
   onCloseTag(department1)
   {
@@ -32,7 +33,6 @@ React.createClass({
   },
 addDepartment()
     {
-    
     let newcounter = this.state.counter;
     newcounter++;
     this.setState({counter:newcounter})
@@ -70,6 +70,13 @@ addDepartment()
     var formItems=null;
 
  let formitemsdata =getFieldValue('keys'); 
+ console.log(getFieldValue("shit"))
+ console.log(formitemsdata);
+ if(!formitemsdata)
+ {
+   getFieldDecorator('keys', { initialValue: [0] });
+   }
+
     if(formitemsdata)
     { 
       formItems = formitemsdata.map((k) => {
