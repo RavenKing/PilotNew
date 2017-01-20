@@ -55,13 +55,14 @@ export default class PersonnalPanel extends React.Component {
       const {Pilot} = pilotinfo;
       const {flightinfo} = Pilot;
       const {Companys}= pilotinfo;
-
+      const {Levels} = pilotinfo;
         return (
 				<div class="detail-panel">
 
         <Card title="个人资料"  extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)}/>}>
  <PersonalForm personaldata={pilotinfo.Pilot} 
       companys={Companys}
+      levels={Levels}
       disabled={false}
       update_data={this.update_pilot_data.bind(this)}
   

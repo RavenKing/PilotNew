@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {Button,Table,Card,Icon,Form,Modal,Input,Select} from "antd";
+import {Button,Table,Card,Icon,Form,Modal,Input,Select,Upload, message} from "antd";
+const Dragger = Upload.Dragger;
 const FormItem = Form.Item;
 const Option=Select.Option;
 
@@ -9,6 +10,23 @@ const CollectionCreateForm = Form.create()(
     const { visible, onCancel, onCreate, form } = props;
     const { getFieldDecorator } = form;
     const { initdata } =props;
+    const uploadprops = {
+            name: 'file',
+            multiple: true,
+            showUploadList: false,
+            action: 'http://localhost:8083/api/upload_course',
+            onChange(info) {
+              const status = info.file.status;
+              if (status !== 'uploading') {
+                console.log(info.file, info.fileList);
+              }
+              if (status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully.`);
+              } else if (status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+              }
+            },
+};
     return (
       <Modal
         visible={visible}
@@ -52,6 +70,22 @@ const CollectionCreateForm = Form.create()(
             {getFieldDecorator('description',
             {initialValue:initdata?initdata.description:""}
             )(<Input type="textarea" />)}
+          </FormItem>         
+
+           <FormItem label="模板文档">
+            {getFieldDecorator('url',
+            {initialValue:initdata?initdata.url:""}
+            )(
+            <div style={{ marginTop: 16, height: 180 }}>
+              <Dragger {...uploadprops}>
+                <p className="ant-upload-drag-icon">
+                  <Icon type="inbox" />
+                </p>
+                <p className="ant-upload-text">点击或者拖动上传文件</p>
+                <p className="ant-upload-hint">支持单点上传</p>
+              </Dragger>
+            </div>
+              )}
           </FormItem>
         </Form>
       </Modal>

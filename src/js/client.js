@@ -16,9 +16,7 @@ ReactDOM.render(
     <Provider store = {store}>
     <Router history={hashHistory}>
      <Route path="/login" component ={Login}> </Route>  
-     <Route path="/" component ={Layout}> 
-     <Route path="/draganddrop" component ={Drag}> </Route>  
-      
+     <Route path="/" component ={requireAuth(Layout)}> 
       </Route>
   </Router>
     </Provider>,

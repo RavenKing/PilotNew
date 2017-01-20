@@ -156,6 +156,17 @@ componentWillMount() {
     const { getFieldDecorator,getFieldValue  } = this.props.form;
     let editdisabled = this.props.disabled;
     const {companys} = this.props;
+    const {levels} = this.props;
+    var levelOption;
+    // levels setup
+    if(levels.entries.length>0)
+    {
+  levelOption = levels.entries.map((one)=>{
+
+    return <Option value={one.level} key={one.level}>{one.level}</Option>
+  })
+    }
+    //
 
 //layout of the form
     const formItemLayout = {
@@ -176,9 +187,10 @@ var existingflights;
 
       var existingid = 0 ;
       existingflights=this.state.existingf.map((flight,index)=>{
+        if(flight)
+        {
       return (
                       <Row>
-
                       <Col span={8}>
                               <FormItem
                                 {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
@@ -245,10 +257,13 @@ var existingflights;
                       </Col>
 
                       </Row>
-
                                    );
-
-
+          }
+          else
+          {
+            return <div></div>
+          }
+      
 
 
 
@@ -469,7 +484,7 @@ var existingflights;
           label="体检日期"
         >
         {getFieldDecorator('health_check', { 
-          initialValue:moment(personaldata.health_check,'YYYY-MM-DD' ),
+          initialValue:moment(personaldata.health_check?personaldata.health_check:'2017-01-01','YYYY-MM-DD' ),
         rules: [{ type: 'object', required: false, message: 'Please select time!' }],
     })(
                    <DatePicker format = 'YYYY-MM-DD' />
@@ -508,8 +523,7 @@ var existingflights;
     style={{ width: 200 }}
     placeholder="请选择飞行等级"
   >
-    <Option value="F0" key="F0">F0</Option>   
-     <Option value="F1" key="F1">F1</Option>
+  {levelOption}
   </Select>   
           )}
         </FormItem>
