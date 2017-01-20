@@ -62,7 +62,11 @@ export default class EditableTable extends React.Component {
     }];
 
     const {Levels} = this.props.pilot;
-  
+   var leveldata=[]
+  if(!Levels)
+  {
+  }
+  else{
     var leveldata = Levels.entries.map((one)=>{
       return {
         flight_factor: {
@@ -79,7 +83,7 @@ export default class EditableTable extends React.Component {
         },
       }
     })
-
+  }
     this.state = {
        visible:false,
       data: leveldata
