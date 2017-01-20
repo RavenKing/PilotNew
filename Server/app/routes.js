@@ -5,6 +5,11 @@ var Course = require('./models/Courses');
 var Company = require('./models/Company');
 var Workflow=require('./models/WorkFlow');
 var Level = require('./models/Level');
+
+var multer  = require('multer');
+var upload = multer({ dest: './public/uploads/'});
+var fs=require('fs');
+var type = upload.single('avatar');
     module.exports = function(app) {
 
       ///documents  
@@ -370,6 +375,19 @@ var Level = require('./models/Level');
   });
 
 //end of levels
+
+// upload
+
+    app.post('/api/upload_course',function(req,res)
+    {
+
+        console.log(req.files);
+
+    });
+
+
+
+// end of upload
 
 
         app.get('*', function(req, res) {
