@@ -318,3 +318,46 @@ export function AddNewStep(stepName,workflowid)
 }
 
 
+
+
+
+//levels action 
+
+export function GetLevels()
+{
+     return dispatch=>{
+axios.get("http://localhost:8083/api/levels",{
+       headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        }
+    })
+    .then(function (response,err) {
+      var data = response.data;
+      console.log(response.data);
+        dispatch({type:"GET_LEVELS",payload:data})    
+     })
+   }
+
+
+}
+
+ export function upsertLevel(data)
+ {
+   return dispatch=>{
+axios.put("http://localhost:8083/api/levels",{
+       data:data,
+       headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        }
+    })
+    .then(function (response,err) {
+        dispatch({type:"UPSERT_LEVEL",payload:data})    
+     })
+   }
+
+ }
+
+
+//end of levels action 

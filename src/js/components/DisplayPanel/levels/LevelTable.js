@@ -1,9 +1,10 @@
 import React from "react";
-import { Table, Input, Popconfirm,Button } from 'antd';
+import { Table, Input, Popconfirm,Button,InputNumber } from 'antd';
 import  EditableCell from "./LevelInput";
 import LevelForm from "./LevelForm"
 import ReactDOM from "react-dom";
-import { connect } from "react-redux"
+import { connect } from "react-redux";
+import {upsertLevel} from "../../../Actions/pilotAction";
 
 
 @connect((store)=>{    
@@ -16,17 +17,17 @@ export default class EditableTable extends React.Component {
   constructor(props) {
     super(props);
     this.columns = [{
-      title: 'flight_factor',
+      title: '等级系数',
       dataIndex: 'flight_factor',
       width: '25%',
       render: (text, record, index) => this.renderColumns(this.state.data, index, 'flight_factor', text),
     }, {
-      title: 'level',
+      title: '等级',
       dataIndex: 'level',
       width: '15%',
       render: (text, record, index) => this.renderColumns(this.state.data, index, 'level', text),
     }, {
-      title: 'description',
+      title: '描述',
       dataIndex: 'description',
       width: '40%',
       render: (text, record, index) => this.renderColumns(this.state.data, index, 'description', text),
@@ -59,23 +60,29 @@ export default class EditableTable extends React.Component {
         </div>);
       },
     }];
-    this.state = {
-       visible:false,
-      data: [{
-        key: '0',
+
+    const {Levels} = this.props.pilot;
+  
+    var leveldata = Levels.entries.map((one)=>{
+      return {
         flight_factor: {
           editable: false,
-          value: '等级',
+          value: one.flight_factor,
         },
         level: {
           editable: false,
-          value: 'F0',
+          value: one.level,
         },
         description: {
-        	editable:false,
-          value: 'Level 0',
+          editable:false,
+          value: one.description,
         },
-      }],
+      }
+    })
+
+    this.state = {
+       visible:false,
+      data: leveldata
     };
   }
 addLevel(){
@@ -122,9 +129,26 @@ saveFormRef(form){this.form = form;}
 			description:one.description.value
   	}
   });
-	console.log(commitentries)
-  	const {pilot}=this.props;
-  	 console.log(pilot);
+
+
+
+  	const {Pilot}=this.props.pilot;
+
+    let cert_id = Pilot?Pilot.cert_id:"310228199012202218";
+     var newlevel = {
+        name:"default",
+        inuse:true,
+        modify_time:Date.now(),
+        modifyer:cert_id,
+        entries:commitentries
+     };
+    
+    var constructdata = {
+      target:{name:"default"},
+      updatepart:newlevel
+    }
+
+  this.props.dispatch(upsertLevel(constructdata))
 
 
 
