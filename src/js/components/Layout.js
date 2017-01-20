@@ -20,7 +20,7 @@ import DisplayPanel from "./DisplayPanel/DisplayPanel"
 
 
 //
-import {GET_PILOT_DATA,GetCompanyAll,GET_ALL_COURSES} from "../Actions/pilotAction";
+import {GET_PILOT_DATA,GetCompanyAll,GET_ALL_COURSES,GetLevels} from "../Actions/pilotAction";
 
 
 @connect((store)=>{    
@@ -57,6 +57,7 @@ this.props.dispatch(fetchArticles(user))
 //set up the data admin
 this.props.dispatch(GetCompanyAll());
 this.props.dispatch(GET_ALL_COURSES());
+this.props.dispatch(GetLevels());
   /*
 const {auth} = this.props;
 

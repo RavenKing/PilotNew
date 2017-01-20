@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {Button,Table,Card,Icon,Form,Modal,Input,Select} from "antd";
+import {Button,Table,Card,Icon,Form,Modal,Input,Select,InputNumber} from "antd";
 const FormItem = Form.Item;
 const Option=Select.Option;
 
@@ -20,11 +20,11 @@ const CollectionCreateForm = Form.create()(
         <Form vertical>
           <FormItem label="等级系数">
             {getFieldDecorator('flight_factor', {
-              rules: [{ required: true, message: '自定义课程编号' }],
+              rules: [{ required: true, message: '等级系数' }],
               initialValue: initdata?initdata.course_id:""
 
             })(
-              <Input />
+              <InputNumber />
             )}
           </FormItem>
                     <FormItem label="等级">

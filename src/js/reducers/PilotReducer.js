@@ -85,7 +85,8 @@ export default function Pilot (
    display:[],
    Workflows:[],
    Courses:[],
-    Companys:[]
+    Companys:[],
+    Levels:{}
   }, action
 ) {
   switch (action.type) {
@@ -340,8 +341,24 @@ case "FETCH_COURSES_ALL":{
         return{...state,Workflows:newworkflows}; 
        
       }
+       //level Reducer
+        case "GET_LEVELS":
+        {
+          return {...state,Levels:action.payload}
+        }
+          case "UPSERT_LEVEL":
+          {
+
+            return {...state,Levels:action.payload.updatepart}
+
+          }
+
     default:{
       return {...state,status:"INIT"}
     }
   }
+
+ 
+
+
 }

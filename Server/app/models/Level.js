@@ -4,7 +4,6 @@ var Schema = mongoose.Schema;
 
 
 var Level = new Schema({
-  
       name:String,
       inuse:{type:Boolean,default:false}, 
       owner:String,

@@ -318,7 +318,7 @@ var Level = require('./models/Level');
 
      app.get('/api/levels', function(req, res) {
         console.log(req.query);
-            Company.find(req.query,function(err, pilots) {
+            Level.findOne({name:"default"},function(err, pilots) {
                 // if there is an error retrieving, send the error. 
                                 // nothing after res.send(err) will execute
                 if (err)
@@ -330,7 +330,7 @@ var Level = require('./models/Level');
 
 
       app.post('/api/levels', function(req, res) {
-        var newOne = new Company(req.body.data);
+        var newOne = new Level(req.body.data);
         newOne.save(function(err){
                 if(err)
                 {    console.log(err);
@@ -345,7 +345,11 @@ var Level = require('./models/Level');
     {
         var query = req.body.data.target;
         var updatepart = req.body.data.updatepart;
-        Company.findOneAndUpdate(query,updatepart,function(err,data)
+        var options= {upsert:true}
+        console.log(query)
+        console.log(updatepart)
+        console.log("good now")
+        Level.findOneAndUpdate(query,updatepart,options,function(err,data)
             {
                if(err)
                             res.send(err);
