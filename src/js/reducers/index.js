@@ -2,12 +2,13 @@ import { combineReducers } from "redux"
 
 
 import auth from "./authReducer"
-import loginuser from "./usersReducer"
 import pilotinfo from "./PilotReducer"
+import query from "./QueryReducer"
 
 export default combineReducers({
     auth,
-    pilotinfo
+    pilotinfo,
+    query
     
     
 })

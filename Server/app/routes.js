@@ -365,7 +365,7 @@ var type = upload.single('avatar');
   app.delete('/api/levels',function(req,res){
       console.log(req.body)
         var query = req.body;
-        Company.findOneAndRemove(query,function(err,data)
+        Level.findOneAndRemove(query,function(err,data)
             {
                if(err)
                             res.send(err);

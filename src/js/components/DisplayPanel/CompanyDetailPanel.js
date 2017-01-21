@@ -20,7 +20,9 @@ export default class CompanyDetail extends React.Component {
   constructor(props)
   {
       super(props)
+      console.log(props.company);
 
+      
   }
 
  onClose(){}

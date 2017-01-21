@@ -21,6 +21,9 @@ import DisplayPromotion from "./Jinsheng";
 import Stepdetail from "./Stepdetail";
 import CompanyOverview from "./CompanyOverview";
 import NotificationPanel from "./NotificationPanel";
+import QueryPanel from "./Query/QueryPanel";
+
+
 
 // fill info panel
 import FillInfoPanel from "./fillPersonalInfoPanel";
@@ -160,6 +163,15 @@ export default class DisplayPanel extends React.Component {
                     }
                props.dispatch(AddCardToDisplay(cardinfo))
                   }
+                  else if(data_id==8)
+                  {
+                    var cardinfo = {
+                      x:x,
+                      y:y,
+                      type:"querypanel"
+                    }
+               props.dispatch(AddCardToDisplay(cardinfo))
+                  }
               break;
               }
               case "TITLE":
@@ -257,6 +269,10 @@ export default class DisplayPanel extends React.Component {
           }
           case "leveloverview":{
             return <LevelPanel key={one.cardid} cardid={one.cardid} />
+            break;
+          }
+          case "querypanel":{
+            return <QueryPanel key={one.cardid} cardid={one.cardid} />
             break;
           }
           case "notification":

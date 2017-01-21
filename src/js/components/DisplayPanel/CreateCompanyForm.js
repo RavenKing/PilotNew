@@ -70,8 +70,6 @@ addDepartment()
     var formItems=null;
 
  let formitemsdata =getFieldValue('keys'); 
- console.log(getFieldValue("shit"))
- console.log(formitemsdata);
  if(!formitemsdata)
  {
    getFieldDecorator('keys', { initialValue: [0] });
