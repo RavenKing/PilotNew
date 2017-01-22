@@ -6,10 +6,12 @@ var Schema = mongoose.Schema;
 var Document = new Schema({
     cert_id: String,
     workflow_id:String,
+    title:String,
+    status:String,
     start_date:Date,
     end_date:Date,
     previous_level: String,
-    target_leverl:String,  
+    target_level:String,  
     steps:[Schema.Types.Mixed] 
 })
 

@@ -52,8 +52,6 @@ this.props.dispatch(fetchArticles(user))
 
   componentWillMount()
   {
-console.log(this.props);
-
 const {auth} = this.props;
 
 //set up the data admin
@@ -61,7 +59,7 @@ this.props.dispatch(GetCompanyAll());
 this.props.dispatch(GET_ALL_COURSES());
 this.props.dispatch(GetLevels());
 this.props.dispatch(InitialWorkflows());
-this.props.dispatch(GetDocumnts());
+this.props.dispatch(GetDocumnts("?cert_id=001"));
   /*
 const {auth} = this.props;
 

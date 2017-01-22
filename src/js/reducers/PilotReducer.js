@@ -1,10 +1,9 @@
 export default function Pilot (
   state = {
    Pilot:null,
-
    Documents:[],
    role:"",
-   status:"",
+   status:"INIT",
    activeworkflow:"",
    display:[],
    Workflows:[],
@@ -213,7 +212,7 @@ case "FETCH_COURSES_ALL":{
           Workflows[i]['steps']=steps;
         }
       }
-      return {...state,Workflows:"Workflows",status:"INIT"}
+      return {...state,Workflows:Workflows,status:"INIT"}
     }
 
     case "ADD_NEW_WORK_FLOW":
@@ -292,6 +291,11 @@ case "FETCH_COURSES_ALL":{
       return workflow;
     })
       return {...state,Companys:newCompanys}
+        }
+        case "GET_USER_DOCUMENTS":
+        {
+          return {...state,Documents:action.payload}
+
         }
 
         case "CREATE_DOCUMENT":
