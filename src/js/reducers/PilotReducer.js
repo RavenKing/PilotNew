@@ -79,8 +79,8 @@ export default function Pilot (
 
    ], //end of steps
    },
-   role:"ADM",
-   status:"INIT",
+   role:"",
+   status:"",
    activeworkflow:"",
    display:[],
    Workflows:[],
