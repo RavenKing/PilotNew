@@ -63,7 +63,7 @@ return dispatch=>{
             });
       browserHistory.push("/")  
           }
-        }s
+        }
       }
       }).catch(function (error) {
     console.log("error is",error);

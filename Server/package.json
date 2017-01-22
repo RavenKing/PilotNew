@@ -9,6 +9,7 @@
     "express": "~4.5.1",
     "method-override": "~2.0.2",
     "mongoose": "^4.7.6",
+    "multer": "^1.2.1",
     "regexp-clone": "0.0.1"
   }
 }

@@ -20,7 +20,7 @@ const NormalLoginForm = Form.create()(React.createClass({
 		const {companys} = this.props;
     const {personaldata} =this.props;
     return {
-      departments:companys[0].departments,
+      departments:companys.length!=0?companys[0].departments:[],
       existingf:personaldata.trained_flights,
       ekeys:personaldata.trained_flights.length
     }
@@ -52,38 +52,41 @@ const NormalLoginForm = Form.create()(React.createClass({
     
 //format health check 
     const health_check = values['health_check'].format('YYYY-MM-DD');
-    console.log("health chheck" , health_check);
-
-
     var flightdata=[];
 //exsiting flights
 if(this.state.ekeys)
 {
       for(var i=0;i<this.state.ekeys;i++)
       {
+
+      var flightname = "eflight-"+i;
+      var flight_type = "eflight_type-"+i;
+      var schooltime = "eschooltime-"+i;
         var flight={
-            planeType:values[`eflight-${i}`],
-            schoolType:values[`eflight_type-${i}`],
-            train_time:values[`eschooltime-${i}`]
+            planeType:values[flightname],
+            schoolType:values[flight_type],
+            train_time:values[schooltime]
         };
         flightdata.push(flight);
       }
 }
 
-// end of existing flights
-
-
+// end of existing flight
 //format flights 
-
     for(var i =0;i<values.keys.length;i++)
-    {
-        var flight={
-            planeType:values[`flight-${i}`],
-            schoolType:values[`flight_type-${i}`],
-            train_time:values[`schooltime-${i}`]
+    {     
+      var flightname = "flight-"+(i+1);
+      var flight_type = "flight_type-"+(i+1);
+      var schooltime = "schooltime-"+(i+1);
+
+      var flight={
+            planeType:values[flightname],
+            schoolType:values[flight_type],
+            train_time:values[schooltime]
         };
         flightdata.push(flight);
     }
+    console.log(flightdata)
     values.trained_flights = flightdata;
     values.health_check = health_check;
     values.level={"current_level":values.current_level};
@@ -140,6 +143,7 @@ componentWillMount() {
     const { form } = this.props;
     // can use data-binding to get
     const keys = form.getFieldValue('keys');
+    console.log(keys)
     const nextKeys = keys.concat(uuid);
     // can use data-binding to set
     // important! notify form to detect changes
@@ -156,6 +160,20 @@ componentWillMount() {
     const { getFieldDecorator,getFieldValue  } = this.props.form;
     let editdisabled = this.props.disabled;
     const {companys} = this.props;
+    const {levels} = this.props;
+    var levelOption;
+    //set not working
+    let number = getFieldValue('keys');
+
+    // levels setup
+    if(levels)
+    {
+  levelOption = levels.entries.map((one)=>{
+
+    return <Option value={one.level} key={one.level}>{one.level}</Option>
+  })
+    }
+    //
 
 //layout of the form
     const formItemLayout = {
@@ -176,9 +194,10 @@ var existingflights;
 
       var existingid = 0 ;
       existingflights=this.state.existingf.map((flight,index)=>{
+        if(flight!=null)
+        {
       return (
                       <Row>
-
                       <Col span={8}>
                               <FormItem
                                 {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
@@ -245,10 +264,13 @@ var existingflights;
                       </Col>
 
                       </Row>
-
                                    );
-
-
+          }
+          else
+          {
+            return <div></div>
+          }
+      
 
 
 
@@ -469,7 +491,7 @@ var existingflights;
           label="体检日期"
         >
         {getFieldDecorator('health_check', { 
-          initialValue:moment(personaldata.health_check,'YYYY-MM-DD' ),
+          initialValue:moment(personaldata.health_check?personaldata.health_check:'2017-01-01','YYYY-MM-DD' ),
         rules: [{ type: 'object', required: false, message: 'Please select time!' }],
     })(
                    <DatePicker format = 'YYYY-MM-DD' />
@@ -508,8 +530,7 @@ var existingflights;
     style={{ width: 200 }}
     placeholder="请选择飞行等级"
   >
-    <Option value="F0" key="F0">F0</Option>   
-     <Option value="F1" key="F1">F1</Option>
+  {levelOption}
   </Select>   
           )}
         </FormItem>
