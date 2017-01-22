@@ -21,6 +21,7 @@ import DisplayPromotion from "./Jinsheng";
 import Stepdetail from "./Stepdetail";
 import CompanyOverview from "./CompanyOverview";
 import NotificationPanel from "./NotificationPanel";
+import Pilotpanel from "./Pilotpanel"
 import QueryPanel from "./Query/QueryPanel";
 
 
@@ -172,6 +173,15 @@ export default class DisplayPanel extends React.Component {
                     }
                props.dispatch(AddCardToDisplay(cardinfo))
                   }
+                   else if(data_id==9)
+                  {
+                    var cardinfo = {
+                      x:x,
+                      y:y,
+                      type:"pilotpanel"
+                    }
+               props.dispatch(AddCardToDisplay(cardinfo))
+                  }
               break;
               }
               case "TITLE":
@@ -217,6 +227,10 @@ export default class DisplayPanel extends React.Component {
 
 
       // var steps = this.props.pilotinfo.steps;
+
+
+
+
       if(status == "INIT")
       {
         if(pilotinfo.display.length!=0)
@@ -278,6 +292,11 @@ export default class DisplayPanel extends React.Component {
           case "notification":
           {
             return <NotificationPanel   key ={one.cardid} cardid ={one.cardid}   />
+            break;
+          }
+          case "pilotpanel":
+          {
+            return <Pilotpanel   key ={one.cardid} cardid ={one.cardid}   />
             break;
           }
           }

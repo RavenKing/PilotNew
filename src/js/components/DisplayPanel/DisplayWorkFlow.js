@@ -178,6 +178,7 @@ const columns = [{
 }];
 
 const {Workflows} = this.props.pilot;
+console.log("workflows are",Workflows,this.props);
 
         return (
         <div className="detail-panel">  

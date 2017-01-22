@@ -289,7 +289,7 @@ case "FETCH_COURSES_ALL":{
           Workflows[i]['steps']=steps;
         }
       }
-      return {...state,Workflows:"Workflows",status:"INIT"}
+      return {...state,Workflows:Workflows,status:"INIT"}
     }
 
     case "ADD_NEW_WORK_FLOW":

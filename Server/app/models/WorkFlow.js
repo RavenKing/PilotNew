@@ -13,7 +13,7 @@ var Workflow = new Schema({
     conditions:[String],
     keys:[String],
     target_level:String,
-    previous_level:[String],
+    previous_level:String,
     owner:String,
     steps:[Schema.Types.Mixed],
     creationdate:{type:Date,default:Date.now}
