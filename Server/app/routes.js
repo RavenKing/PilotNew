@@ -253,8 +253,9 @@ var type = upload.single('avatar');
 
   app.put('/api/workflows',function(req,res)
     {
-        var query = req.body.target;
-        var updatepart = req.body.updatepart;
+        var query = req.body.data.target;
+        var updatepart = req.body.data.updatepart;
+        console.log(req.body);
         Workflow.findOneAndUpdate(query,updatepart,function(err,data)
             {
                if(err)

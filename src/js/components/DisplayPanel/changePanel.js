@@ -84,7 +84,14 @@ export default class ChangePanel extends React.Component {
   }
   SaveStepsSequence(e)
   {
-    this.props.dispatch(SaveStepsSequence());
+    console.log("this.props in changepanel",this.props);
+    var currentWorkflow = this.props.pilotinfo.activeworkflow; 
+    var Workflows = this.props.pilotinfo.Workflows;
+    var steps = this.state.steps;
+    // Workflows[currentWorkflow][steps]=steps;
+    
+    console.log("Now Workflows are",Workflows);
+    this.props.dispatch(SaveStepsSequence(currentWorkflow,steps));
   }
   
   CreateNewStep()
@@ -113,7 +120,7 @@ export default class ChangePanel extends React.Component {
           };
 
      var steps = this.state.steps;
-
+     console.log("steps are",steps);
      var workflowid = this.props.workflowid;
      return(
         <Row>  

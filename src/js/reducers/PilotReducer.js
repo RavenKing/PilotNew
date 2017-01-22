@@ -83,32 +83,7 @@ export default function Pilot (
    status:"INIT",
    activeworkflow:"",
    display:[],
-   Workflows:[{
-    workflow_id:"workflow1",
-    title:"转生流程1",
-    description:"F0->F1 转升流程",
-    previous_level:"F0",
-    target_level:"F1",
-    steps:[
-    {
-      sequence:1,
-
-      courses:[{course_id:"course1",sequence:1},{course_id:"course2",sequence:2}],
-      name:"固态模拟机学习"
-    },
-    {
-      sequence:2,
-      courses:[{course_id:"course1",sequence:1}],
-      name:"FFS"
-    },
-    {
-      sequence:3,
-      courses:[{course_id:"course2",sequence:1}],
-
-      name:"FTD第三课"
-    }
-    ]
-   }],
+   Workflows:[],
    Courses:[],
     Companys:[],
     Levels:{}
@@ -137,6 +112,13 @@ export default function Pilot (
     const newCompanys = state.Companys.filter((company)=>{if(company.company_id != targetdata.company_id) return company;  })
       return {...state,Companys:newCompanys}
     }
+
+    case "DELETE_WORKFLOW_FORM":{
+    const targetdata = action.payload;
+    const NewWorkflows = state.Workflows.filter((workflow)=>{if(workflow.workflow_id != targetdata) return workflow;  })
+      return {...state,Workflows:NewWorkflows}
+    }
+    
 
     case "Remove_Card":
     {
@@ -297,7 +279,17 @@ case "FETCH_COURSES_ALL":{
 
     case "SAVE_STEPS_SEQUENCE":
     {
-        return {...state,status:"INIT"}
+      var currentWorkflow = action.currentWorkflow;
+      var steps = action.steps;
+      var Workflows = state.Workflows;
+      for(let i = 0;i< Workflows.length;i++)
+      {
+        if(Workflows[i]['workflow_id'] == currentWorkflow)
+        {
+          Workflows[i]['steps']=steps;
+        }
+      }
+      return {...state,Workflows:"Workflows",status:"INIT"}
     }
 
     case "ADD_NEW_WORK_FLOW":
@@ -305,9 +297,16 @@ case "FETCH_COURSES_ALL":{
       var newworkflow = action.payload;
       var workflows = state.Workflows;
       workflows.push(newworkflow);
-      // return{...state,Workflows:newworkflows};
+      console.log("workflows are",workflows);
+      return{...state,Workflows:workflows};
 
     }
+    case "INITIAL_WORKFLOWS":
+    {
+      var initialWorkflows = action.payload;
+      return {...state,Workflows:initialWorkflows}
+    }
+
     case "DELETE_STEP_FROM_WORKFLOW":
     {
       var workflowid = action.payload;
@@ -353,6 +352,23 @@ case "FETCH_COURSES_ALL":{
             return {...state,Levels:action.payload.updatepart}
 
           }
+        case "CHANGE_WORKFLOW":
+        {
+          const targetdata = action.payload;
+     const newworkflows = state.Workflows.filter((workflow)=>{
+      if(workflow.workflow_id == targetdata.workflow_id)
+      {
+        workflow.title = targetdata.title;
+        workflow.workflow_id = targetdata.workflow_id;
+        workflow.conditions = targetdata.conditions;
+        workflow.previous_level = targetdata.previous_level;
+        workflow.target_level = targetdata.target_level;
+        workflow.description = targetdata.description;
+      }
+      return workflow;
+    })
+      return {...state,Companys:newCompanys}
+        }
 
     default:{
       return {...state,status:"INIT"}

@@ -47,6 +47,8 @@ axios.put("http://localhost:8083/api/pilots",{
 }
 
 
+
+
 //end of pilot information
 
 
@@ -132,7 +134,23 @@ export function EditCompany(data){
 }
 
 
+export function ChangeWorkFlow(data){
+  return dispatch=>{
+       axios.put("http://localhost:8083/api/workflows",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+             dispatch({type:"CHANGE_WORKFLOW",payload:data.updatepart})
+              })
 
+
+  }
+}
 
 
 //end of Companys
@@ -173,6 +191,24 @@ export function ChangeWorkflow()
   }
 }
 
+export function DeleteWorkflowForm(workflowid)
+{
+  return dispatch=>{
+    axios.delete("http://localhost:8083/api/workflows",{
+                      data:{workflow_id:workflowid},
+                      headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+    })
+    .then(function(){
+    dispatch({type:"DELETE_WORKFLOW_FORM",payload:workflowid})  
+
+    })
+
+
+  }
+}
 
 export function ChangeToModify(workflowid)
 {
@@ -291,19 +327,56 @@ export function DeleteCourseFromStep(workflowid,stepSequence,courseid)
   }
 }
 
-export function SaveStepsSequence()
+export function SaveStepsSequence(currentWorkflow,steps)
 {
-  return dispatch =>{
-    dispatch({type:"SAVE_STEPS_SEQUENCE"})
+  console.log("currentWorkflow,steps are",currentWorkflow,steps);
+  var data={
+    "target":{"workflow_id":currentWorkflow},
+    "updatepart":{"steps":steps}
   }
+   return dispatch=>{
+    axios.put("http://localhost:8083/api/workflows",{
+       data:data,
+       headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        }
+    })
+    .then(function (response,err) {
+      dispatch({type:"SAVE_STEPS_SEQUENCE",currentWorkflow:currentWorkflow,steps:steps})
+     })
+   }
 }
 
 export function AddNewWorkFlow(newWorkflow)
 {
-  return dispatch =>{
-    dispatch({type:"ADD_NEW_WORK_FLOW",payload:newWorkflow})
+  var config = {
+  headers:{"Access-Control-Allow-Origin":"*",}
   }
+   return dispatch=>{
+      axios.post("http://localhost:8083/api/workflows",newWorkflow,config).then(function (response,err) {
+      console.log(response)
+      if(response.status == 200)
+        dispatch({type:"ADD_NEW_WORK_FLOW",payload:newWorkflow})
+     }) 
+    }
 }
+
+export function InitialWorkflows()
+{
+  var config = {
+  headers:{"Access-Control-Allow-Origin":"*",}
+  }
+   return dispatch=>{
+      axios.get("http://localhost:8083/api/workflows"
+        ,config).then(function(response,err) {
+      console.log("Initial response is",response);
+      if(response.status == 200);
+         dispatch({type:"INITIAL_WORKFLOWS",payload:response.data})
+     }) 
+    }
+}
+
 export function DeleteStepFromWorkflow(workflowid,stepSequence)
 {
   return dispatch =>{

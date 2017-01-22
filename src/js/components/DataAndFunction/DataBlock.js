@@ -20,7 +20,7 @@ onDrop(e){
 }  
 
     render() { 
-    var DataItems;
+  var DataItems;
   var topfive = [
   {ID:"1",
     NAME:"个人信息",
@@ -90,6 +90,7 @@ if(pilot.status == "INIT")
 }
 else if(pilot.status == "MODIFY"){
   topfive1 = courses;
+  console.log("Hello every one let us see what is in courses",courses);
   if(topfive1.length>0)
   {
     DataItems = topfive1.map((item,i)=><DataItem className="course-item" title = {item.title} key = {i} uniquekey={item.ID} courseid = {item.course_id}/>);

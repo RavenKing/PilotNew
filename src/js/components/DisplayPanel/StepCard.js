@@ -24,19 +24,19 @@ export default class StepCard extends React.Component {
 
   componentWillMount(){
     var allCourses = this.props.allCourses;
-    console.log(this.props.courses)
+    // console.log(this.props.courses)
     var courses = this.props.courses;
     console.log("courses are ", courses);
     this.setState({course:courses});
-    // allCourses.map((lesson,i)=>{
-    // var newcourse = courses.map((course,j)=>{
-    //     if(course.course_id == lesson.course_id){
-    //       course.title = lesson.title;
-    //   }
-    //    return course;
-    // })
-    // this.setState({course:newcourse});   
-    // });
+    allCourses.map((lesson,i)=>{
+    var newcourse = courses.map((course,j)=>{
+        if(course.course_id == lesson.course_id){
+          course.title = lesson.title;
+      }
+       return course;
+    })
+    this.setState({course:newcourse});   
+    });
   }
 
 
@@ -51,9 +51,11 @@ export default class StepCard extends React.Component {
     element: ReactDOM.findDOMNode(this),
     accept: '.course-item',
     ondrop(event) {
+      console.log("event is",event);
       let draggableElement = event.relatedTarget;
       var courseid  = draggableElement.getAttribute('data-courseid');
       var courseTitle = draggableElement.getAttribute('title');
+      console.log("courseid and courseTitle are",courseid,courseTitle);
       var stepSequence = Number(event.target.id)+1;
       console.log("diao zha tian de feixingyuan",courseTitle,workflowid,stepSequence,courseid);
       props.dispatch(AddCourseToStep(courseTitle,workflowid,stepSequence,courseid));
@@ -63,7 +65,7 @@ export default class StepCard extends React.Component {
   }
 
   
-Ç
+
   componentWillReceiveProps()
   {
     var allCourses = this.props.allCourses;
@@ -95,6 +97,7 @@ export default class StepCard extends React.Component {
   }
 
   render(){
+      console.log("id is")
       return(
       <Card id={this.props.id} onDragStart ={this.props.onDragStart} 
                     draggable="true" onDragEnd={this.props.onDragEnd}
