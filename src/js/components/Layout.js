@@ -20,12 +20,11 @@ import DisplayPanel from "./DisplayPanel/DisplayPanel"
 
 
 //
-import {GET_PILOT_DATA,GetCompanyAll,GET_ALL_COURSES,GetLevels} from "../Actions/pilotAction";
+import {GET_PILOT_DATA,GetCompanyAll,GET_ALL_COURSES,GetLevels,GetWorkflows,InitialWorkflows,GetDocumnts} from "../Actions/pilotAction";
 
 
 @connect((store)=>{    
     return {
-        articles:store.pilot,
         auth:store.auth,
         Pilot:store.pilotinfo
     };
@@ -53,11 +52,14 @@ this.props.dispatch(fetchArticles(user))
 
   componentWillMount()
   {
+const {auth} = this.props;
 
 //set up the data admin
 this.props.dispatch(GetCompanyAll());
 this.props.dispatch(GET_ALL_COURSES());
 this.props.dispatch(GetLevels());
+this.props.dispatch(InitialWorkflows());
+this.props.dispatch(GetDocumnts("?cert_id=001"));
   /*
 const {auth} = this.props;
 

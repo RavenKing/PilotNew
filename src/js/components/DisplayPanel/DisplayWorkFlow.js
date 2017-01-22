@@ -18,7 +18,6 @@ import ChangeWorkflowForm from "./ChangeWorkflowForm"
 export default class DisplayWorkFlow extends React.Component { 
 
     componentWillMount(){
-      this.props.dispatch(InitialWorkflows())
     }
 
 

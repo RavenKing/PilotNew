@@ -25,7 +25,7 @@ var type = upload.single('avatar');
         });
 
          app.post('/api/documents', function(req, res) {
-        var newOne = new Document(req.body);
+        var newOne = new Document(req.body.data);
         newOne.save(function(err){
                 if(err)
                 {  

@@ -17,7 +17,7 @@ import ChangePanel from "./changePanel"
 import Courselist from "./Courselist";
 import Coursedetail from "./Coursedetail";
 import PersonalInfo from "./PersonalInfo";
-import DisplayPromotion from "./Jinsheng";
+import DisplayPromotion from "./DocumentPanel/DocumentPanel";
 import Stepdetail from "./Stepdetail";
 import CompanyOverview from "./CompanyOverview";
 import NotificationPanel from "./NotificationPanel";
