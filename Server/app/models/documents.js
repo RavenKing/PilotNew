@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 
 var Document = new Schema({
-    userId: String,
+    cert_id: String,
     workflow_id:String,
     start_date:Date,
     end_date:Date,

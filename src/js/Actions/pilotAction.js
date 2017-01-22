@@ -431,6 +431,81 @@ axios.put("http://localhost:8083/api/levels",{
    }
 
  }
-
-
 //end of levels action 
+
+
+//workflow action kevin
+
+
+export function GetWorkflows(data)
+{
+
+    axios.get("http://localhost:8083/api/workflows",{
+       headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        }
+    })
+    .then(function (response,err) {
+      var data = response.data;   
+      return data; 
+     })
+
+}
+
+
+
+
+//end of workflow
+
+//Documents
+
+export function GetDocumnts(cert_id)
+{
+  if(cert_id==null)
+  {
+    cert_id = "?";
+  }
+ return dispatch=>{
+axios.get("http://localhost:8083/api/documents"+cert_id,{
+       headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        }
+    })
+    .then(function (response,err) {
+          console.log(response.data)
+          dispatch({type:"GET_USER_DOCUMENTS",payload:response.data})
+       })
+   }
+
+
+
+}
+
+
+export function CreateDocument(data)
+{
+
+      return dispatch=>{
+              axios.post("http://localhost:8083/api/documents",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+                dispatch({type:"CREATE_DOCUMENT",payload:data})
+
+              })
+
+}
+
+
+
+}
+
+
+//end of documents
