@@ -21,7 +21,7 @@ import DisplayPromotion from "./DocumentPanel/DocumentPanel";
 import Stepdetail from "./Stepdetail";
 import CompanyOverview from "./CompanyOverview";
 import NotificationPanel from "./NotificationPanel";
-import Pilotpanel from "./Pilotpanel"
+//import Pilotpanel from "./Pilotpanel"
 import QueryPanel from "./Query/QueryPanel";
 
 
@@ -296,7 +296,7 @@ export default class DisplayPanel extends React.Component {
           }
           case "pilotpanel":
           {
-            return <Pilotpanel   key ={one.cardid} cardid ={one.cardid}   />
+          //  return <Pilotpanel   key ={one.cardid} cardid ={one.cardid}   />
             break;
           }
           }
