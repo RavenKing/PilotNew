@@ -264,7 +264,7 @@ export default class DisplayPanel extends React.Component {
           }
           case "fillpersonalinfo":
           {
-            return <FillInfoPanel key={one.cardid} cardid={one.cardid} />
+            return <FillInfoPanel key={one.cardid} cardid={one.cardid} person = {one.person?one.person:null}/>
             break;
           }
           case "leveloverview":{

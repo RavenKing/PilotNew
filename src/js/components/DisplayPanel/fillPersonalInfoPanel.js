@@ -22,15 +22,36 @@ export default class PersonnalPanel extends React.Component {
   constructor(props)
   {
       super(props)
-      this.state={disabled:true}
+      let persondata = {};
+      let own = true;
+      if(this.props.person)
+      {
+            persondata = this.props.person
+      }
+      else{
 
+      const {pilotinfo} = this.props;
+      const {Pilot} = pilotinfo;
+        persondata = Pilot;
+        own=false;
+      }
+      this.state={
+        persondata:persondata,
+        disabled:true}
   }
 
 
   update_pilot_data(data)
   {
-    const {user}=this.props.auth;
-
+    let user ={}
+    if(this.state.own==true)
+    {
+    user = this.props.auth.user;
+    }
+    else
+    {
+      user = this.state.persondata;
+    }
     this.props.dispatch(UPDATE_PILOT_DATA(user.cert_id,data));
 
   }
@@ -51,16 +72,14 @@ export default class PersonnalPanel extends React.Component {
 
 
     render() {
-      const { pilotinfo} = this.props;
-      const {Pilot} = pilotinfo;
-      const {flightinfo} = Pilot;
-      const {Companys}= pilotinfo;
-      const {Levels} = pilotinfo;
+
+      const {Companys}= this.props.pilotinfo;
+      const {Levels} = this.props.pilotinfo;
         return (
 				<div class="detail-panel">
 
         <Card title="个人资料"  extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)}/>}>
- <PersonalForm personaldata={pilotinfo.Pilot} 
+ <PersonalForm personaldata={this.state.persondata} 
       companys={Companys}
       levels={Levels}
       disabled={false}
