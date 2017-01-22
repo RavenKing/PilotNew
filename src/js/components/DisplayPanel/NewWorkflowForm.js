@@ -54,9 +54,11 @@ class CollectionCreateForm1 extends React.Component{
 
     render(){
     // console.log("this.props",this.props);
-    const { visible, onCancel, onCreate, form ,workflowid} = this.props;
+    const { visible, onCancel, onCreate, form ,initdata} = this.props;
     const { getFieldDecorator, getFieldValue } = form;
-    const { initdata } =this.props;
+
+    console.log("what is in initdata",initdata);
+
 
     const formItemLayout = {
       labelCol: { span: 4 },
@@ -65,8 +67,64 @@ class CollectionCreateForm1 extends React.Component{
     const formItemLayoutWithOutLabel = {
       wrapperCol: { span: 20, offset: 4 },
     };
+
+
+   var existingConditions;
+   // console.log("let us see ",this.props.initdata);
+   if(this.props.initdata)
+   {
+      getFieldDecorator('keys', { initialValue: [] });
+      const keys = getFieldValue('keys');
+      console.log("what is in keys");
+      existingConditions = this.props.initdata.conditions.map((k, index) => {
+      return (
+        <FormItem
+          {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+          label={index === 0 ? '    ' : ''}
+          required={false}
+          key={'existin'+index}
+        >
+          {getFieldDecorator(`condition${index}`, {
+            initialValue:k,
+            validateTrigger: ['onChange', 'onBlur'],
+            rules: [{
+              required: true,
+              whitespace: true,
+              message: "Please input passenger's name or delete this field.",
+            }],
+          })(
+            <Input placeholder="请输入条件
+            " style={{ width: '60%', marginRight: 8 }} />
+          )}
+          <Icon
+            className="dynamic-delete-button"
+            type="minus-circle-o"
+            onClick={() => this.remove(k)}
+          />
+        </FormItem>
+      );
+    })}
+
+
+
+
+
+
     getFieldDecorator('keys', { initialValue: [] });
     const keys = getFieldValue('keys');
+    var index;
+    if(this.props.initdata)
+    {
+      if(this.props.initdata.conditions)
+        index = this.props.initdata.conditions.length;
+    }
+    else{
+      index = 0;
+    }
+
+
+
+
     const formItems = keys.map((k, index) => {
       return (
         <FormItem
@@ -108,7 +166,7 @@ class CollectionCreateForm1 extends React.Component{
           <FormItem label="流程编号">
             {getFieldDecorator('workflow_id', {
               rules: [{ required: true, message: '流程编号' }],
-              initialValue: workflowid
+              initialValue: initdata?initdata.workflow_id:""
             })(
               <Input />
             )}
@@ -130,7 +188,8 @@ class CollectionCreateForm1 extends React.Component{
           </FormItem>
            <FormItem label="当前等级">
             {getFieldDecorator('previous_level', {
-              rules: [{ required: true, message: '请输入当前等级' }]
+              rules: [{ required: true, message: '请输入当前等级' }],
+              initialValue:initdata?initdata.previous_level:""
             })(
                 <Select style={{width:200}}>
                 <Option value="F0">F0</Option>
@@ -139,7 +198,8 @@ class CollectionCreateForm1 extends React.Component{
             )}
           </FormItem> <FormItem label="目标等级">
             {getFieldDecorator('target_level', {
-              rules: [{ required: true, message: '请输入课程标题' }]
+              rules: [{ required: true, message: '请输入课程标题' }],
+              initialValue:initdata?initdata.target_level:""
             })(
                 <Select style={{width:200}}>
                 <Option value="F1">F1</Option>
@@ -147,6 +207,7 @@ class CollectionCreateForm1 extends React.Component{
               </Select>
             )}
           </FormItem>
+          {existingConditions}
           {formItems}
           <FormItem {...formItemLayoutWithOutLabel}>
           <Button type="dashed" onClick={this.add.bind(this)} style={{ width: '60%' }}>

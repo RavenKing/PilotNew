@@ -297,8 +297,8 @@ case "FETCH_COURSES_ALL":{
       var newworkflow = action.payload;
       var workflows = state.Workflows;
       workflows.push(newworkflow);
-
-      // return{...state,Workflows:newworkflows};
+      console.log("workflows are",workflows);
+      return{...state,Workflows:workflows};
 
     }
     case "INITIAL_WORKFLOWS":
@@ -352,6 +352,23 @@ case "FETCH_COURSES_ALL":{
             return {...state,Levels:action.payload.updatepart}
 
           }
+        case "CHANGE_WORKFLOW":
+        {
+          const targetdata = action.payload;
+     const newworkflows = state.Workflows.filter((workflow)=>{
+      if(workflow.workflow_id == targetdata.workflow_id)
+      {
+        workflow.title = targetdata.title;
+        workflow.workflow_id = targetdata.workflow_id;
+        workflow.conditions = targetdata.conditions;
+        workflow.previous_level = targetdata.previous_level;
+        workflow.target_level = targetdata.target_level;
+        workflow.description = targetdata.description;
+      }
+      return workflow;
+    })
+      return {...state,Companys:newCompanys}
+        }
 
     default:{
       return {...state,status:"INIT"}

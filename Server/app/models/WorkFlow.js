@@ -11,6 +11,7 @@ var Workflow = new Schema({
     description:String,
     //用来描述满足什么样的条件才能申请
     conditions:[String],
+    keys:[String],
     target_level:String,
     previous_level:[String],
     owner:String,

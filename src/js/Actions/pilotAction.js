@@ -47,6 +47,8 @@ axios.put("http://localhost:8083/api/pilots",{
 }
 
 
+
+
 //end of pilot information
 
 
@@ -132,7 +134,23 @@ export function EditCompany(data){
 }
 
 
+export function ChangeWorkFlow(data){
+  return dispatch=>{
+       axios.put("http://localhost:8083/api/workflows",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+             dispatch({type:"CHANGE_WORKFLOW",payload:data.updatepart})
+              })
 
+
+  }
+}
 
 
 //end of Companys

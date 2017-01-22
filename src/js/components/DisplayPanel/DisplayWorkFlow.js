@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
-import {RemoveCard,AddCardToDisplay,AddNewWorkFlow,InitialWorkflows,DeleteWorkflowForm} from "../../Actions/pilotAction"
+import {RemoveCard,AddCardToDisplay,AddNewWorkFlow,InitialWorkflows,DeleteWorkflowForm,ChangeWorkFlow} from "../../Actions/pilotAction"
 import {Table,Card,Icon,Button,Form,Modal} from "antd";
 import NewWorkflowForm from "./NewWorkflowForm";
 import ChangeWorkflowForm from "./ChangeWorkflowForm"
@@ -27,9 +27,10 @@ export default class DisplayWorkFlow extends React.Component {
       super(props);
       this.state={
         visible:false,
-        visible1:false,
         changeWorkflowId:"",
-        workflow:{}
+        workflow:{},
+        editdata:null,
+        conditions:[]
       }
     }
 
@@ -55,6 +56,16 @@ export default class DisplayWorkFlow extends React.Component {
 
     }
 
+  EditRow(e)
+  {
+    let data = JSON.parse(e.target.rel);
+
+    this.setState({
+      visible:true,
+      editdata:data
+    })
+  }
+
   RemoveCard()
   {
     console.log(this.props.cardid)
@@ -67,21 +78,7 @@ export default class DisplayWorkFlow extends React.Component {
   newWorkflow(){
     this.setState({visible:true});
   }
-  ChangeWorkflowForm(e){
-    this.setState({changeWorkflowId:e.target.rel});
-    var workflows = this.props.pilot.Workflows;
-    console.log("this.props in changeWorkflow is ",workflows);
-    workflows.map((workflow,i)=>{
-      if(workflow.workflow_id == e.target.rel)
-      {
-        this.setState({workflow:workflow})
-      }
-
-    })
-    this.setState({visible1:true});
-  }
-
-
+  
 
   saveFormRef(form){this.form = form;}
 
@@ -92,18 +89,16 @@ export default class DisplayWorkFlow extends React.Component {
   onCancel(){
     this.setState({visible:false});
   }
-  CancelChangeWorkflowForm(){
-    this.setState({visible1:false})
-  }
 
   onCreate(){
   const form = this.form;
-  console.log("Let us see whta is in form",form);
-
   form.validateFields((err, values) => {
+      console.log("values are",values);
       if (err) {
         return;
       }
+      if(this.state.editdata == null)
+      {
       var steps = [];
       var length = values.keys.length;
       var conditions = [];
@@ -115,12 +110,38 @@ export default class DisplayWorkFlow extends React.Component {
       }
       values['conditions']=conditions;
       let newWorkflow = values;
-      delete newWorkflow['keys'];
-      console.log("workflows are",values);
+      // delete newWorkflow['keys'];
+      // console.log("workflows are",values);
       newWorkflow = {...newWorkflow,steps:steps};
-      console.log("what is in newWorkflow",newWorkflow);
+      // console.log("what is in newWorkflow",newWorkflow);
 
       this.props.dispatch(AddNewWorkFlow(newWorkflow)); 
+      } 
+      else
+      {
+      var steps = [];
+      var length = values.keys.length;
+      var conditions = [];
+      for(let i = 0;i<length;i++)
+      { 
+        var temp = "condition"+(i+1);
+        conditions[i] = values[temp];
+        delete values[temp];
+      }
+      values['conditions']=conditions;
+      let newWorkflow = values;
+      // delete newWorkflow['keys'];
+      // console.log("workflows are",values);
+      newWorkflow = {...newWorkflow,steps:steps};
+        let updatadata = {
+          target:{"workflow_id":values.workflow_id},
+          updatepart:newWorkflow
+        };
+        this.props.dispatch(ChangeWorkFlow(updatadata));
+      }   
+
+
+
     })
     form.resetFields();
     this.setState({ 
@@ -149,16 +170,14 @@ const columns = [{
   key: 'action',
   render: (text, record) => (
     <span>
-      <a href="#" onClick={this.ChangeWorkflowForm.bind(this)} rel={record.workflow_id}>编辑  </a>
-      <a href="#" onClick={this.DeleteWorkflowForm.bind(this)} rel={record.workflow_id}>  删除</a>
+      <a href="#" onClick={this.EditRow.bind(this)} rel={JSON.stringify(record)}>修改|</a>
+      <a href="#" onClick={this.DeleteWorkflowForm.bind(this)} rel={record.workflow_id}> 删除</a>
       <span className="ant-divider" />
     </span>
   ),
 }];
 
 const {Workflows} = this.props.pilot;
-var temp = Number(Workflows.length)+1;
-const newWorkflowId = "workflow"+ temp;
 
         return (
         <div className="detail-panel">  
@@ -169,20 +188,11 @@ const newWorkflowId = "workflow"+ temp;
           </Card>
           <NewWorkflowForm 
           visible={ this.state.visible} 
+          initdata={this.state.editdata}
           onCancel={ this.onCancel.bind(this)} 
-          workflowid={newWorkflowId} 
           onCreate={this.onCreate.bind(this)}
           ref={this.saveFormRef.bind(this)}
-          />
-          <ChangeWorkflowForm
-          visible={ this.state.visible1 } 
-          onCancel={ this.CancelChangeWorkflowForm.bind(this)} 
-          workflowid={this.state.changeWorkflowId} 
-          workflow={this.state.workflow}
-          onCreate={this.onCreate.bind(this)}
-          ref={this.saveFormRef.bind(this)}
-          />
-
+          />   
         </div>
       );
   }
