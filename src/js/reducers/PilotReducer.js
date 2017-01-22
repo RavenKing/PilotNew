@@ -1,9 +1,10 @@
 export default function Pilot (
   state = {
    Pilot:null,
+
    Documents:[],
-   role:"ADM",
-   status:"INIT",
+   role:"",
+   status:"",
    activeworkflow:"",
    display:[],
    Workflows:[],

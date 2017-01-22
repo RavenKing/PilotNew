@@ -30,6 +30,7 @@ return dispatch=>{
         cert_id:cert_id,
         password:password
     },config).then(function(response){
+
       if(response.status == 200){
         console.log("response is ",response)
         if(response.data == "未找到该用户")
@@ -52,7 +53,7 @@ return dispatch=>{
           user:{
               USERNAME:response.data.name,
               cert_id:response.data.cert_id,
-              ROLE:"BSC"
+              ROLE:response.data.role
              },
              hint:"logged"
         }
@@ -103,7 +104,8 @@ export function personalInfoRegister(data){
     axios.post("http://localhost:8083/api/pilots",{
         cert_id:cert_id,
         name:name,
-        password:password
+        password:password,
+        role:'Pilot'
     },config).then(function(response){
       if(response.status == 200){
         const modal = Modal.success({
