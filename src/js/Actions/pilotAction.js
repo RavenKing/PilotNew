@@ -329,7 +329,7 @@ export function DeleteCourseFromStep(workflowid,stepSequence,courseid)
 
 export function SaveStepsSequence(currentWorkflow,steps)
 {
-  console.log("currentWorkflow,steps are",currentWorkflow,steps);
+  // console.log("currentWorkflow,steps are",currentWorkflow,steps);
   var data={
     "target":{"workflow_id":currentWorkflow},
     "updatepart":{"steps":steps}

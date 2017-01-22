@@ -57,6 +57,10 @@ onDrop(e){
   {
       ID:"8",
       NAME:"报表系统"
+  },
+  {
+     ID:"9",
+      NAME:"飞行统计"
   }
   ];
 
@@ -151,11 +155,11 @@ if(role == "ADM")
        }
       }
 }
-
+// console.log("欢迎登录",this.props.pilot.Pilot.name);
 return(
   <div className="data-block" data-type="TITLE"> 
     <div className="data-title" >
-      <span> 欢迎曹斌登录国航 </span>
+      <span> 欢迎登录<br/>国航晋升系统 </span>
     </div>
       { DataItems }
   </div>

@@ -50,7 +50,7 @@ export default class WorkFlowDetail extends React.Component {
 		}
 		this.props.dispatch(RemoveCard(data))
 	}
-
+  
     
     render() {
         var workflowid = this.props.workflowid;
@@ -63,13 +63,19 @@ export default class WorkFlowDetail extends React.Component {
           }
         })
         var steps = targetdata[0].steps;
+        var title = targetdata[0].title;
+        console.log("targetdata is ",targetdata[0])
+        // console.log(" let us see what is in steps",setps);
         return (
         <div  class="workFlowDetailPanel">  
-          <Card  title="F0->F1" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
+          <Card  title={title} extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
           <Timeline>
            {
             steps.map((one,i)=>{
-            return <Timeline.Item key={i}>{ one.name }</Timeline.Item>
+            return <Timeline.Item key={i}>
+            { one.name }
+            {one.courses.map((course,j)=><p key = {j}>{course.title}</p>)}
+            </Timeline.Item>
             })
            }
 				  </Timeline>
