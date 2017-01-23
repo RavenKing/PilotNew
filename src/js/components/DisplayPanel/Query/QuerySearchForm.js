@@ -44,7 +44,7 @@ class AdvancedSearchForm extends React.Component {
 
     // To generate mock Form.Item
     const children = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
       children.push(
       	<div>
         <Col span={12} key={"key"+i}>

@@ -92,7 +92,7 @@ export default class QueryPanel extends React.Component {
     e.preventDefault();
   form.validateFields((err, values) => {
     let querystring = "?"
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 5; i++) {
 
         var selectKey= `field-${i}`;
         let selectValue = `value-${i}`;

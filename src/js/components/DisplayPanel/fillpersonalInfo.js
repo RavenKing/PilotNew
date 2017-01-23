@@ -59,9 +59,10 @@ if(this.state.ekeys)
       for(var i=0;i<this.state.ekeys;i++)
       {
 
-      var flightname = "eflight-"+i;
-      var flight_type = "eflight_type-"+i;
-      var schooltime = "eschooltime-"+i;
+`field-${i}`
+      var flightname = `eflight-${i}`;
+      var flight_type = `eflight_type-${i}`;
+      var schooltime = `eschooltime-${i}`;
         var flight={
             planeType:values[flightname],
             schoolType:values[flight_type],
@@ -75,18 +76,22 @@ if(this.state.ekeys)
 //format flights 
     for(var i =0;i<values.keys.length;i++)
     {     
-      var flightname = "flight-"+(i+1);
-      var flight_type = "flight_type-"+(i+1);
-      var schooltime = "schooltime-"+(i+1);
+      var flightname = `flight-${i}`;
+      var flight_type = `flight_type-${i}`;
+      var schooltime = `schooltime-${i}`;
+      if(values[flightname]||values[flight_type]||values[schooltime])
+      {
 
-      var flight={
+      }
+      else{var flight={
             planeType:values[flightname],
             schoolType:values[flight_type],
             train_time:values[schooltime]
         };
-        flightdata.push(flight);
+        flightdata.push(flight);}
     }
     console.log(flightdata)
+    console.log(values);
     values.trained_flights = flightdata;
     values.health_check = health_check;
     values.level={"current_level":values.current_level};
@@ -177,8 +182,8 @@ componentWillMount() {
 
 //layout of the form
     const formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 },
+      labelCol: { span: 10 },
+      wrapperCol: { span: 10 },
     };
     const formItemLayoutWithOutLabel = {
       wrapperCol: { span: 20, offset: 1},
@@ -198,7 +203,7 @@ var existingflights;
         {
       return (
                       <Row>
-                      <Col span={8}>
+                      <Col span={6}>
                               <FormItem
                                 {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
                                 label={index === 0 ? '已存机型及时间' : ''}
@@ -214,7 +219,7 @@ var existingflights;
                                     message: "机型",
                                   }],
                                 })(
-                                  <Input placeholder="机型" style={{ width: '60%', marginRight: 8 }} />
+                                  <Input placeholder="机型" style={{ width: '80%'}} />
                                 )}
                                 <Icon
                                   className="dynamic-delete-button"
@@ -223,7 +228,7 @@ var existingflights;
                                 />
                               </FormItem>
                       </Col>
-                      <Col span={8}>  
+                      <Col span={10}>  
                             <FormItem
                                 {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
                                 label={index === 0 ? '飞行时间' : ''}
@@ -235,7 +240,7 @@ var existingflights;
 
 
                                 })(
-                                  <RangePicker showTime format="YYYY-MM-DD" />
+                                  <RangePicker showTime format="YYYY-MM-DD" style={{width:'200px'}}/>
                                 )}
 
                             </FormItem>
@@ -290,7 +295,7 @@ var existingflights;
       return (
 <Row>
 
-<Col span={8}>
+<Col span={6}>
         <FormItem
           {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
           label={index === 0 ? '机型及时间' : ''}
@@ -305,7 +310,7 @@ var existingflights;
               message: "机型",
             }],
           })(
-            <Input placeholder="机型" style={{ width: '60%', marginRight: 8 }} />
+            <Input placeholder="机型" style={{ width: '80%'}} />
           )}
           <Icon
             className="dynamic-delete-button"
@@ -315,7 +320,7 @@ var existingflights;
           />
         </FormItem>
 </Col>
-<Col span={8}>  
+<Col span={10}>  
       <FormItem
           {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
           label={index === 0 ? '飞行时间' : ''}
@@ -323,7 +328,7 @@ var existingflights;
           key={k}
         >
           {getFieldDecorator(`schooltime-${k}`)(
-            <RangePicker showTime format="YYYY-MM-DD" />
+            <RangePicker showTime format="YYYY-MM-DD" style={{width:'200px'}}/>
           )}
 
       </FormItem>
@@ -376,23 +381,13 @@ var existingflights;
 
     return (
       <Form onSubmit={this.handleSubmit} className="Personal-Form" horizontal>
-      <FormItem label="userid">
-          {getFieldDecorator('userid', {
-            initialValue:personaldata.userid
-          })(
-            <Input addonBefore={<Icon type="user" />} placeholder="userid" disabled={true} className="inputwidth300"/>
-          )}
-        </FormItem>
-
-
-          
 <Row>
       <Col span={12}>
           <FormItem label="名字">
           {getFieldDecorator('name', {
             initialValue:personaldata.name
           })(
-            <Input addonBefore={<Icon type="user" />} placeholder="name" disabled={editdisabled} className="inputwidth300"/>
+            <Input addonBefore={<Icon type="user" />} placeholder="name" disabled={editdisabled}     style={{ width: 200 }}/>
           )}
         </FormItem>
   </Col>
@@ -401,7 +396,7 @@ var existingflights;
           {getFieldDecorator('cert_id', {
             initialValue:personaldata.cert_id
           })(
-            <Input addonBefore={<Icon type="user" />} placeholder="身份证" disabled={editdisabled} className="inputwidth300"/>
+            <Input addonBefore={<Icon type="user" />} placeholder="身份证" disabled={editdisabled}     style={{ width: 200 }}/>
           )}
         </FormItem>
     
@@ -412,34 +407,17 @@ var existingflights;
 <Row>
     
 <Col span={12}>
-        <FormItem label="用户名" formItemLayout>
-          {getFieldDecorator('username', {
-            initialValue:personaldata.username
-          })(
-            <Input addonBefore={<Icon type="user" />} placeholder="Username" disabled/>
-          )}
-        </FormItem>
         </Col>
           <Col span={12}>
   <FormItem label="注册时间">
           {getFieldDecorator('create_time', {
             initialValue:personaldata.create_time
           })(
-            <Input addonBefore={<Icon type="user" />} placeholder="create_time" disabled/>
+            <Input addonBefore={<Icon type="user" />} placeholder="create_time" disabled     style={{ width: 200 }}/>
           )}
         </FormItem>
   </Col>
 </Row>
-
-        <FormItem label="密码">
-          {getFieldDecorator('password', {
-            initialValue:personaldata.password
-                      })(
-            <Input addonBefore={<Icon type="lock" />} type="password" placeholder="Password" disabled/>
-          )}
-        </FormItem>
-
-
         <Row>
         <Col span={12}>
         <FormItem label="所在公司">
@@ -509,7 +487,7 @@ var existingflights;
         >
         {getFieldDecorator('basemonth', {
           initialValue:personaldata.basemonth,
-      rules: [{ type: 'object', required: true, message: 'Please select time!' }],
+      rules: [{ type: 'number', required: true, message: '请填数字!' }],
     })(
                    <InputNumber />
           )}
@@ -524,7 +502,7 @@ var existingflights;
         >
         {getFieldDecorator('current_level', {
           initialValue:personaldata.level?personaldata.level.current_level:"F0",
-      rules: [{ type: 'object', required: true, message: 'Please select time!' }],
+      rules: [{ type: 'string', required: true, message: '请选择飞行等级!' }],
     })(
   <Select
     style={{ width: 200 }}
