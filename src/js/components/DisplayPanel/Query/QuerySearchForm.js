@@ -68,7 +68,7 @@ class AdvancedSearchForm extends React.Component {
     }
 
     const expand = this.state.expand;
-    const shownCount = expand ? children.length : 6;
+    const shownCount = expand ? children.length : 2;
     return (
       <Form
         className="ant-advanced-search-form"
@@ -79,12 +79,12 @@ class AdvancedSearchForm extends React.Component {
         </Row>
         <Row>
           <Col span={24} style={{ textAlign: 'right' }}>
-            <Button type="primary" htmlType="submit">Search</Button>
+            <Button type="primary" htmlType="submit">搜索</Button>
             <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
-              Clear
+              清空
             </Button>
             <a style={{ marginLeft: 8, fontSize: 12 }} onClick={this.toggle}>
-              Collapse <Icon type={expand ? 'up' : 'down'} />
+              更多条件 <Icon type={expand ? 'up' : 'down'} />
             </a>
           </Col>
         </Row>

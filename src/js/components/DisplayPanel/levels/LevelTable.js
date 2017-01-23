@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Input, Popconfirm,Button,InputNumber } from 'antd';
+import { Table, Input, Popconfirm,Button,InputNumber,Modal } from 'antd';
 import  EditableCell from "./LevelInput";
 import LevelForm from "./LevelForm"
 import ReactDOM from "react-dom";
@@ -134,8 +134,6 @@ saveFormRef(form){this.form = form;}
   	}
   });
 
-
-
   	const {Pilot}=this.props.pilot;
 
     let cert_id = Pilot?Pilot.cert_id:"310228199012202218";
@@ -153,9 +151,8 @@ saveFormRef(form){this.form = form;}
     }
 
   this.props.dispatch(upsertLevel(constructdata))
-
-
-
+Modal.success({title:"等级保存完毕",content:(<div>等级保存完毕</div>)});
+this.props.removeCard();
   }
 
   renderColumns(data, index, key, text) {

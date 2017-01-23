@@ -92,7 +92,8 @@ export default class LevelCard extends React.Component {
 
         <div className="detail-panel">  
           <Card title="等级管理" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
-          <LevelTable />
+          <LevelTable 
+          removeCard = {this.RemoveCard.bind(this)}/>
           </Card>
         </div>
      	);

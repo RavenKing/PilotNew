@@ -23,18 +23,20 @@ export default function Pilot (
     displayarray.push(payload)
     return {...state,display:displayarray}
      }
+     //pilot 
     case "FETCH_PILOT_INFO":{
+      return {...state,Pilot:action.payload}
+    }
+
+
+    case "UPDATE_PILOT_DATA":{
       return {...state,Pilot:action.payload}
     }
     case "CHANGE_TO_MODIFY":{
       return {...state,status:"MODIFY",activeworkflow:action.payload}
     }
 
-    case "DELETE_COMPANY":{
-    const targetdata = action.payload;
-    const newCompanys = state.Companys.filter((company)=>{if(company.company_id != targetdata.company_id) return company;  })
-      return {...state,Companys:newCompanys}
-    }
+   
 
     case "DELETE_WORKFLOW_FORM":{
     const targetdata = action.payload;
@@ -79,6 +81,11 @@ export default function Pilot (
     })
       return {...state,Companys:newCompanys}
   }
+   case "DELETE_COMPANY":{
+    const targetdata = action.payload;
+    const newCompanys = state.Companys.filter((company)=>{if(company.company_id != targetdata.company_id) return company;  })
+      return {...state,Companys:newCompanys}
+    }
 //couses reducer
 case "FETCH_COURSES_ALL":{
         

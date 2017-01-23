@@ -127,7 +127,7 @@ saveFormRef(form){
 
       return (
         <div className="detail-panel">  
-        <Card title="课程列表" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
+        <Card title="报表系统" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
           <QuerySearchForm
                ref={this.saveFormRef.bind(this)}
                handleSearch={this.handleSearch.bind(this)}

@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import { Form, Icon, Input, Button, Checkbox,Select,DatePicker,Row,Col,InputNumber } from 'antd';
-import {UPDATE_PILOT_DATA} from "../../Actions/pilotAction.js";
 const FormItem = Form.Item;
 const Option = Select.Option;
 const OptGroup = Select.OptGroup;
@@ -79,7 +78,7 @@ if(this.state.ekeys)
       var flightname = `flight-${i}`;
       var flight_type = `flight_type-${i}`;
       var schooltime = `schooltime-${i}`;
-      if(values[flightname]||values[flight_type]||values[schooltime])
+      if(!values[flightname]||!values[flight_type]||!values[schooltime])
       {
 
       }
@@ -90,14 +89,11 @@ if(this.state.ekeys)
         };
         flightdata.push(flight);}
     }
-    console.log(flightdata)
-    console.log(values);
     values.trained_flights = flightdata;
     values.health_check = health_check;
     values.level={"current_level":values.current_level};
 // end of format
       values.company=this.state.newcompanyname;
-      console.log(values)
         this.props.update_data(values);
 
         if (err) {
