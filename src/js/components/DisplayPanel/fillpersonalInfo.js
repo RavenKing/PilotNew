@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { Form, Icon, Input, Button, Checkbox,Select,DatePicker,Row,Col,InputNumber } from 'antd';
+import { Form, Icon, Input, Button, Checkbox,Select,DatePicker,Row,Col,InputNumber,Progress  } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const OptGroup = Select.OptGroup;
@@ -376,7 +376,41 @@ var existingflights;
 
 
     return (
+
+    <div>
+
+
+    
+<h2>满足下一级的升级要求</h2>
+<Progress percent={70} />
       <Form onSubmit={this.handleSubmit} className="Personal-Form" horizontal>
+
+<Row>
+      <Col span={12}>
+          <FormItem label="航段">
+          {getFieldDecorator('flightinfo.flightRoute', {
+            initialValue:personaldata.flightinfo.flightRoute
+          })(
+            <Input addonBefore={<Icon type="swap-right" />} placeholder="航段" disabled     style={{ width: 200 }}/>
+          )}
+        </FormItem>
+  </Col>
+  <Col span={12}>
+       <FormItem label="飞行时间">
+          {getFieldDecorator('flightinfo.flightTime', {
+            initialValue:personaldata.flightinfo.flightTime
+          })(
+            <Input addonBefore={<Icon type="swap-right" />} placeholder="飞行时间" disabled     style={{ width: 200 }}/>
+          )}
+        </FormItem>
+    
+
+  </Col>
+
+</Row> 
+
+
+
 <Row>
       <Col span={12}>
           <FormItem label="名字">
@@ -510,10 +544,6 @@ var existingflights;
         </FormItem>
 </Col>
 </Row>
-
-
-
-
       {existingflights}
 
         {formItems}
@@ -521,13 +551,44 @@ var existingflights;
         <FormItem {...formItemLayoutWithOutLabel}>
           <Button type="dashed" onClick={this.add} style={{ width: '40%' }}>
             <Icon type="plus" /> 添加机型
-          </Button>
+          </Button>        
+        </FormItem>
 
+<Row>
+      <Col span={12}>
+          <FormItem label="下文名称">
+          {getFieldDecorator('xiawen_name', {
+            //initialValue:personaldata.name
+          })(
+            <Input addonBefore={<Icon type="book" />} placeholder="下文名称"      style={{ width: 200 }}/>
+          )}
+        </FormItem>
+  </Col>
+  <Col span={12}>
+       <FormItem label="下文时间">
+          {getFieldDecorator('xiawen_date', {
+            //initialValue:personaldata.cert_id
+          })(
+             <DatePicker format = 'YYYY-MM-DD' style={{ width: 200 }} />
+          )}
+        </FormItem>
+    
+
+  </Col>
+
+</Row>        
+
+
+<Row>
+   <Col span={24}> 
         <FormItem>
           <Button type="primary" htmlType="submit" size="large">提交</Button>
         </FormItem>
-        </FormItem>
+        </Col>
+</Row>
+
               </Form>
+              </div>
     );
   },
 }));

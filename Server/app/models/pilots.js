@@ -25,7 +25,9 @@ var Pilot = new Schema({
     company:String,
     schools:[Schema.Types.Mixed],
     trained_flights:[Schema.Types.Mixed], 
-    create_time:{type:Date,default:Date.now}
+    create_time:{type:Date,default:Date.now},
+    xiawen_name:String,
+    xiawen_date:Date
 });
 module.exports = mongoose.model('Pilot', Pilot,'Pilots');
 /*
