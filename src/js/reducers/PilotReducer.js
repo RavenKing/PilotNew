@@ -22,7 +22,15 @@ export default function Pilot (
     payload.cardid = (new Date().getTime()+ Math.floor(Math.random() * 999999)).toString(31);
     displayarray.push(payload)
     return {...state,display:displayarray}
-     }
+    }
+    case "Add_Card_To_Display1":{
+    const displayarray = state.display;
+    const {payload} = action ; 
+    payload.status = state.status;
+    payload.cardid = (new Date().getTime()+ Math.floor(Math.random() * 999999)).toString(31);
+    displayarray.push(payload)
+    return {...state,display:displayarray}
+    }
     case "FETCH_PILOT_INFO":{
       return {...state,Pilot:action.payload}
     }

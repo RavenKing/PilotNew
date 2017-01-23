@@ -293,7 +293,7 @@ var existingflights;
 <Col span={8}>
         <FormItem
           {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-          label={index === 0 ? '机型及时间' : ''}
+          label={index === 0 ? '机型' : ''}
           required={false}
           key={k}
         >
@@ -318,7 +318,7 @@ var existingflights;
 <Col span={8}>  
       <FormItem
           {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-          label={index === 0 ? '飞行时间' : ''}
+          label={index === 0 ? '时长' : ''}
           required={false}
           key={k}
         >

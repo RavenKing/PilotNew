@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import { setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
 import {Card,Icon,Button,Form,Input,InputNumber,Row,Col,Select,Table} from "antd";
-import {RemoveCard,AddCardToDisplay} from "../../../Actions/pilotAction"
+import {RemoveCard,AddCardToDisplay1} from "../../../Actions/pilotAction"
 import {GetWorkflows,CreateDocument} from "../../../Actions/pilotAction";
 import ConditionCheck from "./ConditionCheck"
 const Option=Select.Option;
@@ -29,7 +29,7 @@ export default class DocumentPanel extends React.Component {
               title: '流程ID',
               dataIndex: 'workflow_id',
               key: 'workflow_id',
-              render: (text,record) => <a href="#" onClick={this.getWorkflowDetail.bind(this,record)} >{text}</a>,
+              render: (text,record) => <a href="#" onClick={this.getWorkflowDetail.bind(this)} rel={record.workflow_id} >{text}</a>,
             }, {
               title: '流程标题',
               dataIndex: 'title',
@@ -116,10 +116,15 @@ export default class DocumentPanel extends React.Component {
 
   }
 
-getWorkflowDetail(){
-
-
+getWorkflowDetail(e){
+   var data = {
+        type:"workflowdetails",
+        workflowid:e.target.rel,
+        cardid:Math.random()*10000000
+      }
+      this.props.dispatch(AddCardToDisplay1(data))
 }
+
       onCancel(){this.setState({visible:false})}
 
 

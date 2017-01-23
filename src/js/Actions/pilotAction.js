@@ -167,6 +167,18 @@ console.log(test)
   }
 }
 
+export function AddCardToDisplay1(test)
+{ 
+
+console.log(test)
+  return dispatch=>{
+
+    dispatch({type:"Add_Card_To_Display1",payload:test})
+
+  }
+}
+
+
 export function RemoveCard(data)
 {
  

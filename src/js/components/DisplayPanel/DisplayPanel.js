@@ -12,6 +12,7 @@ import { browserHistory } from "react-router";
 //Workflow
 import DisplayWorkFlow from "./DisplayWorkFlow";
 import WorkFlowDetailPanel from "./WorkFlowDetailPanel"
+import WorkFlowDetailPanels from "./WorkFlowDetailPanels"
 import ChangePanel from "./changePanel"
 
 import Courselist from "./Courselist";
@@ -246,7 +247,12 @@ export default class DisplayPanel extends React.Component {
             { 
               return <WorkFlowDetailPanel key={one.cardid} cardid={one.cardid} workflowid = {one.workflowid}/>     
                     break;
-              }
+            }
+          case "workflowdetails":
+          {
+              return <WorkFlowDetailPanels key={one.cardid} cardid={one.cardid} workflowid = {one.workflowid}/>     
+                    break;
+          }
           case "courselist":
           {
             return <Courselist key={one.cardid} cardid={one.cardid} />
