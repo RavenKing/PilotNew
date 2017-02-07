@@ -10,7 +10,10 @@ var Course = new Schema({
     category:String,
     details:[String],
     owner:String,
-    url:String,
+    attachments:[{name:String,
+    	 filename:String,
+    	 url:String
+    	}],
     creationdate:{type:Date,default:Date.now}
 })
 

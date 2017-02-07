@@ -90,11 +90,22 @@ saveFormRef(form){this.form = form;}
 
 
     EditRow(e){
-       let data = JSON.parse(e.target.rel);
+       let data1 = JSON.parse(e.target.rel);
+if(data1)
+    {
+      if(data1.attachments)
+      {
+        let data = data1.attachments.map((one,index)=>{
+          one.uid = 0-index;
+          return one });
+        data1.attachments = data;
+        console.log(data1.attachments);
+      }
+    }
 
       this.setState({
         visible:true,
-        editdata:data}
+        editdata:data1}
         )
 
     }
@@ -106,13 +117,37 @@ saveFormRef(form){this.form = form;}
     onCreate(){
   const form = this.form;
 //edit null? create : save
+          
    const {list} = this.state;
  form.validateFields((err, values) => {
+
+  console.log(values)
+
+
+
+    let list1 = form.getFieldValue("attachments")
+    let attachments=[];
+    if(list1)
+   {
+                   attachments = list1.map((one)=>{
+
+                    let data = {
+                      name:one.name,
+                       filename:one.response.filename,
+                       url:"http://localhost:8083/uploads/"+one.response.filename
+                    }
+                    return data;
+                  });
+    }
+
+
       if (err) {
         return;
       }
       if(this.state.editdata==null )
       {
+        //add attachments
+        values.attachments=attachments;
         this.props.dispatch(CreateNewCourse(values));
 
       }

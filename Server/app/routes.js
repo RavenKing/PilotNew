@@ -5,11 +5,11 @@ var Course = require('./models/Courses');
 var Company = require('./models/Company');
 var Workflow=require('./models/WorkFlow');
 var Level = require('./models/Level');
-
+//upload function 
 var multer  = require('multer');
-var upload = multer({ dest: './public/uploads/'});
-var fs=require('fs');
-var type = upload.single('avatar');
+
+var upload = require('./upload');
+
     module.exports = function(app) {
 
       ///documents  
@@ -357,7 +357,7 @@ var type = upload.single('avatar');
         Level.findOneAndUpdate(query,updatepart,options,function(err,data)
             {
                if(err)
-                            res.send(err);
+                        res.send(err);
                         res.send("update success");
             }
             );
@@ -379,10 +379,11 @@ var type = upload.single('avatar');
 
 // upload
 
-    app.post('/api/upload_course',function(req,res)
+    app.post('/api/upload_course',upload.single('attachments'),function(req,res,next)
     {
-
-        console.log(req.files);
+        if (req.file) {
+        res.send(req.file)
+    }
 
     });
 

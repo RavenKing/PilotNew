@@ -10,18 +10,38 @@ const CollectionCreateForm = Form.create()(
     const { visible, onCancel, onCreate, form } = props;
     const { getFieldDecorator } = form;
     const { initdata } =props;
+    console.log(initdata);
+    if(initdata)
+    {
+      if(initdata.attachments)
+      {
+        let data = initdata.attachments.map((one,index)=>{
+          one.key = index;
+          return one });
+        initdata.attachments = data;
+        console.log(initdata.attachments);
+      }
+    }
     const uploadprops = {
             name: 'file',
             multiple: true,
-            showUploadList: false,
+            showUploadList: true,
             action: 'http://localhost:8083/api/upload_course',
+            defaultFileList:initdata?initdata.attachments:[],
             onChange(info) {
+              console.log(info);
               const status = info.file.status;
               if (status !== 'uploading') {
                 console.log(info.file, info.fileList);
               }
               if (status === 'done') {
+                console.log("did done");
+                form.setFieldsValue({"attachments":info.fileList});
+                let list = form.getFieldValue("attachments")
+                console.log(list);
                 message.success(`${info.file.name} file uploaded successfully.`);
+
+
               } else if (status === 'error') {
                 message.error(`${info.file.name} file upload failed.`);
               }
@@ -73,12 +93,10 @@ const CollectionCreateForm = Form.create()(
           </FormItem>         
 
            <FormItem label="模板文档">
-            {getFieldDecorator('url',
-            {initialValue:initdata?initdata.url:""}
-            )(
+            {getFieldDecorator('attachments')(
             <div style={{ marginTop: 16, height: 180 }}>
-              <Dragger {...uploadprops}>
-                <p className="ant-upload-drag-icon">
+              <Dragger {...uploadprops} name="attachments" id='upfile'>
+                <p className="ant-upload-drag-icon">  
                   <Icon type="inbox" />
                 </p>
                 <p className="ant-upload-text">点击或者拖动上传文件</p>
