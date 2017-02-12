@@ -105,11 +105,8 @@ case "FETCH_COURSES_ALL":{
             }
 
             case "EDIT_COURSE":{
-
                 let values = action.payload;
-
                 let newcourse=state.Courses.filter((course)=>{
-
                 if(course.course_id == values.course_id)
                 {
               
@@ -117,6 +114,7 @@ case "FETCH_COURSES_ALL":{
                     course.title = values.title;
                     course.description = values.description;
                     course.category = values.category;
+                    course.attachments = values.attachments;
                 }
                 return course
           })

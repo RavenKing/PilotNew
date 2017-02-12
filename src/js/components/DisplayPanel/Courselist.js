@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
 import {RemoveCard,AddCardToDisplay,CreateNewCourse,EditCourse,DeleteCourse} from "../../Actions/pilotAction"
-import {Button,Table,Card,Icon,Form,Modal} from "antd";
+import {Button,Table,Card,Icon,Form,Modal,Popconfirm} from "antd";
 
 
 
@@ -75,17 +75,13 @@ saveFormRef(form){this.form = form;}
 
 
     RemoveRow(e){
-
-      const deletedata = e.target.rel;
-      let ddata={"target":{"course_id":deletedata}};
-      this.props.dispatch(DeleteCourse(ddata))
-      let newCourses = this.state.list.filter((course)=>{ if(course.course_id!=deletedata) return course });
-      this.setState({
-        list:newCourses
-      })
-
-
-
+                  const deletedata = e;
+                  let ddata={"target":{"course_id":deletedata}};
+                  this.props.dispatch(DeleteCourse(ddata))
+                  let newCourses = this.state.list.filter((course)=>{ if(course.course_id!=deletedata) return course });
+                  this.setState({
+                    list:newCourses
+                  })  
     }
 
 
@@ -102,16 +98,20 @@ if(data1)
         console.log(data1.attachments);
       }
     }
-
       this.setState({
         visible:true,
         editdata:data1}
         )
-
     }
 
     // close course
-    onCancel(){this.setState({visible:false})}
+    onCancel(){
+
+      const form=this.form;
+      form.resetFields();
+      this.setState({
+        editdata:null,
+        visible:false})}
 
     //create course
     onCreate(){
@@ -120,34 +120,34 @@ if(data1)
           
    const {list} = this.state;
  form.validateFields((err, values) => {
-
-  console.log(values)
-
-
-
     let list1 = form.getFieldValue("attachments")
     let attachments=[];
+    console.log(list1);
     if(list1)
    {
                    attachments = list1.map((one)=>{
-
-                    let data = {
+                    if(one.response)
+                    {let data = {
                       name:one.name,
                        filename:one.response.filename,
                        url:"http://localhost:8083/uploads/"+one.response.filename
                     }
-                    return data;
+                         return data;
+                    } 
+                    else 
+                    {
+                      return one;
+                    }
+
                   });
     }
-
-
+        values.attachments=attachments;
       if (err) {
         return;
       }
       if(this.state.editdata==null )
       {
         //add attachments
-        values.attachments=attachments;
         this.props.dispatch(CreateNewCourse(values));
 
       }
@@ -166,8 +166,6 @@ if(data1)
       this.setState({ 
         visible: false ,
         editdata:null });
-
-
     }
 
 ////
@@ -198,7 +196,10 @@ const columns = [{
       { 
         title: '操作', dataIndex: '', key: 'x', render: (key,record) =>( 
         <span>
-        <a onClick={this.RemoveRow.bind(this)} rel={record.course_id}>删除|</a>
+        <Popconfirm title="确定要删除吗?"  onConfirm={this.RemoveRow.bind(this,record.course_id)}>
+        <a>删除</a>
+        </Popconfirm>
+        |
         <a onClick={this.EditRow.bind(this)} rel={JSON.stringify(record)}>修改</a>
         </span>
        )}
