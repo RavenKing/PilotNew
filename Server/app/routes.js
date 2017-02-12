@@ -10,6 +10,13 @@ var multer  = require('multer');
 
 var upload = require('./upload');
 
+var uploadExcel = require('./flightsupload')
+
+
+
+var xlstojson = require("xlsx-to-json-lc");
+
+
     module.exports = function(app) {
 
       ///documents  
@@ -383,13 +390,51 @@ var upload = require('./upload');
     {
         if (req.file) {
         res.send(req.file)
+    
     }
-
     });
 
 
 
+
+
+
 // end of upload
+
+
+
+//upload to excel 
+
+
+    app.post('/api/upload_flight',uploadExcel.single('flightinfo'),function(req,res,next)
+    {
+
+        console.log(req.file);
+        if (req.file) {
+            console.log(req.file.path);
+        try{
+            xlstojson({
+                input:req.file.path,
+                output:null,
+                lowerCaseHearders:true
+            },function(err,result){
+                if(err)
+                {
+                    return res.json({error_code:1,err_des:err,data:null})
+                }
+                console.log(result);
+                res.json({error_code:0,data:result})
+            });
+        }
+         catch(e)
+         { 
+            res.json({error_code:1,error_desc:"shit "})
+         }
+     }
+});
+
+
+//end of upload to excel 
 
 
         app.get('*', function(req, res) {
