@@ -35,9 +35,11 @@ export default function Pilot (
     case "CHANGE_TO_MODIFY":{
       return {...state,status:"MODIFY",activeworkflow:action.payload}
     }
+    case "UPDATE_PILOT_FLIGHT":{
+      return{...state}
 
-   
-
+    }
+  
     case "DELETE_WORKFLOW_FORM":{
     const targetdata = action.payload;
     const NewWorkflows = state.Workflows.filter((workflow)=>{if(workflow.workflow_id != targetdata) return workflow;  })
