@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
 import {RemoveCard,AddCardToDisplay,CreateNewCourse,EditCourse,DeleteCourse} from "../../../Actions/pilotAction"
-import {Card,Row,Col,Icon,Button,Select,Upload,message} from "antd";
+import {Card,Row,Col,Icon,Button,Select,Upload,message,Table,Input} from "antd";
 
 const Dragger=Upload.Dragger;
 const Option = Select.Option;
@@ -16,11 +16,13 @@ const Option = Select.Option;
     
 })
 export default class updatePanel extends React.Component {
-
+  Reload(){
+    this.setState({showresult:false,type:"updateFlight"})
+  }
   constructor(props)
   {
     super(props)
-    this.state={returnresults:false}
+    this.state={showresult:false}
   }
 RemoveCard(){
       var targetcard = {
@@ -48,7 +50,7 @@ handleChange(){
                             }
                             if (status === 'done') {
                               const {response} = info.file
-                              this.setState({targetFile:response});
+                              this.setState({targetFile:response,showresult:true});
                               message.success(`${info.file.name} file uploaded successfully.`);
                             } else if (status === 'error') {
                               message.error(`${info.file.name} file upload failed.`);
@@ -75,16 +77,22 @@ handleChange(){
       console.log(this.state);
 
     let displayTable = <div></div>
-
-    if(this.state.targetFile)
+     if(this.state.showresult)
     {
+
+      let columns=[]
       const {data} = this.state.targetFile;
       for( var key in data[0])
       {
-        console.log(data[key]);
-        console.log(key+'-'+data[0][key]);
-      }
+       const columnone={
+        title:key,
+        dataIndex:key,
+        key:key
+       }
 
+       columns.push(columnone);
+      }
+      displayTable= <Table columns={columns} dataSource={data}  />
     }
     else{
  displayTable=(<div style={{ marginTop: 16, height: 180 }}>
@@ -114,7 +122,7 @@ handleChange(){
         </Select>
 
         </Col>
-        <Col span={2}><Button type="ghost"  shape="circle" icon= "reload"/> </Col>
+        <Col span={2}><Button type="ghost"  shape="circle" icon= "reload" onClick={this.Reload.bind(this)}/> </Col>
         <Col span={1}><Button type="primary"  shape="circle" icon= "caret-right"/></Col>
         </Row>
             {displayTable}
