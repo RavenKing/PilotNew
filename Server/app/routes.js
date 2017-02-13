@@ -111,6 +111,21 @@ var xlstojson = require("xlsx-to-json-lc");
             }
             );
     });
+  app.put('/api/flightUpdate',function(req,res)
+    {
+
+        var query = req.body.data.target;
+        var updatepart = req.body.data.updatepart;
+        Pilot.findOne(query,function(err,data)
+            {
+               if(err)
+                            res.send(err);  
+               data.flightinfo.flightTime = data.flightinfo.flightTime + updatepart.flightTime
+               data.save();
+               res.send("update success");
+             }
+            );
+    });
 
   app.delete('/api/pilots',function(req,res){
       console.log(req.body)
