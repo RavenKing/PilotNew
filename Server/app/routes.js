@@ -118,11 +118,28 @@ var xlstojson = require("xlsx-to-json-lc");
         var updatepart = req.body.data.updatepart;
         Pilot.findOne(query,function(err,data)
             {
-               if(err)
-                            res.send(err);  
-               data.flightinfo.flightTime = data.flightinfo.flightTime + updatepart.flightTime
-               data.save();
-               res.send("update success");
+                if(err)
+                            res.send(err);
+
+                if(data)  
+                {if(data.flightinfo)
+                {
+                var origin = data.flightinfo.flightTime;
+                var updateTime = updatepart.flightTime;
+                console.log("origin:"+data.flightinfo.flightTime);
+                console.log("update:"+updatepart.flightTime);
+                var total = parseInt(data.flightinfo.flightTime) + parseInt(updatepart.flightTime);
+                console.log(total);
+                 data.flightinfo.flightTime = total;    
+                    data.save();
+                    res.json(data);
+               }
+            }
+               else
+               {
+                res.send("no")
+               }
+
              }
             );
     });

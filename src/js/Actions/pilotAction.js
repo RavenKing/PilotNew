@@ -59,7 +59,12 @@ export function UPDATE_PILOT_FLIGHT(target)
         }
     })
     .then(function (response,err) {
-        dispatch({type:"UPDATE_PILOT_FLIGHT",payload:target})    
+  
+      const {data} = response;
+
+      if(data!="no")
+          dispatch({type:"UPDATE_PILOT_FLIGHT",payload:response.data})    
+     
      })
   }
 }
