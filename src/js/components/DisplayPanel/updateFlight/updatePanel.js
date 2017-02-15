@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
 import {RemoveCard,AddCardToDisplay,UPDATE_PILOT_FLIGHT} from "../../../Actions/pilotAction"
-import {Card,Row,Col,Icon,Button,Select,Upload,message,Table,Input} from "antd";
+import {Card,Row,Col,Icon,Button,Select,Upload,message,Table,Input,Modal,Spin} from "antd";
 
 const Dragger=Upload.Dragger;
 const Option = Select.Option;
@@ -16,13 +16,33 @@ const Option = Select.Option;
     
 })
 export default class updatePanel extends React.Component {
+        
+//modal  setup 
+    handleOk()
+    {
+      this.UploadToMongo();
+      this.setState({visible:false})
+      this.RemoveCard();
+    }
+    handleCancel(){
+      this.setState({visible:false})
+    }
+
+    Confirm(){
+      this.setState({visible:true})
+    }
+//end of modal setup 
+
+
+
+
         Reload(){
-          this.setState({showresult:false,type:"updateFlight"})
+          this.setState({showresult:false,type:"updateFlight",loading:false})
         }
         constructor(props)
         {
           super(props)
-          this.state={showresult:false}
+          this.state={showresult:false,visible:false,loading:false}
         }
         RemoveCard(){
               var targetcard = {
@@ -32,10 +52,16 @@ export default class updatePanel extends React.Component {
 
         }
         UploadToMongo(){
+
+        this.setState({loading:true});
           const {data} = this.state.targetFile;
 
           data.map((record)=>{
-            const target={target:{cert_id:record.cert_id},updatepart:{flightTime:record.flightTime}}
+            const target={
+            target:{
+            cert_id:record.cert_id},
+            updatepart:record
+            }
             this.props.dispatch(UPDATE_PILOT_FLIGHT(target))
 
           });
@@ -55,12 +81,13 @@ export default class updatePanel extends React.Component {
        onChange(info) {
                       const status = info.file.status;
                       let fileList = info.fileList;
+                      this.setState({loading:true})
                       if (status !== 'uploading') {
                               console.log(info.file, info.fileList);
                             }
                             if (status === 'done') {
                               const {response} = info.file
-                              this.setState({targetFile:response,showresult:true});
+                              this.setState({targetFile:response,showresult:true,loading:false});
                               message.success(`${info.file.name} file uploaded successfully.`);
                             } else if (status === 'error') {
                               message.error(`${info.file.name} file upload failed.`);
@@ -71,7 +98,7 @@ export default class updatePanel extends React.Component {
 
 render() {
 
-
+  console.log(this.state.loading);
             //settings for upload
 
               const uploadprops = {
@@ -100,7 +127,7 @@ render() {
 
              columns.push(columnone);
             }
-            displayTable= <Table columns={columns} dataSource={data}  />
+            displayTable=<div> <h1>上传预览</h1><Table columns={columns} dataSource={data}  /> </div>
           }
           else{
        displayTable=(<div style={{ marginTop: 16, height: 180 }}>
@@ -115,8 +142,10 @@ render() {
 
       }
               return (
-              <div className="detail-panel">  
+              <div className="detail-panel">
+
               <Card title="更新飞行员信息" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
+              <Spin spinning={this.state.loading}>
               <h1></h1>
               <Row>
               <Col span={21}>
@@ -131,11 +160,20 @@ render() {
 
               </Col>
               <Col span={2}><Button type="ghost"  shape="circle" icon= "reload" onClick={this.Reload.bind(this)}/> </Col>
-              <Col span={1}><Button type="primary"  shape="circle" icon= "caret-right" onClick={this.UploadToMongo.bind(this)}/></Col>
+              <Col span={1}><Button type="primary"  shape="circle" icon= "caret-right" onClick={this.Confirm.bind(this)}/></Col>
               </Row>
                   {displayTable}
+                  </Spin>
               </Card>
-              </div>
+
+
+
+          <Modal title="确认框" visible={this.state.visible}
+                onOk={this.handleOk.bind(this)} onCancel={this.handleCancel.bind(this)}
+            >
+              <p>确定要更新吗？</p>
+            </Modal>
+                  </div>
             );
         }
 

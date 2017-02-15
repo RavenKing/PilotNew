@@ -120,17 +120,36 @@ var xlstojson = require("xlsx-to-json-lc");
             {
                 if(err)
                             res.send(err);
-
                 if(data)  
                 {if(data.flightinfo)
                 {
-                var origin = data.flightinfo.flightTime;
-                var updateTime = updatepart.flightTime;
-                console.log("origin:"+data.flightinfo.flightTime);
-                console.log("update:"+updatepart.flightTime);
-                var total = parseInt(data.flightinfo.flightTime) + parseInt(updatepart.flightTime);
-                console.log(total);
-                 data.flightinfo.flightTime = total;    
+
+                if(updatepart.flightTime)
+                {
+                 var total = parseInt(data.flightinfo.flightTime) + parseInt(updatepart.flightTime);
+                  data.flightinfo.flightTime = total; 
+                }
+                if(updatepart.flightRoute)
+                {
+                 var totalRoute = parseInt(data.flightinfo.flightRoute) + parseInt(updatepart.flightRoute);
+                 data.flightinfo.flightRoute = totalRoute;    
+                }   
+                if(updatepart.flightRealTime)
+                {
+                var totalflightRealTime = parseInt(data.flightinfo.flightRealTime) + parseInt(updatepart.flightRealTime);
+                 data.flightinfo.flightRealTime = totalflightRealTime; 
+                }
+                 if(updatepart.flightRealRoute)
+                {
+                var totalflightRealRoute = parseInt(data.flightinfo.flightRealRoute) + parseInt(updatepart.flightRealRoute);
+                 data.flightinfo.flightRealRoute = totalflightRealRoute; 
+                }
+                if(updatepart.fligthTotalTime)
+                {
+                var totalflightTotalTime = parseInt(data.flightinfo.flightTotalTime) + parseInt(updatepart.flightTotalTime);
+                 data.flightinfo.flightTotalTime = totalfligthTotalTime; 
+                }
+ 
                     data.save();
                     res.json(data);
                }
@@ -390,9 +409,6 @@ var xlstojson = require("xlsx-to-json-lc");
         var query = req.body.data.target;
         var updatepart = req.body.data.updatepart;
         var options= {upsert:true}
-        console.log(query)
-        console.log(updatepart)
-        console.log("good now")
         Level.findOneAndUpdate(query,updatepart,options,function(err,data)
             {
                if(err)
@@ -441,7 +457,7 @@ var xlstojson = require("xlsx-to-json-lc");
     app.post('/api/upload_flight',uploadExcel.single('flightinfo'),function(req,res,next)
     {
 
-        console.log(req.file);
+       // console.log(req.file);
         if (req.file) {
             console.log(req.file.path);
         try{
@@ -455,7 +471,74 @@ var xlstojson = require("xlsx-to-json-lc");
                     return res.json({error_code:1,err_des:err,data:null})
                 }
                 console.log(result);
-                res.json({error_code:0,data:result})
+                var newResult = [];
+                // 遍历result 
+
+                if(result.length>0)
+                 {   
+
+                  result.filter((one)=>{
+                         // find each
+                        if(one.cert_id)
+                        {
+                            Pilot.findOne({cert_id:one.cert_id},function(err,data){
+
+                                          if(err)
+                                                return;
+
+                                        if(data)  
+                                        {if(data.flightinfo)
+                                        {
+                                        
+                                            if(one.flightTime)
+                                            {var origin = data.flightinfo.flightTime;
+                                            var total = parseInt(data.flightinfo.flightTime) + parseInt(one.flightTime);
+                                    
+                                              one.OriginFlightTime = origin;
+                                              one.UpdatedFlightTime = total; 
+                                             }                            
+                                            if(one.flightRoute)
+                                            {
+                                             var totalRoute = parseInt(data.flightinfo.flightRoute) + parseInt(one.flightRoute);
+                                             one.OriginFlightRoute= data.flightinfo.flightRoute;
+                                             one.UpdatedflightRoute = totalRoute;    
+                                            }   
+                                            if(one.flightRealTime)
+                                            {
+                                            var totalflightRealTime = parseInt(data.flightinfo.flightRealTime) + parseInt(one.flightRealTime);
+                                            one.OriginflightRealTime = data.flightinfo.flightRealTime;
+                                            one.UpdatedflightRealTime = totalflightRealTime; 
+                                            }
+                                             if(one.flightRealRoute)
+                                            {
+                                            var totalflightRealRoute = parseInt(data.flightinfo.flightRealRoute) + parseInt(one.flightRealRoute);
+                                             one.OriginFlightRealRoute = data.flightinfo.flightRealRoute;
+                                             one.UpdatedflightRealRoute = totalflightRealRoute; 
+                                            }
+                                            if(one.flightTotalTime)
+                                            {
+                                            var totalflightTotalTime = parseInt(data.flightinfo.flightTotalTime) + parseInt(one.flightTotalTime);
+                                              one.OriginFlightTotalTime = data.flightinfo.flightTotalTime;
+                                              one.UpdatedflightTotalTime = totalfligthTotalTime; 
+                                            }
+                                          newResult.push(one);   
+                                          console.log("done");
+                                       }
+                                       }
+                            });
+                            return one;
+                        }
+                // add and push 
+                    });
+                 }
+                console.log(newResult);
+
+                setTimeout(function(){console.log(newResult)
+
+                        res.json({error_code:0,data:newResult})
+
+                    },2000);
+        
             });
         }
          catch(e)

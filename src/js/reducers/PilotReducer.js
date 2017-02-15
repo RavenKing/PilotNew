@@ -37,13 +37,6 @@ export default function Pilot (
       return {...state,status:"MODIFY",activeworkflow:action.payload}
     }
     case "UPDATE_PILOT_FLIGHT":{
-
-      console.log(action.payload);
-      if(action.payload!="no")
-      {
-          updateFlightNew.push(action.payload);
-
-      }
       return{...state}
 
     }
