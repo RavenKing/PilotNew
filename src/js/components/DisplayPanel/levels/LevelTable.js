@@ -16,51 +16,6 @@ import {upsertLevel} from "../../../Actions/pilotAction";
 export default class EditableTable extends React.Component {
   constructor(props) {
     super(props);
-    this.columns = [{
-      title: '等级系数',
-      dataIndex: 'flight_factor',
-      width: '25%',
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'flight_factor', text),
-    }, {
-      title: '等级',
-      dataIndex: 'level',
-      width: '15%',
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'level', text),
-    }, {
-      title: '描述',
-      dataIndex: 'description',
-      width: '40%',
-      render: (text, record, index) => this.renderColumns(this.state.data, index, 'description', text),
-    }, {
-      title: '操作',
-      dataIndex: 'operation',
-      render: (text, record, index) => {
-        const { editable } = this.state.data[index].flight_factor;
-        return (<div className="editable-row-operations">
-          {
-            editable ?
-            <span>
-              <a onClick={() => this.editDone(index, 'save')}>保存</a>
-              <Popconfirm title="确定要取消吗?" onConfirm={() => this.editDone(index, 'cancel')}>
-                <a>取消</a>
-              </Popconfirm>
-            </span>
-            :
-            <div>
-            <span>
-              <a onClick={() => this.edit(index)}>修改|</a>
-            </span>            
-            <span>
-            <Popconfirm title="确定要删除吗?" onConfirm={() => this.delete(record)}>
-                <a>删除</a>
-              </Popconfirm>
-            </span>
-          	</div>
-          }
-        </div>);
-      },
-    }];
-
     const {Levels} = this.props.pilot;
    var leveldata=[]
   if(!Levels)
@@ -156,6 +111,7 @@ this.props.removeCard();
   }
 
   renderColumns(data, index, key, text) {
+    console.log("did");
     const { editable, status } = data[index][key];
     if (typeof editable === 'undefined') {
       return text;
@@ -176,10 +132,14 @@ this.props.removeCard();
 
   delete(selected){
 	const {data}=this.state;
-	let newdata = data.filter((one)=>{
-		if(one.level.value!=selected.level&&one.flight_factor.value!=selected.flight_factor)
+  console.log("selected",selected.level.value)
+ 	let newdata = data.filter((one)=>{
+
+  console.log("data",one.level.value)
+		if(one.level.value!=selected.level.value)
 		return one
 	});
+  console.log(newdata)
 	this.setState({
 		data:newdata
 	})
@@ -213,17 +173,54 @@ this.props.removeCard();
   }
   render() {
     const { data } = this.state;
-    const dataSource = data.map((item) => {
-      const obj = {};
-      Object.keys(item).forEach((key) => {
-        obj[key] = key === 'key' ? item[key] : item[key].value;
-      });
-      return obj;
-    });
-    const columns = this.columns;
+    console.log(data);
+    //set up columns
+    const columns = [{
+      title: '等级系数',
+      dataIndex: 'flight_factor.value',
+      width: '25%',
+        }, {
+      title: '等级',
+      dataIndex: 'level.value',
+      width: '15%',
+       }, {
+      title: '描述',
+      dataIndex: 'description.value',
+      width: '40%',
+    }, {
+      title: '操作',
+      dataIndex: 'operation',
+      render: (text, record, index) => {
+        const { editable } = this.state.data[index].flight_factor;
+        return (<div className="editable-row-operations">
+          {
+            editable ?
+            <span>
+              <a onClick={() => this.editDone(index, 'save')}>保存</a>
+              <Popconfirm title="确定要取消吗?" onConfirm={() => this.editDone(index, 'cancel')}>
+                <a>取消</a>
+              </Popconfirm>
+            </span>
+            :
+            <div>
+            <span>
+              <a onClick={() => this.edit(index)}>修改|</a>
+            </span>            
+            <span>
+            <Popconfirm title="确定要删除吗?" onConfirm={() => this.delete(record)}>
+                <a>删除</a>
+              </Popconfirm>
+            </span>
+            </div>
+          }
+        </div>);
+      },
+    }];
+    //end of setup columns
+    
     return( 
 <div>
-    <Table bordered dataSource={dataSource} columns={columns} />
+    <Table bordered dataSource={data} columns={columns} />
  	<Button onClick={this.addLevel.bind(this)} > 添加等级 </Button>
  	<Button onClick={this.saveLevel.bind(this)} > 提交 </Button>
      

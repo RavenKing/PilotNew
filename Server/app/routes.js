@@ -6,11 +6,17 @@ var Company = require('./models/Company');
 var Workflow=require('./models/WorkFlow');
 var Level = require('./models/Level');
 var Message = require('./models/Message');
-
 var multer  = require('multer');
-var upload = multer({ dest: './public/uploads/'});
-var fs=require('fs');
-var type = upload.single('avatar');
+
+var upload = require('./upload');
+
+var uploadExcel = require('./flightsupload')
+
+
+
+var xlstojson = require("xlsx-to-json-lc");
+
+
     module.exports = function(app) {
 
       ///documents  
@@ -105,14 +111,67 @@ var type = upload.single('avatar');
             }
             );
     });
+  app.put('/api/flightUpdate',function(req,res)
+    {
+
+        var query = req.body.data.target;
+        var updatepart = req.body.data.updatepart;
+        Pilot.findOne(query,function(err,data)
+            {
+                if(err)
+                            res.send(err);
+                if(data)  
+                {if(data.flightinfo)
+                {
+
+                if(updatepart.flightTime)
+                {
+                 var total = parseInt(data.flightinfo.flightTime) + parseInt(updatepart.flightTime);
+                  data.flightinfo.flightTime = total; 
+                }
+                if(updatepart.flightRoute)
+                {
+                 var totalRoute = parseInt(data.flightinfo.flightRoute) + parseInt(updatepart.flightRoute);
+                 data.flightinfo.flightRoute = totalRoute;    
+                }   
+                if(updatepart.flightRealTime)
+                {
+                var totalflightRealTime = parseInt(data.flightinfo.flightRealTime) + parseInt(updatepart.flightRealTime);
+                 data.flightinfo.flightRealTime = totalflightRealTime; 
+                }
+                 if(updatepart.flightRealRoute)
+                {
+                var totalflightRealRoute = parseInt(data.flightinfo.flightRealRoute) + parseInt(updatepart.flightRealRoute);
+                 data.flightinfo.flightRealRoute = totalflightRealRoute; 
+                }
+                if(updatepart.fligthTotalTime)
+                {
+                var totalflightTotalTime = parseInt(data.flightinfo.flightTotalTime) + parseInt(updatepart.flightTotalTime);
+                 data.flightinfo.flightTotalTime = totalfligthTotalTime; 
+                }
+ 
+                    data.save();
+                    res.json(data);
+               }
+            }
+               else
+               {
+                res.send("no")
+               }
+
+             }
+            );
+    });
 
   app.delete('/api/pilots',function(req,res){
-      console.log(req.body)
+
         var query = req.body.target;
+        console.log(query);
         Pilot.findOneAndRemove(query,function(err,data)
             {
                if(err)
                             res.send(err);
+                        console.log(data);
                         res.send("delete success");
             }
             );
@@ -352,13 +411,10 @@ var type = upload.single('avatar');
         var query = req.body.data.target;
         var updatepart = req.body.data.updatepart;
         var options= {upsert:true}
-        console.log(query)
-        console.log(updatepart)
-        console.log("good now")
         Level.findOneAndUpdate(query,updatepart,options,function(err,data)
             {
                if(err)
-                            res.send(err);
+                        res.send(err);
                         res.send("update success");
             }
             );
@@ -380,12 +436,16 @@ var type = upload.single('avatar');
 
 // upload
 
-    app.post('/api/upload_course',function(req,res)
+    app.post('/api/upload_course',upload.single('attachments'),function(req,res,next)
     {
-
-        console.log(req.files);
-
+        if (req.file) {
+        res.send(req.file)
+    
+    }
     });
+
+
+
 
 
 
@@ -416,6 +476,106 @@ var type = upload.single('avatar');
         res.send(true);
         });
 //end of message
+
+//upload to excel 
+
+
+    app.post('/api/upload_flight',uploadExcel.single('flightinfo'),function(req,res,next)
+    {
+
+       // console.log(req.file);
+        if (req.file) {
+            console.log(req.file.path);
+        try{
+            xlstojson({
+                input:req.file.path,
+                output:null,
+                lowerCaseHearders:true
+            },function(err,result){
+                if(err)
+                {
+                    return res.json({error_code:1,err_des:err,data:null})
+                }
+                console.log(result);
+                var newResult = [];
+                // 遍历result 
+
+                if(result.length>0)
+                 {   
+
+                  result.filter((one)=>{
+                         // find each
+                        if(one.cert_id)
+                        {
+                            Pilot.findOne({cert_id:one.cert_id},function(err,data){
+
+                                          if(err)
+                                                return;
+
+                                        if(data)  
+                                        {if(data.flightinfo)
+                                        {
+                                        
+                                            if(one.flightTime)
+                                            {var origin = data.flightinfo.flightTime;
+                                            var total = parseInt(data.flightinfo.flightTime) + parseInt(one.flightTime);
+                                    
+                                              one.OriginFlightTime = origin;
+                                              one.UpdatedFlightTime = total; 
+                                             }                            
+                                            if(one.flightRoute)
+                                            {
+                                             var totalRoute = parseInt(data.flightinfo.flightRoute) + parseInt(one.flightRoute);
+                                             one.OriginFlightRoute= data.flightinfo.flightRoute;
+                                             one.UpdatedflightRoute = totalRoute;    
+                                            }   
+                                            if(one.flightRealTime)
+                                            {
+                                            var totalflightRealTime = parseInt(data.flightinfo.flightRealTime) + parseInt(one.flightRealTime);
+                                            one.OriginflightRealTime = data.flightinfo.flightRealTime;
+                                            one.UpdatedflightRealTime = totalflightRealTime; 
+                                            }
+                                             if(one.flightRealRoute)
+                                            {
+                                            var totalflightRealRoute = parseInt(data.flightinfo.flightRealRoute) + parseInt(one.flightRealRoute);
+                                             one.OriginFlightRealRoute = data.flightinfo.flightRealRoute;
+                                             one.UpdatedflightRealRoute = totalflightRealRoute; 
+                                            }
+                                            if(one.flightTotalTime)
+                                            {
+                                            var totalflightTotalTime = parseInt(data.flightinfo.flightTotalTime) + parseInt(one.flightTotalTime);
+                                              one.OriginFlightTotalTime = data.flightinfo.flightTotalTime;
+                                              one.UpdatedflightTotalTime = totalfligthTotalTime; 
+                                            }
+                                          newResult.push(one);   
+                                          console.log("done");
+                                       }
+                                       }
+                            });
+                            return one;
+                        }
+                // add and push 
+                    });
+                 }
+                console.log(newResult);
+
+                setTimeout(function(){console.log(newResult)
+
+                        res.json({error_code:0,data:newResult})
+
+                    },2000);
+        
+            });
+        }
+         catch(e)
+         { 
+            res.json({error_code:1,error_desc:"shit "})
+         }
+     }
+});
+
+
+//end of upload to excel 
         app.get('*', function(req, res) {
             res.render('index'); // load our public/index.html file
         });

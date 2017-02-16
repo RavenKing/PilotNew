@@ -26,6 +26,7 @@ import Pilotpanel from "./Pilotpanel"
 import QueryPanel from "./Query/QueryPanel";
 
 
+import UpdatePanel from "./updateFlight/updatePanel";
 
 // fill info panel
 import FillInfoPanel from "./fillPersonalInfoPanel";
@@ -183,6 +184,16 @@ export default class DisplayPanel extends React.Component {
                     }
                props.dispatch(AddCardToDisplay(cardinfo))
                   }
+                  else if(data_id==10)
+                  {
+                    var cardinfo = {
+                        x:x,
+                        y:y,
+                        type:"updatePanel"
+                    }
+              props.dispatch(AddCardToDisplay(cardinfo))
+
+                  }
               break;
               }
               case "TITLE":
@@ -300,9 +311,10 @@ export default class DisplayPanel extends React.Component {
             return <NotificationPanel   key ={one.cardid} cardid ={one.cardid}   />
             break;
           }
-          case "pilotpanel":
+          case "updatePanel":
           {
-            return <Pilotpanel   key ={one.cardid} cardid ={one.cardid}   />
+
+            return <UpdatePanel   key ={one.cardid} cardid ={one.cardid}   />
             break;
           }
           }

@@ -179,10 +179,10 @@ componentWillMount() {
 //layout of the form
     const formItemLayout = {
       labelCol: { span: 10 },
-      wrapperCol: { span: 10 },
+      wrapperCol: { span: 20 },
     };
     const formItemLayoutWithOutLabel = {
-      wrapperCol: { span: 20, offset: 1},
+      wrapperCol: { span: 20},
     };
 
 
@@ -202,7 +202,7 @@ var existingflights;
                       <Col span={6}>
                               <FormItem
                                 {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-                                label={index === 0 ? '已存机型及时间' : ''}
+                                label={index === 0 ? '机型' : ''}
                                 required={false}
                                 key={'exsting'+index}
                               >
@@ -215,7 +215,7 @@ var existingflights;
                                     message: "机型",
                                   }],
                                 })(
-                                  <Input placeholder="机型" style={{ width: '80%'}} />
+                                  <Input placeholder="机型" style={{ width: '90%'}} />
                                 )}
                                 <Icon
                                   className="dynamic-delete-button"
@@ -259,11 +259,7 @@ var existingflights;
                                     )}
 
                             </FormItem>
-
-
-
                       </Col>
-
                       </Row>
                                    );
           }
@@ -385,32 +381,51 @@ var existingflights;
 <Progress percent={70} />
       <Form onSubmit={this.handleSubmit} className="Personal-Form" horizontal>
 
-<Row>
-      <Col span={12}>
-          <FormItem label="航段">
-          {getFieldDecorator('flightinfo.flightRoute', {
-            initialValue:personaldata.flightinfo.flightRoute
-          })(
-            <Input addonBefore={<Icon type="swap-right" />} placeholder="航段" disabled     style={{ width: 200 }}/>
-          )}
-        </FormItem>
-  </Col>
-  <Col span={12}>
-       <FormItem label="飞行时间">
-          {getFieldDecorator('flightinfo.flightTime', {
-            initialValue:personaldata.flightinfo.flightTime
-          })(
-            <Input addonBefore={<Icon type="swap-right" />} placeholder="飞行时间" disabled     style={{ width: 200 }}/>
-          )}
-        </FormItem>
-    
 
-  </Col>
+      <h3>飞行信息</h3>
+      <hr class="hrstyle" />
+          <Row>
+                <Col span={6}>
+                    <FormItem label="起落数">
+                    {getFieldDecorator('flightinfo.flightRoute', {
+                      initialValue:personaldata.flightinfo.flightRoute
+                    })(
+                      <Input addonBefore={<Icon type="swap-right" />} placeholder="航段" disabled     style={{ width: 100 }}/>
+                    )}
+                  </FormItem>
+            </Col>
+            <Col span={6}>
+                 <FormItem label="飞行时间">
+                    {getFieldDecorator('flightinfo.flightTime', {
+                      initialValue:personaldata.flightinfo.flightTime
+                    })(
+                      <Input addonBefore={<Icon type="swap-right" />} placeholder="飞行时间" disabled     style={{ width: 100 }}/>
+                    )}
+                  </FormItem>
+            </Col>
+             <Col span={6}>
+                    <FormItem label="真实起落数">
+                    {getFieldDecorator('flightinfo.flightRealRoute', {
+                      initialValue:personaldata.flightinfo.flightRealRoute?personaldata.flightinfo.flightRealRoute:0
+                    })(
+                      <Input addonBefore={<Icon type="swap-right" />} placeholder="航段" disabled     style={{ width: 100 }}/>
+                    )}
+                  </FormItem>
+            </Col>
+            <Col span={6}>
+                 <FormItem label="真实飞行时间">
+                    {getFieldDecorator('flightinfo.flightRealTime', {
+                      initialValue:personaldata.flightinfo.flightRealTime?personaldata.flightinfo.flightRealTime:0
+                    })(
+                      <Input addonBefore={<Icon type="swap-right" />} placeholder="飞行时间" disabled     style={{ width: 100 }}/>
+                    )}
+                  </FormItem>
+            </Col>
+          </Row> 
 
-</Row> 
 
-
-
+<h3> 基本信息</h3>
+<hr class="hrstyle" />
 <Row>
       <Col span={12}>
           <FormItem label="名字">
@@ -426,7 +441,7 @@ var existingflights;
           {getFieldDecorator('cert_id', {
             initialValue:personaldata.cert_id
           })(
-            <Input addonBefore={<Icon type="user" />} placeholder="身份证" disabled={editdisabled}     style={{ width: 200 }}/>
+            <Input addonBefore={<Icon type="user" />} placeholder="身份证" disabled  style={{ width: 200 }}/>
           )}
         </FormItem>
     
@@ -544,6 +559,9 @@ var existingflights;
         </FormItem>
 </Col>
 </Row>
+
+  <h3>已存机型及时间</h3>
+  <hr class="hrstyle" />
       {existingflights}
 
         {formItems}

@@ -15,7 +15,10 @@ var Pilot = new Schema({
     },
     flightinfo:{
       flightTime:{type:Number,default:0},
-      flightRoute:{type:Number,default:0}
+      flightRoute:{type:Number,default:0},
+      flightRealTime:{type:Number,default:0},
+      flightRealRoute:{type:Number,default:0},
+      flightTotalTime:{type:Number,default:0}
     },
     personnal_type:String,
     basemonth:Number,

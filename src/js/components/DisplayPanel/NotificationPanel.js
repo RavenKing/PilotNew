@@ -97,7 +97,7 @@ export default class NotificationPanel extends React.Component {
         return (
         <div className="detail-panel">  
         <Card title="通知列表" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
-        <h1>带处理的请求</h1>
+        <h1>处理的请求</h1>
         <Table columns={columns} dataSource={data}  />
         </Card>
         </div>

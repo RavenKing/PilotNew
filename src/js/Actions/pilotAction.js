@@ -47,6 +47,28 @@ axios.put("http://localhost:8083/api/pilots",{
 }
 
 
+export function UPDATE_PILOT_FLIGHT(target)
+{
+
+  return dispatch=>{
+    axios.put("http://localhost:8083/api/flightUpdate",{
+      data:target,
+       headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        }
+    })
+    .then(function (response,err) {
+  
+      const {data} = response;
+
+      if(data!="no")
+          dispatch({type:"UPDATE_PILOT_FLIGHT",payload:response.data})    
+     
+     })
+  }
+}
+
 
 
 //end of pilot information

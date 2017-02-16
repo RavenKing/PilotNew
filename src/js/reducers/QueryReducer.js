@@ -8,6 +8,11 @@ export default function query (
       
       return {...state,pilots:action.payload}
     }
+    case "DELETE_PILOT":{
+      const newpilots= state.pilots.filter((pilot)=>{if(pilot.cert_id!=action.payload)return pilot});
+      return{...state,pilots:newpilots};
+    }
+
     default:{
 
       return state
