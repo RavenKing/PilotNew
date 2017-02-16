@@ -463,7 +463,9 @@ li {
   margin-bottom: 15px;
   
 }
-
+.margin-top10{
+  margin-top: 10px;
+}
 /*create Panel */
 
 
@@ -657,7 +659,9 @@ li.placeholder {
   width:300px;
 }
 
-
+.hrstyle{
+   height:2px;border:none;border-top:2px dotted #185598;
+}
 
 #components-form-demo-advanced-search .ant-advanced-search-form {
   padding: 24px;

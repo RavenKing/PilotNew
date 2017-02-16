@@ -164,12 +164,14 @@ var xlstojson = require("xlsx-to-json-lc");
     });
 
   app.delete('/api/pilots',function(req,res){
-      console.log(req.body)
+
         var query = req.body.target;
+        console.log(query);
         Pilot.findOneAndRemove(query,function(err,data)
             {
                if(err)
                             res.send(err);
+                        console.log(data);
                         res.send("delete success");
             }
             );
