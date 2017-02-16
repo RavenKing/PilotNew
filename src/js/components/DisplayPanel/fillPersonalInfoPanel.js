@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import { setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
-import {Card,Icon,Button,Form} from "antd";
+import {Card,Icon,Button,Form,Modal} from "antd";
 import {UPDATE_PILOT_DATA} from "../../Actions/pilotAction.js";
 
   
@@ -53,6 +53,8 @@ export default class PersonnalPanel extends React.Component {
       user = this.state.persondata;
     }
     this.props.dispatch(UPDATE_PILOT_DATA(user.cert_id,data));
+    Modal.success({title:"信息保存完毕",content:(<div>信息保存完毕</div>)});
+    this.RemoveCard();
 
   }
  

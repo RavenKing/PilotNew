@@ -8,7 +8,6 @@ const CollectionCreateForm = Form.create()(
     const { getFieldDecorator } = form;
     const { conditions } =props;
    	const list = conditions.map((condition)=>{
-    	console.log(condition)
     		return (
     			<Row key={condition}>
     			<Col span={12} >

@@ -5,6 +5,7 @@ var Course = require('./models/Courses');
 var Company = require('./models/Company');
 var Workflow=require('./models/WorkFlow');
 var Level = require('./models/Level');
+var Message = require('./models/Message');
 
 var multer  = require('multer');
 var upload = multer({ dest: './public/uploads/'});
@@ -389,8 +390,32 @@ var type = upload.single('avatar');
 
 
 // end of upload
+//message
+
+        app.get('/api/message', function(req, res) {
+            Message.find(function(err, messages) {
+                // if there is an error retrieving, send the error. 
+                                // nothing after res.send(err) will execute
+                if (err)
+                    res.send(err);
+                res.json(messages); // return all nerds in JSON format
+            });
+
+        });
 
 
+
+        app.post('/api/message', function(req, res) {
+        var newOne = new Message(req.body.data);
+        newOne.save(function(err){
+                if(err)
+                {    console.log(err);
+                    res.send(false);  
+                }
+        })
+        res.send(true);
+        });
+//end of message
         app.get('*', function(req, res) {
             res.render('index'); // load our public/index.html file
         });

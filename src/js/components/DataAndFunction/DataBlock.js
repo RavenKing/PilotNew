@@ -128,6 +128,60 @@ if(role == "Pilot")
        }
       }
 }
+if(role == "INS")
+{
+  if(pilot.status == "INIT")
+    {
+      topfive1=PilotDataBlock;
+      if(topfive1.length>0)
+      {
+        DataItems = topfive1.map((item,i)=><DataItem className="data-item" title = {item.NAME} key = {i} uniquekey={item.ID}/>);
+      }
+      else
+      {
+        DataItems = <h1> No Data Found</h1>
+      }
+
+    }
+    else if(pilot.status == "MODIFY"){
+      topfive1 = courses;
+      if(topfive1.length>0)
+      {
+        DataItems = topfive1.map((item,i)=><DataItem className="course-item" title = {item.title} key = {i} uniquekey={item.ID} courseid = {item.course_id}/>);
+      }
+      else
+      {
+        DataItems = <h1> No Data Found</h1>
+       }
+      }
+}
+if(role == "AUD")
+{
+  if(pilot.status == "INIT")
+    {
+      topfive1=PilotDataBlock;
+      if(topfive1.length>0)
+      {
+        DataItems = topfive1.map((item,i)=><DataItem className="data-item" title = {item.NAME} key = {i} uniquekey={item.ID}/>);
+      }
+      else
+      {
+        DataItems = <h1> No Data Found</h1>
+      }
+
+    }
+    else if(pilot.status == "MODIFY"){
+      topfive1 = courses;
+      if(topfive1.length>0)
+      {
+        DataItems = topfive1.map((item,i)=><DataItem className="course-item" title = {item.title} key = {i} uniquekey={item.ID} courseid = {item.course_id}/>);
+      }
+      else
+      {
+        DataItems = <h1> No Data Found</h1>
+       }
+      }
+}
 if(role == "ADM")
 {
     if(pilot.status == "INIT")

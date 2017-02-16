@@ -23,26 +23,19 @@ export default function Pilot (
     displayarray.push(payload)
     return {...state,display:displayarray}
     }
-    case "Add_Card_To_Display1":{
-    const displayarray = state.display;
-    const {payload} = action ; 
-    payload.status = state.status;
-    payload.cardid = (new Date().getTime()+ Math.floor(Math.random() * 999999)).toString(31);
-    displayarray.push(payload)
-    return {...state,display:displayarray}
-    }
     case "FETCH_PILOT_INFO":{
+      return {...state,Pilot:action.payload}
+    }
+
+
+    case "UPDATE_PILOT_DATA":{
       return {...state,Pilot:action.payload}
     }
     case "CHANGE_TO_MODIFY":{
       return {...state,status:"MODIFY",activeworkflow:action.payload}
     }
 
-    case "DELETE_COMPANY":{
-    const targetdata = action.payload;
-    const newCompanys = state.Companys.filter((company)=>{if(company.company_id != targetdata.company_id) return company;  })
-      return {...state,Companys:newCompanys}
-    }
+   
 
     case "DELETE_WORKFLOW_FORM":{
     const targetdata = action.payload;
@@ -87,6 +80,11 @@ export default function Pilot (
     })
       return {...state,Companys:newCompanys}
   }
+   case "DELETE_COMPANY":{
+    const targetdata = action.payload;
+    const newCompanys = state.Companys.filter((company)=>{if(company.company_id != targetdata.company_id) return company;  })
+      return {...state,Companys:newCompanys}
+    }
 //couses reducer
 case "FETCH_COURSES_ALL":{
         

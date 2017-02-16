@@ -92,6 +92,25 @@ export function CreateCompany(data)
 }
 }
 
+
+export function SubmitMessage(data)
+{
+  return dispatch=>{
+      axios.post("http://localhost:8083/api/message",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+                // dispatch({type:"CREATE_COMPANY",payload:data})
+
+              })
+  }
+}
+
 export function DeleteCompany(data)
 {
 
@@ -163,17 +182,6 @@ console.log(test)
   return dispatch=>{
 
     dispatch({type:"Add_Card_To_Display",payload:test})
-
-  }
-}
-
-export function AddCardToDisplay1(test)
-{ 
-
-console.log(test)
-  return dispatch=>{
-
-    dispatch({type:"Add_Card_To_Display1",payload:test})
 
   }
 }

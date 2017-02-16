@@ -6,10 +6,11 @@ var Schema = mongoose.Schema;
 var Message = new Schema({
     message_id: String,
     title:String,
+    workflowid:String,
     description:String,
     type:String,
-    creater:String,
-    role:String,
+    applier:String,
+    owner:String,
     creationdate:{type:Date,default:Date.now}
 })
 

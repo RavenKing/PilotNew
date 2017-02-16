@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Input, Popconfirm,Button,InputNumber } from 'antd';
+import { Table, Input, Popconfirm,Button,InputNumber,Modal } from 'antd';
 import  EditableCell from "./LevelInput";
 import LevelForm from "./LevelForm"
 import ReactDOM from "react-dom";
@@ -32,7 +32,7 @@ export default class EditableTable extends React.Component {
       width: '40%',
       render: (text, record, index) => this.renderColumns(this.state.data, index, 'description', text),
     }, {
-      title: 'operation',
+      title: '操作',
       dataIndex: 'operation',
       render: (text, record, index) => {
         const { editable } = this.state.data[index].flight_factor;
@@ -40,19 +40,19 @@ export default class EditableTable extends React.Component {
           {
             editable ?
             <span>
-              <a onClick={() => this.editDone(index, 'save')}>Save</a>
-              <Popconfirm title="Sure to cancel?" onConfirm={() => this.editDone(index, 'cancel')}>
-                <a>Cancel</a>
+              <a onClick={() => this.editDone(index, 'save')}>保存</a>
+              <Popconfirm title="确定要取消吗?" onConfirm={() => this.editDone(index, 'cancel')}>
+                <a>取消</a>
               </Popconfirm>
             </span>
             :
             <div>
             <span>
-              <a onClick={() => this.edit(index)}>Edit|</a>
+              <a onClick={() => this.edit(index)}>修改|</a>
             </span>            
             <span>
-            <Popconfirm title="Sure to delete?" onConfirm={() => this.delete(record)}>
-                <a>Delete</a>
+            <Popconfirm title="确定要删除吗?" onConfirm={() => this.delete(record)}>
+                <a>删除</a>
               </Popconfirm>
             </span>
           	</div>
@@ -134,8 +134,6 @@ saveFormRef(form){this.form = form;}
   	}
   });
 
-
-
   	const {Pilot}=this.props.pilot;
 
     let cert_id = Pilot?Pilot.cert_id:"310228199012202218";
@@ -153,9 +151,8 @@ saveFormRef(form){this.form = form;}
     }
 
   this.props.dispatch(upsertLevel(constructdata))
-
-
-
+Modal.success({title:"等级保存完毕",content:(<div>等级保存完毕</div>)});
+this.props.removeCard();
   }
 
   renderColumns(data, index, key, text) {

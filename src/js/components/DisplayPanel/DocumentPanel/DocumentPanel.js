@@ -2,17 +2,21 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import { setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
-import {Card,Icon,Button,Form,Input,InputNumber,Row,Col,Select,Table} from "antd";
-import {RemoveCard,AddCardToDisplay1} from "../../../Actions/pilotAction"
+
+import {Card,Icon,Button,Form,Input,InputNumber,Row,Col,Select,Table,Modal} from "antd";
+import {RemoveCard,AddCardToDisplay} from "../../../Actions/pilotAction"
 import {GetWorkflows,CreateDocument} from "../../../Actions/pilotAction";
 import ConditionCheck from "./ConditionCheck"
+import {GetQueryResults} from "../../../Actions/QueryAction";
+
 const Option=Select.Option;
 
 
 @connect((store)=>{    
     return {
         pilotinfo:store.pilotinfo,
-        auth:store.auth
+        auth:store.auth,  
+        query:store.query
     };
     
 })
@@ -68,13 +72,22 @@ export default class DocumentPanel extends React.Component {
   }
 
   GetCheck(){
-  let targetWorkflow= this.state.workflows.filter((workflow)=>{
+
+
+   if(this.state.apply_workflow==null)
+{Modal.info({title:"请选择申请流程",content:"请选择申请流程"})
+  return;
+ } 
+ let targetWorkflow= this.state.workflows.filter((workflow)=>{
       if(workflow.workflow_id == this.state.apply_workflow)
           return workflow;
            })
     this.setState({visible:true,conditions:targetWorkflow[0].conditions});
   }
   SubmitDocument(){    
+
+    if(this.state.apply_workflow==null)
+      return;
 
     let targetWorkflow= this.state.workflows.filter((workflow)=>{
       if(workflow.workflow_id == this.state.apply_workflow)
@@ -88,7 +101,7 @@ export default class DocumentPanel extends React.Component {
       steps:targetWorkflow[0].steps,
       previous_level: targetWorkflow[0].previous_level,
       target_level:targetWorkflow[0].target_level,  
-      status:"审核中"
+      status:"进行中"
         } 
    
     this.props.dispatch(CreateDocument(newDocument));
@@ -96,6 +109,10 @@ export default class DocumentPanel extends React.Component {
     this.setState({visible:false})
   }
 
+  componentWillMount()
+  {
+    this.props.dispatch(GetQueryResults(""));
+  }
 
    componentWillReceiveProps(nextProps)
   {
@@ -122,13 +139,13 @@ getWorkflowDetail(e){
         workflowid:e.target.rel,
         cardid:Math.random()*10000000
       }
-      this.props.dispatch(AddCardToDisplay1(data))
+      this.props.dispatch(AddCardToDisplay(data))
 }
 
       onCancel(){this.setState({visible:false})}
 
 
-          componentDidMount() {
+    componentDidMount() {
      setCardDragable(ReactDOM.findDOMNode(this));
           handleFocus(ReactDOM.findDOMNode(this));   
     }

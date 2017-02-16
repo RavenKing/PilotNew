@@ -1,20 +1,33 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {Card,Icon,Timeline,Button,Checkbox} from "antd";
+import {Card,Icon,Timeline,Button,Checkbox,Menu,Dropdown} from "antd";
 import {connect} from "react-redux"
 import { setCardDragable,handleFocus,setAreaDropable} from "../../interactScript";
 
-import {RemoveCard,ChangeStyle,ChangeToModify} from "../../Actions/pilotAction"
+import {RemoveCard,ChangeStyle,ChangeToModify,SubmitMessage} from "../../Actions/pilotAction"
 
 @connect((store)=>{    
     return {
     	status:status,
-      pilotinfo:store.pilotinfo
+      pilotinfo:store.pilotinfo,
+      query:store.query
     };
     
 })
 export default class WorkFlowDetail extends React.Component {
 
+  componentWillMount()
+  {
+    const users = this.props.query.pilots;
+    const inspector = users.filter((user)=>{
+          if(user.role == "INS")
+            return user;
+        })
+        this.setState({
+          inspector:inspector,
+          choseninspector:{name:"选择检查员"}
+        });
+  }
 
 	componentDidMount(){
 
@@ -47,7 +60,13 @@ export default class WorkFlowDetail extends React.Component {
   {
     console.log("哎呀呀，有人点我");
   }
-
+  ChooseIns(e)
+  {
+    console.log("what happend, who is that?",e);
+    var inspector = this.state.inspector;
+    var key = e.key;
+    this.setState({choseninspector:inspector[key]})
+  }
 	RemoveCard()
 	{
 		var data={
@@ -57,6 +76,18 @@ export default class WorkFlowDetail extends React.Component {
 		this.props.dispatch(RemoveCard(data))
 	}
   
+
+  SubmitForIns()
+  {
+    var message = {
+      message_id:this.props.pilotinfo.Pilot.cert_id + this.props.workflowid,
+      workflowid:this.props.workflowid,
+      descriptoion:"",
+      applier:this.props.pilotinfo.Pilot.name,
+      owner:this.state.choseninspector.cert_id,
+    }
+    this.props.dispatch(SubmitMessage(message));
+  }
     
     render() {
         var workflowid = this.props.workflowid;
@@ -68,9 +99,20 @@ export default class WorkFlowDetail extends React.Component {
             return workflow;
           }
         })
+        var inspector = this.state.inspector;
+        console.log("pilots are",inspector);
+        console.log("this.state is",this.state);
+        const menu = (
+    <Menu onClick={this.ChooseIns.bind(this)}>
+    {inspector.map((ins,i)=>{
+      return (<Menu.Item key={i}> {ins.name} </Menu.Item>)
+    })}
+  </Menu>
+);
         var steps = targetdata[0].steps;
         var title = targetdata[0].title;
         console.log("targetdata is ",targetdata[0])
+        console.log("this.props",this.props);
         // console.log(" let us see what is in steps",setps);
         return (
         <div  class="workFlowDetailPanel">  
@@ -89,7 +131,13 @@ export default class WorkFlowDetail extends React.Component {
             })
            }
 				  </Timeline>
-          <Button type = "primary">提交检察员</Button>
+          <Dropdown overlay={menu} trigger={['click']}>
+            <a className="ant-dropdown-link" href="#">
+            {this.state.choseninspector.name}
+            <Icon type="down" />
+            </a>
+          </Dropdown>
+          <Button type = "primary" onClick={this.SubmitForIns.bind(this)}>提交检察员</Button>
 		      </Card>
         </div>
       );
