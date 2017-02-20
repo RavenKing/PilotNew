@@ -16,6 +16,7 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
     "css-loader": "^0.23.1",
+    "d3": "^4.6.0",
     "highcharts": "^5.0.7",
     "interact.js": "^1.2.6",
     "jquery": "^3.1.1",
