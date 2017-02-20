@@ -5,6 +5,7 @@ import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../.
 import {RemoveCard,AddCardToDisplay} from "../../../Actions/pilotAction";
 import {GetQueryResults,DeletePilot} from "../../../Actions/QueryAction";
 import {Button,Table,Card,Icon,Form,Modal} from "antd";
+import AnalysisFlight from "./AnalysisFlight"
 import QuerySearchForm from "./QuerySearchForm";
 import fillPersonalInfo from "../fillpersonalInfo";
 import json2csv  from "json2csv";
@@ -64,10 +65,14 @@ export default class QueryPanel extends React.Component {
         selectedRowKeys:[],
         columns:columns,
         pilotsquerydata:[],
-        deleteModal:false
+        deleteModal:false,
+        FlightAnalysis:false
       }
   }
 
+BackToQuery(){
+  this.setState({FlightAnalysis:false})
+}
 
       DeleteConfirm(record)
       {
@@ -205,11 +210,17 @@ saveFormRef(form){
           handleFocus(ReactDOM.findDOMNode(this));   
 
       }
-FlightAnalysis(){}
+FlightAnalysis(){
+    this.setState({
+      FlightAnalysis:true
+    })
+
+}
   render() {
-      return (
-        <div className="detail-panel">  
-        <Card title="报表系统" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
+
+
+let displayQueryPart =          
+          (<div>
           <QuerySearchForm
                ref={this.saveFormRef.bind(this)}
                handleSearch={this.handleSearch.bind(this)}
@@ -229,6 +240,29 @@ FlightAnalysis(){}
                       }
                       else return ""
                    }} />
+            </div>);
+          if(this.state.FlightAnalysis)
+          {
+
+              displayQueryPart = (
+                <div>
+
+                <AnalysisFlight data={this.state.pilotsquerydata}/>
+            <Button style={{ marginLeft: 8 }} onClick={this.BackToQuery.bind(this)}>
+                                返回
+                              </Button>               
+                     </div>
+                )
+
+
+          }
+
+
+      return (
+        <div className="detail-panel">  
+        <Card title="报表系统" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
+
+        {displayQueryPart}
         </Card>
 
           <Modal title="确认框" visible={this.state.deleteModal}
