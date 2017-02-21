@@ -16,8 +16,8 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
     "css-loader": "^0.23.1",
-    "echarts": "^3.4.0",
-    "ejs": "^2.5.6",
+
+    "d3": "^4.6.0",
     "highcharts": "^5.0.7",
     "interact.js": "^1.2.6",
     "jquery": "^3.1.1",
@@ -38,7 +38,9 @@
     "redux-promise-middleware": "^3.2.0",
     "redux-thunk": "^2.1.0",
     "style-loader": "^0.13.1",
+
     "swig": "^1.4.2",
+    "underscore": "^1.8.3",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.1",
     "xls-to-json-lc": "^0.3.3",

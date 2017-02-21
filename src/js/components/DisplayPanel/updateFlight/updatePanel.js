@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
 import {RemoveCard,AddCardToDisplay,UPDATE_PILOT_FLIGHT} from "../../../Actions/pilotAction"
-import {Card,Row,Col,Icon,Button,Select,Upload,message,Table,Input,Modal,Spin} from "antd";
-
+import {Card,Row,Col,Icon,Button,Select,Upload,message,Table,Input,Modal,Spin,Collapse} from "antd";
+const Panel = Collapse.Panel;
 const Dragger=Upload.Dragger;
 const Option = Select.Option;
 
@@ -146,12 +146,19 @@ render() {
 
               <Card title="更新飞行员信息" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
               <Spin spinning={this.state.loading}>
-              <h1></h1>
-              <Row>
-              <Col span={21}>
+              <Collapse defaultActiveKey={['1']} >
+    
+
+                <Panel header="上传提示" key="1">
+                  <p>请根据模板上传，仅限更新飞行员飞行信息，飞行时间，起落数</p>
+                          </Panel>
+            </Collapse>
+                 <Row class="margin-top10">
+                        <Col span={21}>
               <Select
                 style={{ width: 400 }}
                   placeholder="请选择一个模板"
+                  defaultValue="updateflights"
                   onChange={this.handleChange.bind(this)}  
                   >
                   <Option value="updateflights">更新飞行信息</Option>

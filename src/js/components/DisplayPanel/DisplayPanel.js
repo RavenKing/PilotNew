@@ -22,7 +22,6 @@ import DisplayPromotion from "./DocumentPanel/DocumentPanel";
 import Stepdetail from "./Stepdetail";
 import CompanyOverview from "./CompanyOverview";
 import NotificationPanel from "./NotificationPanel";
-import Pilotpanel from "./Pilotpanel"
 import QueryPanel from "./Query/QueryPanel";
 
 
