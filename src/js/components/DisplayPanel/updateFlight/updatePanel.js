@@ -62,6 +62,7 @@ export default class updatePanel extends React.Component {
             cert_id:record.cert_id},
             updatepart:record
             }
+            console.log(record);
             this.props.dispatch(UPDATE_PILOT_FLIGHT(target))
 
           });
@@ -98,7 +99,6 @@ export default class updatePanel extends React.Component {
 
 render() {
 
-  console.log(this.state.loading);
             //settings for upload
 
               const uploadprops = {
@@ -119,8 +119,37 @@ render() {
             const {data} = this.state.targetFile;
             for( var key in data[0])
             {
+
+            
+              let title="";
+              if(key == "OriginFlightTime")
+              {
+                title="上次飞行时间"
+              } 
+              else if(key=="UpdatedFlightTime"){
+                title="更新后飞行时间"
+              }
+              else if(key=="cert_id")
+              {
+                title="身份证"
+              }
+              else if(key=="flightTime")
+              {
+                title="更新时间"
+              }
+              else if(key=="flightRoute")
+              {
+                title="更新航段"
+              }      else if(key=="name")
+              {
+                title="人名"
+              }
+
+
+
+
              const columnone={
-              title:key,
+              title:title==""?key:title,
               dataIndex:key,
               key:key
              }
@@ -135,8 +164,8 @@ render() {
             <p className="ant-upload-drag-icon">
               <Icon type="inbox" />
             </p>
-            <p className="ant-upload-text">Click or drag file to this area to upload</p>
-            <p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
+            <p className="ant-upload-text">拖动或者点击上传文件</p>
+            <p className="ant-upload-hint">请根据模板上传</p>
           </Dragger>
         </div>)
 

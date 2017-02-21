@@ -70,17 +70,17 @@ if(this.state.ekeys)
         flightdata.push(flight);
       }
 }
-
+console.log(values);
 // end of existing flight
 //format flights 
     for(var i =0;i<values.keys.length;i++)
     {     
-      var flightname = `flight-${i}`;
-      var flight_type = `flight_type-${i}`;
-      var schooltime = `schooltime-${i}`;
+      var flightname = `flight-${i+1}`;
+      var flight_type = `flight_type-${i+1}`;
+      var schooltime = `schooltime-${i+1}`;
       if(!values[flightname]||!values[flight_type]||!values[schooltime])
       {
-
+            console.log("do this");
       }
       else{var flight={
             planeType:values[flightname],
@@ -188,7 +188,6 @@ componentWillMount() {
 
 var existingflights;
     // dynamic add
-    console.log(this.state)
     if(this.state.existingf)
     {if(this.state.existingf.length>0)
     {

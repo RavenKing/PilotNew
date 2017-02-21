@@ -147,7 +147,7 @@ var xlstojson = require("xlsx-to-json-lc");
                 if(updatepart.fligthTotalTime)
                 {
                 var totalflightTotalTime = parseInt(data.flightinfo.flightTotalTime) + parseInt(updatepart.flightTotalTime);
-                 data.flightinfo.flightTotalTime = totalfligthTotalTime; 
+                 data.flightinfo.flightTotalTime = totalflightTotalTime; 
                 }
  
                     data.save();
@@ -510,7 +510,6 @@ var xlstojson = require("xlsx-to-json-lc");
                 {
                     return res.json({error_code:1,err_des:err,data:null})
                 }
-                console.log(result);
                 var newResult = [];
                 // 遍历result 
 
@@ -559,7 +558,7 @@ var xlstojson = require("xlsx-to-json-lc");
                                             {
                                             var totalflightTotalTime = parseInt(data.flightinfo.flightTotalTime) + parseInt(one.flightTotalTime);
                                               one.OriginFlightTotalTime = data.flightinfo.flightTotalTime;
-                                              one.UpdatedflightTotalTime = totalfligthTotalTime; 
+                                              one.UpdatedflightTotalTime = totalflightTotalTime; 
                                             }
                                           newResult.push(one);   
                                           console.log("done");
