@@ -11,6 +11,9 @@ var Message = new Schema({
     type:String,
     applier:String,
     owner:String,
+    status:String,
+    action:String,
+    applierId:String,
     creationdate:{type:Date,default:Date.now}
 })
 

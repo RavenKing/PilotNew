@@ -475,6 +475,20 @@ var xlstojson = require("xlsx-to-json-lc");
         })
         res.send(true);
         });
+
+
+        app.put('/api/message',function(req,res)
+    {
+        var query = req.body.data.target;
+        var updatepart = req.body.data.updatepart;
+        Message.findOneAndUpdate(query,updatepart,function(err,data)
+            {
+               if(err)
+                            res.send(err);
+                        res.send("update success");
+            }
+            );
+    });
 //end of message
 
 //upload to excel 

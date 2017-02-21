@@ -79,12 +79,16 @@ export default class WorkFlowDetail extends React.Component {
 
   SubmitForIns()
   {
+    const time = Number(new Date());
     var message = {
-      message_id:this.props.pilotinfo.Pilot.cert_id + this.props.workflowid,
+      message_id:this.props.pilotinfo.Pilot.cert_id + this.props.workflowid+time,
       workflowid:this.props.workflowid,
       descriptoion:"",
       applier:this.props.pilotinfo.Pilot.name,
+      applierId:this.props.pilotinfo.Pilot.cert_id,
       owner:this.state.choseninspector.cert_id,
+      action:"",
+      status:"inprocess"
     }
     this.props.dispatch(SubmitMessage(message));
   }

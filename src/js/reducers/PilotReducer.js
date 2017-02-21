@@ -10,7 +10,8 @@ export default function Pilot (
    Courses:[],
    Companys:[],
    Levels:{},
-   updateFlightNew:[]
+   updateFlightNew:[],
+   message:[]
   }, action
 ) {
   switch (action.type) {
@@ -32,6 +33,42 @@ export default function Pilot (
     case "UPDATE_PILOT_DATA":{
       return {...state,Pilot:action.payload}
     }
+
+    case "FETCH_MESSAGE":{
+      return {...state,message:action.payload}
+    }
+
+    case "UPDATE_MESSAGE":{
+
+      const message_id = action.payload.message_id;
+      const owner = action.payload.owner;
+      var newMessage = state.message.filter((mes,i)=>{
+        if(mes.message_id == message_id)
+        {
+          mes.owner = owner;
+        }
+        return mes;
+
+      })
+      return {...state,message:newMessage}
+    }
+
+    case "UPDATE_MESSAGE1":{
+
+      const message_id = action.payload.message_id;
+      const status = action.payload.status;
+      var newMessage = state.message.filter((mes,i)=>{
+        if(mes.message_id == message_id)
+        {
+          mes.status = status;
+        }
+        return mes;
+
+      })
+      return {...state,message:newMessage}
+    }
+
+
     case "CHANGE_TO_MODIFY":{
       return {...state,status:"MODIFY",activeworkflow:action.payload}
     }

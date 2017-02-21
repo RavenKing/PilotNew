@@ -1,4 +1,5 @@
 import axios from "axios"
+import { Modal } from 'antd';
 
 //pilot actions for information
 export function GET_PILOT_DATA(data)
@@ -127,9 +128,76 @@ export function SubmitMessage(data)
               })
               .then(function(response,err)
               {
+                const modal = Modal.success({
+                title: '提交成功',
+                content: '提交成功',
+               });
                 // dispatch({type:"CREATE_COMPANY",payload:data})
 
               })
+  }
+}
+
+export function FetchMessage()
+{
+  return dispatch=>{
+    axios.get("http://localhost:8083/api/message",{
+                           headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+                    }).then(function(response,err){
+
+                      var data = response.data;
+                      console.log("data",data);
+                      dispatch({type:"FETCH_MESSAGE",payload:data})
+                    })
+
+  }
+}
+
+export function UpdateMessage(data1)
+{
+  var data={
+    "target":{"message_id":data1.message_id},
+    "updatepart":{"owner":data1.owner}
+  }
+    console.log("data is +++++",data)
+
+  return dispatch =>{
+    axios.put("http://localhost:8083/api/message",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+             dispatch({type:"UPDATE_MESSAGE",payload:data1})
+  })
+  }
+}
+
+export function UpdateMessage1(data1)
+{
+  var data={
+    "target":{"message_id":data1.message_id},
+    "updatepart":{"status":data1.status}
+  }
+
+  return dispatch =>{
+    axios.put("http://localhost:8083/api/message",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+             dispatch({type:"UPDATE_MESSAGE1",payload:data1})
+  })
   }
 }
 

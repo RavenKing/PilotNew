@@ -163,7 +163,13 @@ getWorkflowDetail(e){
 
     render() {
       const {user} = this.state;
+      console.log("this.state is +++++",this.state);
       const {workflows} = this.state;
+      var documents = this.state.documents;
+      documents = documents.filter((document,i)=>{
+        if(document.cert_id == this.props.pilotinfo.Pilot.cert_id)
+          return document;
+      })
       const workflowoptions = workflows.map((workflow)=>{
         return <Option value={workflow.workflow_id} key={workflow.workflow_id}>{workflow.title}</Option>
       })      
@@ -181,7 +187,7 @@ getWorkflowDetail(e){
             <Col span={8}><Button type="primary" onClick={this.GetCheck.bind(this)}>申请</Button></Col>
           </Row>
 
-        <Table columns= {this.state.columns} dataSource={this.state.documents} />
+        <Table columns= {this.state.columns} dataSource={documents} />
 
 				</Card>
 
