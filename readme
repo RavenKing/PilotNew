@@ -1,2 +1,24 @@
-New version for Pilot
+　Read Me:
+Pilot Training System
+
+Using:
+Frontend:React,redux,webpack,babel,antd,interect.js
+Backend:Nodejs+MongoDB
+
+1.install mongodb,
+If you don’t have one, Please use homebrew to install.
+You can find homebrew at brew.sh
+2.install node.js
+3.install all related modules by command: npm install
+4.start db
+5.enter folder server and type command: node server.js
+6.back to the root folder to this pj, then type: npm run dev
+Then you can check your home page at localhost:8080
+
+When you get into the home page.
+1.you should register a admin account
+2.login with this account.
+
+Function description:
+
 
