@@ -11,11 +11,15 @@ export default function Pilot (
    Companys:[],
    Levels:{},
    updateFlightNew:[],
-   message:[]
+   message:[],
+   LevelInfo:{}
   }, action
 ) {
   switch (action.type) {
 
+    case "FETCH_LEVEL_INFO":{
+      return {...state,LevelInfo:action.payload}
+    }
     case "Add_Card_To_Display":{
 
     const displayarray = state.display;

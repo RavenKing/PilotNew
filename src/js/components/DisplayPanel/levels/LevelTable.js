@@ -24,6 +24,10 @@ export default class EditableTable extends React.Component {
   else{
     var leveldata = Levels.entries.map((one)=>{
       return {
+        flight_base:{
+          editable:false,
+          value:one.flight_base
+        },
         flight_factor: {
           editable: false,
           value: one.flight_factor,
@@ -45,13 +49,9 @@ export default class EditableTable extends React.Component {
     };
   }
 addLevel(){
-
 	this.setState({visible:true})
 }
-
-
 // for modal 
-
 onCancel(){
 	this.setState({visible:false})
 }
@@ -61,6 +61,7 @@ onCancel(){
  form.validateFields((err, values) => {
  	const {data} = this.state;
 	let newone= {
+  flight_base:{editable:false,value:values.flight_base},
 	flight_factor:{ editable:false, value:values.flight_factor},
 	level:{ editable:false, value:values.level},
 	description:{ editable:false, value:values.description},
@@ -83,8 +84,10 @@ saveFormRef(form){this.form = form;}
 
   	let commitentries = this.state.data.map((one)=>{
   	return {
+
 			level:one.level.value,
 			flight_factor:one.flight_factor.value,
+      flight_base:one.flight_base.value,
 			description:one.description.value
   	}
   });
@@ -111,12 +114,12 @@ this.props.removeCard();
   }
 
   renderColumns(data, index, key, text) {
-    console.log("did");
     const { editable, status } = data[index][key];
     if (typeof editable === 'undefined') {
       return text;
     }
-    return (<EditableCell
+    return (
+      <EditableCell
       editable={editable}
       value={text}
       onChange={value => this.handleChange(key, index, value)}
@@ -134,8 +137,6 @@ this.props.removeCard();
 	const {data}=this.state;
   console.log("selected",selected.level.value)
  	let newdata = data.filter((one)=>{
-
-  console.log("data",one.level.value)
 		if(one.level.value!=selected.level.value)
 		return one
 	});
@@ -153,6 +154,7 @@ this.props.removeCard();
         data[index][item].editable = true;
       }
     });
+     console.log(data);
     this.setState({ data });
   }
   editDone(index, type) {
@@ -175,18 +177,30 @@ this.props.removeCard();
     const { data } = this.state;
     console.log(data);
     //set up columns
-    const columns = [{
+    const columns = [
+
+    {
+      title: '飞行基数',
+      dataIndex: 'flight_base.value',
+      width: '10%',
+      render: (text, record, index) => this.renderColumns(data, index, 'flight_base', text),
+        },
+    {
       title: '等级系数',
       dataIndex: 'flight_factor.value',
       width: '25%',
+            render: (text, record, index) => this.renderColumns(data, index, 'flight_factor', text),
         }, {
       title: '等级',
       dataIndex: 'level.value',
       width: '15%',
+         render: (text, record, index) => this.renderColumns(data, index, 'level', text),
+
        }, {
       title: '描述',
       dataIndex: 'description.value',
-      width: '40%',
+      width: '30%',
+         render: (text, record, index) => this.renderColumns(data, index, 'description', text),
     }, {
       title: '操作',
       dataIndex: 'operation',
@@ -196,7 +210,7 @@ this.props.removeCard();
           {
             editable ?
             <span>
-              <a onClick={() => this.editDone(index, 'save')}>保存</a>
+              <a onClick={() => this.editDone(index, 'save')}>保存|</a>
               <Popconfirm title="确定要取消吗?" onConfirm={() => this.editDone(index, 'cancel')}>
                 <a>取消</a>
               </Popconfirm>

@@ -14,6 +14,7 @@ var Level = new Schema({
       {
         level:String,
         flight_factor:Number,
+        flight_base:Number,
         description:String
       }]
     

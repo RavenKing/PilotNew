@@ -2,15 +2,12 @@ import React from "react";
 import { Table, Input, Popconfirm } from 'antd';
 
 
+
 export default class EditableCell extends React.Component {
-	constructor(props)
-	{
-		super(props)
-		  this.state = {
-		    value: this.props.value,
-		    editable: this.props.editable || false,
-		  }
-	}
+  state = {
+    value: this.props.value,
+    editable: this.props.editable || false,
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.editable !== this.state.editable) {
       this.setState({ editable: nextProps.editable });
@@ -48,7 +45,7 @@ export default class EditableCell extends React.Component {
         </div>
         :
         <div className="editable-row-text">
-          {value.toString() || ' '}
+          {value?value.toString():' ' }
         </div>
       }
     </div>);

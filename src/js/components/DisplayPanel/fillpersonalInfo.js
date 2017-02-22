@@ -6,11 +6,7 @@ const Option = Select.Option;
 const OptGroup = Select.OptGroup;
 const RangePicker = DatePicker.RangePicker;
 const MonthPicker = DatePicker.MonthPicker;
-
-
 let uuid = 0;
-
-
 const NormalLoginForm = Form.create()(React.createClass({
 
 	getInitialState (props){
@@ -373,14 +369,7 @@ var existingflights;
     return (
 
     <div>
-
-
-    
-<h2>满足下一级的升级要求</h2>
-<Progress percent={70} />
       <Form onSubmit={this.handleSubmit} className="Personal-Form" horizontal>
-
-
       <h3>飞行信息</h3>
       <hr class="hrstyle" />
           <Row>

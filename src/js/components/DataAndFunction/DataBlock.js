@@ -22,6 +22,8 @@ onDrop(e){
 }  
 
     render() { 
+
+      var Role;
   var DataItems;
   var topfive = [
   {ID:"1",
@@ -103,6 +105,7 @@ console.log("let us see the role",role);
 var courses = pilot.Courses;
 if(role == "Pilot")
 {
+  Role = "飞行员";
   if(pilot.status == "INIT")
     {
       topfive1=PilotDataBlock;
@@ -130,6 +133,8 @@ if(role == "Pilot")
 }
 if(role == "INS")
 {
+    Role = "检察员";
+
   if(pilot.status == "INIT")
     {
       topfive1=PilotDataBlock;
@@ -184,6 +189,8 @@ if(role == "AUD")
 }
 if(role == "ADM")
 {
+      Role = "管理员";
+
     if(pilot.status == "INIT")
     {
       topfive1=topfive;
@@ -209,11 +216,18 @@ if(role == "ADM")
        }
       }
 }
+
+let Name="test user";
+console.log(pilot)
+if(pilot.Pilot)
+if(pilot.Pilot.name)
+  {Name = pilot.Pilot.name}
 // console.log("欢迎登录",this.props.pilot.Pilot.name);
 return(
   <div className="data-block" data-type="TITLE"> 
     <div className="data-title" >
-      <span> 欢迎登录<br/>国航晋升系统 </span>
+      <span> 欢迎登录<br/>国航晋升系统 <br/>
+      {Role+":" + Name}</span>
     </div>
       { DataItems }
   </div>

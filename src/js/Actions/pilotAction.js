@@ -1,6 +1,36 @@
 import axios from "axios"
 import { Modal } from 'antd';
 
+
+//get level info 
+
+
+
+export function GetCurrentLevelInfo(level)
+{
+
+if(!level)
+{
+  return 1;
+}
+return dispatch=>{
+    axios.get("http://localhost:8083/api/levels?level="+level,{
+       headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        }
+    })
+    .then(function (response,err) {
+      let data = response.data;
+        dispatch({type:"FETCH_LEVEL_INFO",payload:data})    
+     })
+  
+    }
+
+}
+
+
+
 //pilot actions for information
 export function GET_PILOT_DATA(data)
 {

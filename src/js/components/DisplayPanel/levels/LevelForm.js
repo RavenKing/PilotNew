@@ -12,16 +12,23 @@ const CollectionCreateForm = Form.create()(
     return (
       <Modal
         visible={visible}
-        title={initdata?"修改课程":"创建新课程"}
+        title={initdata?"修改等级":"创建新等级"}
         okText="保存"
         onCancel={onCancel}
         onOk={onCreate}
       >
         <Form vertical>
+          <FormItem label="飞行基数时间（小时）">
+            {getFieldDecorator('flight_base', {
+              initialValue: initdata?initdata.flight_base:""
+            })(
+              <InputNumber />
+            )}
+          </FormItem>
           <FormItem label="等级系数">
             {getFieldDecorator('flight_factor', {
               rules: [{ required: true, message: '等级系数' }],
-              initialValue: initdata?initdata.course_id:""
+              initialValue: initdata?initdata.flight_factor:""
 
             })(
               <InputNumber />

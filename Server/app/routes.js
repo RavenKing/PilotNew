@@ -379,18 +379,49 @@ var xlstojson = require("xlsx-to-json-lc");
 //levels
 
 
+     app.get('/api/levelinfo', function(req, res) {
+        console.log(req.query);
+            Level.findOne(req.query,function(err, level) {
+                // if there is an error retrieving, send the error. 
+                                // nothing after res.send(err) will execute
+                if (err)
+                    res.send(err);
+                res.json(level); // return all nerds in JSON format
+            });
+
+            });
 
 
      app.get('/api/levels', function(req, res) {
         console.log(req.query);
             Level.findOne({name:"default"},function(err, pilots) {
                 // if there is an error retrieving, send the error. 
-                                // nothing after res.send(err) will execute
-                if (err)
+            if (err)
                     res.send(err);
-                res.json(pilots); // return all nerds in JSON format
-            });
+            else
+            {    if(req.query.level)
+                {
+                    var data ={};
+                    if(req.query.level)
+                    {
 
+                        for(var i =0;i<pilots.entries.length;i++)
+                        {
+                                if(req.query.level == pilots.entries[i].level)
+                                    data = pilots.entries[i];
+
+                        }
+                    res.json(data);
+                    }
+
+                }
+                else
+                  {           // nothing after res.send(err) will execute
+                res.json(pilots);
+                  } // return all nerds in JSON format
+            }
+            });
+            
             });
 
 
