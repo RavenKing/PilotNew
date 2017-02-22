@@ -105,7 +105,7 @@ export function personalInfoRegister(data){
         cert_id:cert_id,
         name:name,
         password:password,
-        role:'Pilot'
+        role:'ADM'
     },config).then(function(response){
       if(response.status == 200){
         const modal = Modal.success({
