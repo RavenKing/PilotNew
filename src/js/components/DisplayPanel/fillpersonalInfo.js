@@ -373,8 +373,8 @@ var existingflights;
       <h3>飞行信息</h3>
       <hr class="hrstyle" />
           <Row>
-                <Col span={6}>
-                    <FormItem label="起落数">
+                <Col span={5}>
+                    <FormItem label="航段数">
                     {getFieldDecorator('flightinfo.flightRoute', {
                       initialValue:personaldata.flightinfo.flightRoute
                     })(
@@ -382,7 +382,7 @@ var existingflights;
                     )}
                   </FormItem>
             </Col>
-            <Col span={6}>
+            <Col span={5}>
                  <FormItem label="飞行时间">
                     {getFieldDecorator('flightinfo.flightTime', {
                       initialValue:personaldata.flightinfo.flightTime
@@ -391,21 +391,30 @@ var existingflights;
                     )}
                   </FormItem>
             </Col>
-             <Col span={6}>
-                    <FormItem label="真实起落数">
+             <Col span={5}>
+                    <FormItem label="起落数">
                     {getFieldDecorator('flightinfo.flightRealRoute', {
                       initialValue:personaldata.flightinfo.flightRealRoute?personaldata.flightinfo.flightRealRoute:0
                     })(
-                      <Input addonBefore={<Icon type="swap-right" />} placeholder="航段" disabled     style={{ width: 100 }}/>
+                      <Input addonBefore={<Icon type="swap-right" />} placeholder="起落数" disabled     style={{ width: 100 }}/>
                     )}
                   </FormItem>
             </Col>
-            <Col span={6}>
-                 <FormItem label="真实飞行时间">
+            <Col span={5}>
+                 <FormItem label="模拟机时间">
                     {getFieldDecorator('flightinfo.flightRealTime', {
                       initialValue:personaldata.flightinfo.flightRealTime?personaldata.flightinfo.flightRealTime:0
                     })(
-                      <Input addonBefore={<Icon type="swap-right" />} placeholder="飞行时间" disabled     style={{ width: 100 }}/>
+                      <Input addonBefore={<Icon type="swap-right" />} placeholder="模拟机时间" disabled     style={{ width: 100 }}/>
+                    )}
+                  </FormItem>
+            </Col>
+             <Col span={4}>
+                 <FormItem label="总经历时间">
+                    {getFieldDecorator('flightinfo.flightTotalTime', {
+                      initialValue:personaldata.flightinfo.flightTotalTime?personaldata.flightinfo.flightTotalTime:0
+                    })(
+                      <Input addonBefore={<Icon type="swap-right" />} placeholder="总经历时间" disabled     style={{ width: 100 }}/>
                     )}
                   </FormItem>
             </Col>

@@ -171,11 +171,10 @@ saveFormRef(form){
 
   }
 
-    componentDidMount() {
-     setCardDragable(ReactDOM.findDOMNode(this));
-          handleFocus(ReactDOM.findDOMNode(this));   
-
-      }
+    componentDidMount(){
+       setCardDragable(ReactDOM.findDOMNode(this));
+       handleFocus(ReactDOM.findDOMNode(this));
+    }
 FlightAnalysis(){
     this.setState({
       FlightAnalysis:true
@@ -225,7 +224,7 @@ let displayQueryPart =
 
 
       return (
-        <div className="detail-panel">  
+        <div class="workFlowDetailPanel">  
         <Card title="报表系统" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
 
         {displayQueryPart}

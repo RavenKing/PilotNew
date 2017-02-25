@@ -144,7 +144,7 @@ export default class Login extends React.Component {
                 help={token.error=="password"?token.hint:""}
               >
                 
-                <Input type="password" placeholder="密码" onChange= { this.PasswordChange.bind(this)} ref="password_login"/>             
+                <Input type="password" placeholder="密码" onChange= { this.PasswordChange.bind(this)} ref="password_login" onPressEnter={this.setAuth.bind(this)}/>             
                                
               </FormItem>
         

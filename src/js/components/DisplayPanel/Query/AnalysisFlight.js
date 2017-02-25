@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Input, Popconfirm } from 'antd';
+import { Table, Input, Popconfirm,Row,Col } from 'antd';
 import  ReactHighCharts  from "react-highcharts";
 import _ from "underscore";
 import * as d3 from "d3";
@@ -114,19 +114,71 @@ var config = {
   },
   series: 
   [{
-    name:"飞行员数目",
-    data:this.state.seriescount
-  },{
     name:"平均飞行时间[小时]",
     data:this.state.seriesavg
   }]
 };
 
+var secondconfig={
+
+       chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+        title: {
+            text: 'Browser<br>shares',
+            align: 'center',
+            verticalAlign: 'middle',
+            y: 50
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                dataLabels: {
+                    enabled: true,
+                    distance: -50,
+                    style: {
+                        fontWeight: 'bold',
+                        color: 'white',
+                        textShadow: '0px 1px 2px black'
+                    }
+                },
+                startAngle: -90,
+                endAngle: 90,
+                center: ['50%', '75%']
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Browser share',
+            innerSize: '50%',
+            data: [
+                ['Firefox',   45.0],
+                ['IE',       26.8],
+                ['Chrome', 12.8],
+                ['Safari',    8.5],
+                ['Opera',     6.2],
+                {
+                    name: 'Others',
+                    y: 0.7,
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            ]
+        }]
+}
+
     return (
     	<div>
-
-				<ReactHighCharts config={config}/>
-
+<Row>
+    <Col span={12}><ReactHighCharts config={config}/></Col>  
+    <Col span={12}>
+     <ReactHighCharts config={secondconfig}/></Col>
+</Row>
         <Table dataSource={this.state.showdata}  columns={this.state.columns}/>
 
     	</div>

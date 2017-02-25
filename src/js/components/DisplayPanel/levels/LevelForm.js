@@ -18,7 +18,7 @@ const CollectionCreateForm = Form.create()(
         onOk={onCreate}
       >
         <Form vertical>
-          <FormItem label="飞行基数时间（小时）">
+          <FormItem label="等级标准（小时）">
             {getFieldDecorator('flight_base', {
               initialValue: initdata?initdata.flight_base:""
             })(

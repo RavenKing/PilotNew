@@ -180,13 +180,13 @@ this.props.removeCard();
     const columns = [
 
     {
-      title: '飞行基数',
+      title: '经历时间',
       dataIndex: 'flight_base.value',
       width: '10%',
       render: (text, record, index) => this.renderColumns(data, index, 'flight_base', text),
         },
     {
-      title: '等级系数',
+      title: '起落数',
       dataIndex: 'flight_factor.value',
       width: '25%',
             render: (text, record, index) => this.renderColumns(data, index, 'flight_factor', text),

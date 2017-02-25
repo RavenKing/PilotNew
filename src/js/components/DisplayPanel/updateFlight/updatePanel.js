@@ -124,7 +124,7 @@ render() {
               let title="";
               if(key == "OriginFlightTime")
               {
-                title="上次飞行时间"
+                title="已有飞行时间"
               } 
               else if(key=="UpdatedFlightTime"){
                 title="更新后飞行时间"
@@ -140,10 +140,57 @@ render() {
               else if(key=="flightRoute")
               {
                 title="更新航段"
-              }      else if(key=="name")
+              }      
+              else if(key=="name")
               {
-                title="人名"
+                title="飞行员"
               }
+               else if(key=="OriginFlightRoute")
+              {
+                title="已有航段数"
+              }
+                 else if(key=="UpdatedflightRoute")
+              {
+                title="更新后航段数"
+              }
+              else if(key=="OriginflightRealTime")
+              {
+                title="已有模拟机时间"
+              }
+                   else if(key=="UpdatedflightRealTime")
+              {
+                title="更新后模拟机时间"
+              }
+          else if(key=="OriginFlightRealRoute")
+              {
+                title="已有起落数"
+              }
+                else if(key=="UpdatedflightRealRoute")
+              {
+                title="更新后起落数"
+              }
+                 else if(key=="OriginFlightTotalTime")
+              {
+                title="已有总经历时间"
+              }
+               else if(key=="UpdatedflightTotalTime")
+              {
+                title="更新后总经历时间"
+              }
+               else if(key=="flightTotalTime")
+              {
+                title="更新总经历时间"
+              } else if(key=="flightRealTime")
+              {
+                title="更新模拟机时间"
+              }
+
+              else if(key=="flightRealRoute")
+              {
+                title="更新起落数"
+              }
+
+
 
 
 
@@ -156,7 +203,7 @@ render() {
 
              columns.push(columnone);
             }
-            displayTable=<div> <h1>上传预览</h1><Table columns={columns} dataSource={data}  /> </div>
+            displayTable=<div> <h1>上传预览</h1><Table bordered  columns={columns} dataSource={data}  /> </div>
           }
           else{
        displayTable=(<div style={{ marginTop: 16, height: 180 }}>

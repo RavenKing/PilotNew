@@ -144,7 +144,7 @@ var xlstojson = require("xlsx-to-json-lc");
                 var totalflightRealRoute = parseInt(data.flightinfo.flightRealRoute) + parseInt(updatepart.flightRealRoute);
                  data.flightinfo.flightRealRoute = totalflightRealRoute; 
                 }
-                if(updatepart.fligthTotalTime)
+                if(updatepart.flightTotalTime)
                 {
                 var totalflightTotalTime = parseInt(data.flightinfo.flightTotalTime) + parseInt(updatepart.flightTotalTime);
                  data.flightinfo.flightTotalTime = totalflightTotalTime; 
