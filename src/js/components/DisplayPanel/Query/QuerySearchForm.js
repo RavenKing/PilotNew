@@ -1,8 +1,9 @@
-import { Form, Row, Col, Input, Button, Icon ,Select} from 'antd';
+import { Form, Row, Col, Input, Button, Icon ,Select,InputNumber} from 'antd';
 import React from "react";
 import ReactDOM from "react-dom";
 const FormItem = Form.Item;
 const Option = Select.Option;
+const InputGroup = Input.Group;
 class AdvancedSearchForm extends React.Component {
   state = {
     expand: false,
@@ -18,16 +19,19 @@ class AdvancedSearchForm extends React.Component {
   }
 
   render() {
+
   	const Searchoptions=
   	[	
   		{key:"company",value:"company",description:"公司名称"},
   		{key:"department",value:"department",description:"部门"},
   		{key:"cert_id",value:"cert_id",description:"身份证号"},
   		{key:"personnal_type",value:"personnal_type",description:"生源类型"},
-  		{key:"level",value:"level.current_level",description:"登记"},
+  		{key:"level",value:"level.current_level",description:"等级"},
   		{key:"name",value:"name",description:"名字"},
   		{key:"flightRoute",value:"flightRoute",description:"航段"},
-  		{key:"flightTime",value:"flightTime",description:"飞行时间"},
+      {key:"flightTime",value:"flightTime",description:"飞行时间"},
+      {key:"flightRealTime",value:"flightRealTime",description:"模拟机时间"},
+      {key:"flightTotalTime",value:"flightTotalTime",description:"经历时间"},
   	];
   	const SelectOption = Searchoptions.map(
   		(option)=>{
@@ -78,6 +82,23 @@ class AdvancedSearchForm extends React.Component {
           {children.slice(0, shownCount)}
         </Row>
         <Row>
+        <Col span={12}>
+          <FormItem  label={"模拟机时间"}>
+            {getFieldDecorator('flightTime1')(
+             <InputNumber size="large" style={{width:"300px"}}/>
+            )}
+          </FormItem>
+        </Col>
+
+        <Col span={12}>
+          <FormItem  label={"至"}>
+            {getFieldDecorator('flightTimeBase1')(
+             <InputNumber size="large" style={{width:"300px"}}/>
+            )}
+          </FormItem>
+        </Col>
+          </Row>
+        <Row>
           <Col span={24} style={{ textAlign: 'right' }}>
             <Button type="primary" htmlType="submit">搜索</Button>
             <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
@@ -88,6 +109,7 @@ class AdvancedSearchForm extends React.Component {
             </a>
           </Col>
         </Row>
+
       </Form>
     );
   }

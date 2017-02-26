@@ -2,13 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
-import {RemoveCard,AddCardToDisplay} from "../../../Actions/pilotAction";
+import {RemoveCard,AddCardToDisplay,UPDATE_PILOT_DATA} from "../../../Actions/pilotAction";
 import {GetQueryResults,DeletePilot} from "../../../Actions/QueryAction";
-import {Button,Table,Card,Icon,Form,Modal} from "antd";
+import {Button,Table,Card,Icon,Form,Modal,Select,notification } from "antd";
 import AnalysisFlight from "./AnalysisFlight"
 import QuerySearchForm from "./QuerySearchForm";
 import fillPersonalInfo from "../fillpersonalInfo";
 import json2csv  from "json2csv";
+const Option=Select.Option;
 
 @connect((store)=>{    
     return {
@@ -56,6 +57,13 @@ export default class QueryPanel extends React.Component {
                     <a href="#">查看晋升信息</a>                    
                     <span className="ant-divider" />
                     <a href="#" onClick={this.DeleteConfirm.bind(this,record)}>删除此人</a>
+                    <span className="ant-divider" />
+                     <Select labelInValue defaultValue={{ key: record.role?record.role:"Pilot" }} style={{ width: 120 }} onChange={this.handleSelect.bind(this,record)}>
+                            <Option value="Pilot">飞行员</Option>
+                            <Option value="INS">检查员</Option>
+                            <Option value="AUD">审查员</Option>
+                            <Option value="ADM">管理员</Option>
+                          </Select>
                   </span>
                 )
             }];
@@ -66,10 +74,18 @@ export default class QueryPanel extends React.Component {
         columns:columns,
         pilotsquerydata:[],
         deleteModal:false,
-        FlightAnalysis:false
+        FlightAnalysis:false,
+        queryRange:[]
       }
   }
-
+handleSelect(record,selected)
+{
+  this.props.dispatch(UPDATE_PILOT_DATA(record.cert_id,{role:selected.key}));
+  notification["success"]({
+    message: '成功更新',
+    description: record.name+"已经提升为"+selected.label,
+  });
+}
 BackToQuery(){
   this.setState({FlightAnalysis:false})
 }
@@ -117,17 +133,47 @@ BackToQuery(){
   const form = this.form;
     e.preventDefault();
   form.validateFields((err, values) => {
+          console.log(values)
     let querystring = "?"
       for (let i = 0; i < 5; i++) {
 
-        var selectKey= `field-${i}`;
+        let selectKey= `field-${i}`;
         let selectValue = `value-${i}`;
         if(values[selectKey]!=null&&values[selectValue]!=null)
-        {let string = values[selectKey]+"="+values[selectValue]+"&";
+        {
+          let string=""      
+           string = values[selectKey]+"="+values[selectValue]+"&";
         querystring=querystring+string;
         }
       }
-      this.props.dispatch(GetQueryResults(querystring));
+
+
+        for (let i = 0; i < 3; i++) {
+
+        let selectLow =`flightTime${i}`
+        let selectHigh = `flightTimeBase${i}`;
+             //判断是不是飞行时间 经历时间或者模拟机时间
+             console.log(selectLow)
+        let key="";
+        if(i==1)
+        key = "flightTime"
+        if(i==2)
+          key ="flightRealTime"
+        if(i==2)
+          key ="flightTotalTime"
+       console.log(values[selectLow])
+        if(values[selectLow])
+        {
+          let data = {
+            key:key,
+            low:values[selectLow],
+            high:values[selectHigh]
+          }
+          console.log(data)
+            this.state.queryRange.push(data);
+        }
+        }
+        this.props.dispatch(GetQueryResults(querystring));    
     });
   }
 saveFormRef(form){
@@ -150,8 +196,6 @@ saveFormRef(form){
       return one;
     })
     var result = json2csv({data:this.state.pilotsquerydata,fields:fields})
-    console.log(result);
-
     var args={ filename: "flight-data.csv" };
         var data, filename, link;
 
@@ -221,8 +265,6 @@ let displayQueryPart =
 
 
           }
-
-
       return (
         <div class="workFlowDetailPanel">  
         <Card title="报表系统" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>

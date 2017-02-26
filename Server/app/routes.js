@@ -71,6 +71,25 @@ var xlstojson = require("xlsx-to-json-lc");
 
 
 // pilots operations
+
+         app.get('/api/pilots/query', function(req, res) {
+
+
+
+     Pilot.find()
+     .where("flightinfo.flightTime").gt(100)
+     .exec(function(error,pilots){
+            if (error)
+                    res.send(error);
+         res.json(pilots); // return all nerds in JSON format
+
+     })
+
+     });
+
+
+
+
      app.get('/api/pilots', function(req, res) {
 
         console.log(req.query);

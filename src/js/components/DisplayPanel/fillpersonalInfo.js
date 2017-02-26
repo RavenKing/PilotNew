@@ -66,7 +66,6 @@ if(this.state.ekeys)
         flightdata.push(flight);
       }
 }
-console.log(values);
 // end of existing flight
 //format flights 
     for(var i =0;i<values.keys.length;i++)
@@ -91,7 +90,6 @@ console.log(values);
 // end of format
       values.company=this.state.newcompanyname;
         this.props.update_data(values);
-
         if (err) {
         return;
       }

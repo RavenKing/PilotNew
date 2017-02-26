@@ -88,7 +88,7 @@ export default class PersonnalPanel extends React.Component {
         return (
 				<div class="detail-panel">
 
-        <Card title={"个人资料" + this.state.persondata.name}  extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)}/>}>
+        <Card title={"个人资料-" + this.state.persondata.name}  extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)}/>}>
             <h2>满足下一级的升级要求</h2>
             <Progress percent={progressdata} />
              <PersonalForm personaldata={this.state.persondata} 

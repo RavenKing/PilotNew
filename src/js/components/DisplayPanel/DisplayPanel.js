@@ -24,7 +24,6 @@ import CompanyOverview from "./CompanyOverview";
 import NotificationPanel from "./NotificationPanel";
 import QueryPanel from "./Query/QueryPanel";
 
-
 import UpdatePanel from "./updateFlight/updatePanel";
 
 // fill info panel
@@ -189,6 +188,16 @@ export default class DisplayPanel extends React.Component {
                         x:x,
                         y:y,
                         type:"updatePanel"
+                    }
+              props.dispatch(AddCardToDisplay(cardinfo))
+
+                  }
+                  else if(data_id==12)
+                  {
+                    var cardinfo = {
+                        x:x,
+                        y:y,
+                        type:"AuthorizationPanel"
                     }
               props.dispatch(AddCardToDisplay(cardinfo))
 
