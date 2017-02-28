@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
 import {RemoveCard,AddCardToDisplay,UPDATE_PILOT_DATA} from "../../../Actions/pilotAction";
-import {GetQueryResults,DeletePilot} from "../../../Actions/QueryAction";
+import {GetQueryResults,DeletePilot,GetWorkFlowById} from "../../../Actions/QueryAction";
 import {Button,Table,Card,Icon,Form,Modal,Select,notification } from "antd";
 import AnalysisFlight from "./AnalysisFlight"
 import QuerySearchForm from "./QuerySearchForm";
@@ -44,17 +44,26 @@ export default class QueryPanel extends React.Component {
               dataIndex: 'flightinfo.flightRoute',
               key: 'flightinfo.flightRoute',
             },{
-              title: '航行时间',
+              title: '飞行时间',
               dataIndex: 'flightinfo.flightTime',
               key: 'flightinfo.flightTime',
             },{
+              title: '模拟机时间',
+              dataIndex: 'flightinfo.flightRealTime',
+              key: 'flightinfo.flightRealTime',
+            },{
+              title: '经历时间',
+              dataIndex: 'flightinfo.flightTotalTime',
+              key: 'flightinfo.flightTotalTime',
+            },
+            {
               title:'操作',
               key:'action',
               render: (text, record) => (
                   <span>
                      <a href="#" onClick={this.getPersonDetail.bind(this,record)} >查看个人信息</a>
                     <span className="ant-divider" />
-                    <a href="#">查看晋升信息</a>                    
+                    <a href="#" onClick={this.getWorkFlowDetail.bind(this,record)}>查看晋升信息</a>                    
                     <span className="ant-divider" />
                     <a href="#" onClick={this.DeleteConfirm.bind(this,record)}>删除此人</a>
                     <span className="ant-divider" />
@@ -86,6 +95,24 @@ handleSelect(record,selected)
     description: record.name+"已经提升为"+selected.label,
   });
 }
+
+//getgetWorkFlowDetail
+
+getWorkFlowDetail(record)
+{
+
+  this.props.dispatch(GetWorkFlowById(record.cert_id));
+
+
+       var cardinfo ={
+                      type:"displaypromotion",
+                      targetdata:record
+                    }
+    this.props.dispatch(AddCardToDisplay(cardinfo));
+
+
+
+}
 BackToQuery(){
   this.setState({FlightAnalysis:false})
 }
@@ -103,13 +130,11 @@ BackToQuery(){
                       type:"fillpersonalinfo",
                       person:data
                     }
-                  this.props.dispatch(AddCardToDisplay(cardinfo))
+    this.props.dispatch(AddCardToDisplay(cardinfo))
   }
 
   componentWillReceiveProps(nextProps)
   {
-
-    console.log(nextProps);
     if(nextProps.query)
     {
       const {pilots} = nextProps.query;
@@ -131,49 +156,71 @@ BackToQuery(){
 
   handleSearch = (e) => {
   const form = this.form;
+  alert("what")
     e.preventDefault();
   form.validateFields((err, values) => {
-          console.log(values)
-    let querystring = "?"
+    let querystring = '{'
       for (let i = 0; i < 5; i++) {
-
         let selectKey= `field-${i}`;
         let selectValue = `value-${i}`;
         if(values[selectKey]!=null&&values[selectValue]!=null)
         {
+
+      if(querystring!='{')
+        {
+          querystring=querystring+','
+        }
+
+
           let string=""      
-           string = values[selectKey]+"="+values[selectValue]+"&";
+           string = '"'+values[selectKey]+'":"'+values[selectValue]+'"';
         querystring=querystring+string;
         }
       }
+        for (let i = 1; i < 4 ; i++) {
 
-
-        for (let i = 0; i < 3; i++) {
 
         let selectLow =`flightTime${i}`
-        let selectHigh = `flightTimeBase${i}`;
+        let selectHigh = `flightValue${i}`;
              //判断是不是飞行时间 经历时间或者模拟机时间
-             console.log(selectLow)
+             console.log(selectHigh)
         let key="";
         if(i==1)
         key = "flightTime"
         if(i==2)
           key ="flightRealTime"
-        if(i==2)
+        if(i==3)
           key ="flightTotalTime"
-       console.log(values[selectLow])
         if(values[selectLow])
         {
+         if(querystring!='{')
+        {
+          querystring =querystring + ',';
+
+        }
           let data = {
             key:key,
             low:values[selectLow],
-            high:values[selectHigh]
+            high:parseFloat(values[selectHigh])
           }
-          console.log(data)
             this.state.queryRange.push(data);
+            let string="";
+            string = '"'+"flightinfo."+key+'":{"$gt":"'+values[selectLow]+'"';
+            if(values[selectHigh])
+              string = string + ',"$lt":"'+values[selectHigh]+'"';
+            string =string + '}'
+            querystring=querystring+ string
         }
         }
-        this.props.dispatch(GetQueryResults(querystring));    
+
+        console.log(querystring);
+
+ // close query string;
+         querystring = querystring + '}';
+     let paradata= JSON.parse(querystring);
+     console.log(paradata);
+       this.props.dispatch(GetQueryResults(querystring)); 
+
     });
   }
 saveFormRef(form){
@@ -228,13 +275,19 @@ FlightAnalysis(){
   render() {
 
 
+let displaydata= this.state.pilotsquerydata;
+
+
 let displayQueryPart =          
           (<div>
           <QuerySearchForm
                ref={this.saveFormRef.bind(this)}
                handleSearch={this.handleSearch.bind(this)}
              />
-             <Table class="margin-top10" columns={this.state.columns} dataSource={ this.state.pilotsquerydata} footer={()=>{
+
+
+
+             <Table bordered class="margin-top10" columns={this.state.columns} dataSource={ displaydata } footer={()=>{
                 if(this.state.pilotsquerydata.length>0)
                       {
                         return (
@@ -266,7 +319,7 @@ let displayQueryPart =
 
           }
       return (
-        <div class="workFlowDetailPanel">  
+        <div class="query-panel">  
         <Card title="报表系统" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
 
         {displayQueryPart}

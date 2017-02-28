@@ -7,13 +7,8 @@ var Workflow=require('./models/WorkFlow');
 var Level = require('./models/Level');
 var Message = require('./models/Message');
 var multer  = require('multer');
-
 var upload = require('./upload');
-
 var uploadExcel = require('./flightsupload')
-
-
-
 var xlstojson = require("xlsx-to-json-lc");
 
 
@@ -21,7 +16,7 @@ var xlstojson = require("xlsx-to-json-lc");
 
       ///documents  
     app.get('/api/documents', function(req, res) {
-            Document.find(function(err, documents) {
+            Document.find(req.query,function(err, documents) {
                 // if there is an error retrieving, send the error. 
                                 // nothing after res.send(err) will execute
                 if (err)
@@ -72,16 +67,16 @@ var xlstojson = require("xlsx-to-json-lc");
 
 // pilots operations
 
-         app.get('/api/pilots/query', function(req, res) {
+         app.post('/api/pilots/query', function(req, res) {
+     var data = req.body.data;
+     console.log(data);
+     var newquery = JSON.parse(data);
+     console.log(newquery);
 
-
-
-     Pilot.find()
-     .where("flightinfo.flightTime").gt(100)
-     .exec(function(error,pilots){
-            if (error)
-                    res.send(error);
-         res.json(pilots); // return all nerds in JSON format
+     Pilot.find(newquery,function(err,pilots){
+            if (err)
+                    res.send(err);
+         res.json(pilots);
 
      })
 
@@ -91,8 +86,6 @@ var xlstojson = require("xlsx-to-json-lc");
 
 
      app.get('/api/pilots', function(req, res) {
-
-        console.log(req.query);
             Pilot.find(req.query,function(err, pilots) {
                 // if there is an error retrieving, send the error. 
                                 // nothing after res.send(err) will execute

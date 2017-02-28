@@ -14,7 +14,9 @@ export default class FunctionPanel extends React.Component {
          <FunctionItem text="创建" id="Create"/>
          <FunctionItem text="编辑" id="Edit"/>
          <FunctionItem text="删除" id="Delete"/>
-
+          <div class="footer">
+          <img src="../../img/sangtuosi.jpg"  width="100px" height="100px" />
+       	  </div>
         </div>
       );
   }

@@ -174,11 +174,7 @@ var secondconfig={
 
     return (
     	<div>
-<Row>
-    <Col span={12}><ReactHighCharts config={config}/></Col>  
-    <Col span={12}>
-     <ReactHighCharts config={secondconfig}/></Col>
-</Row>
+        <ReactHighCharts config={config}/> 
         <Table dataSource={this.state.showdata}  columns={this.state.columns}/>
 
     	</div>

@@ -289,7 +289,7 @@ export default class DisplayPanel extends React.Component {
           }
           case "displaypromotion":
           {
-              return <DisplayPromotion key={one.cardid} cardid={one.cardid} />
+              return <DisplayPromotion key={one.cardid} cardid={one.cardid} targetdata={one.targetdata}/>
               break;
           }
           case "stepdetail":

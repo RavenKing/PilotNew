@@ -79,8 +79,7 @@ this.props.dispatch(fetchArticles(user))*/
           <DisplayPanel articles = {this.props.articles}> </DisplayPanel>      
           <FunctionPanel> 
           </FunctionPanel>
-
-        </div>
+          </div>
         
         
         

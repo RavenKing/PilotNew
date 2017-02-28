@@ -16,6 +16,9 @@ li {
   -webkit-transition: background 3s;
   transition: background 3s;
 }
+.logo{
+
+}
 
 .content-0 {
   background: #135058 !important;
@@ -196,6 +199,18 @@ li {
   transition: border-radius .3s, box-shadow .3s, filter .3s, -webkit-filter .3s;
  
 }
+
+
+.query-panel {
+
+  position: absolute;
+  width:1000px;
+  box-shadow: 1px 2px 10px rgba(22, 22, 22, 0.5);
+  z-index: 1;
+  transition: border-radius .3s, box-shadow .3s, filter .3s, -webkit-filter .3s;
+ 
+}
+
 
 .data-card:hover, .line-card:hover, .pie-card:hover , .create-obj-card:hover, .upload-card:hover, .detail-panel:hover, .create-panel:hover, .edit-panel:hover, .main-panel:hover{
   position: absolute;

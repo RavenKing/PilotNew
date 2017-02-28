@@ -12,7 +12,11 @@ export default function query (
       const newpilots= state.pilots.filter((pilot)=>{if(pilot.cert_id!=action.payload)return pilot});
       return{...state,pilots:newpilots};
     }
+    case "GET_TARGET_WORKFLOWS":{
+      const newpilots = state.pilots.filter((pilot)=>{if(pilot.cert_id==action.payload.cert_id) pilot.Workflows = action.payload.workflows; return pilot;})
+      return {...state,pilots:newpilots};
 
+    }
     default:{
 
       return state

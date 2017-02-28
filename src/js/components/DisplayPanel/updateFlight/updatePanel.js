@@ -62,7 +62,6 @@ export default class updatePanel extends React.Component {
             cert_id:record.cert_id},
             updatepart:record
             }
-            console.log(record);
             this.props.dispatch(UPDATE_PILOT_FLIGHT(target))
 
           });

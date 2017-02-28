@@ -29,9 +29,6 @@ class AdvancedSearchForm extends React.Component {
   		{key:"level",value:"level.current_level",description:"等级"},
   		{key:"name",value:"name",description:"名字"},
   		{key:"flightRoute",value:"flightRoute",description:"航段"},
-      {key:"flightTime",value:"flightTime",description:"飞行时间"},
-      {key:"flightRealTime",value:"flightRealTime",description:"模拟机时间"},
-      {key:"flightTotalTime",value:"flightTotalTime",description:"经历时间"},
   	];
   	const SelectOption = Searchoptions.map(
   		(option)=>{
@@ -50,7 +47,7 @@ class AdvancedSearchForm extends React.Component {
     const children = [];
     for (let i = 0; i < 5; i++) {
       children.push(
-      	<div>
+          <Row gutter={40}>
         <Col span={12} key={"key"+i}>
           <FormItem {...formItemLayout} label={`选择条件 ${i}`}>
             {getFieldDecorator(`field-${i}`)(
@@ -67,7 +64,7 @@ class AdvancedSearchForm extends React.Component {
             )}
           </FormItem>
         </Col>
-        </div>
+        </Row>
       );
     }
 
@@ -78,26 +75,68 @@ class AdvancedSearchForm extends React.Component {
         className="ant-advanced-search-form"
         onSubmit={this.props.handleSearch}
       >
-        <Row gutter={40}>
-          {children.slice(0, shownCount)}
-        </Row>
-        <Row>
-        <Col span={12}>
-          <FormItem  label={"模拟机时间"}>
-            {getFieldDecorator('flightTime1')(
-             <InputNumber size="large" style={{width:"300px"}}/>
-            )}
-          </FormItem>
-        </Col>
+      
 
-        <Col span={12}>
-          <FormItem  label={"至"}>
-            {getFieldDecorator('flightTimeBase1')(
-             <InputNumber size="large" style={{width:"300px"}}/>
-            )}
-          </FormItem>
-        </Col>
-          </Row>
+          {children.slice(0, shownCount)}
+  
+
+
+        <Row gutter={40}>
+             <Col span={12}>
+                    <FormItem   {...formItemLayout} label="飞行时间">
+                    {getFieldDecorator('flightTime1', {
+                          rules:[{type:"number"}] 
+                    })(
+                      <InputNumber  addonBefore={<Icon type="swap-right" />} placeholder="飞行时间"      style={{ width: 200 }}/>
+                    )}
+                  </FormItem>
+            </Col>
+            <Col span={12}>
+                    <FormItem   {...formItemLayout} label="至">
+                    {getFieldDecorator('flightValue1')(
+                      <Input  addonBefore={<Icon type="swap-right" />} placeholder="飞行时间"      style={{ width: 200 }}/>
+                    )}
+                  </FormItem>
+            </Col>
+
+      </Row>
+            <Row gutter={40}>
+             <Col span={12}>
+                    <FormItem   {...formItemLayout} label="模拟机时间">
+                    {getFieldDecorator('flightTime2', {
+                          rules:[{type:"number"}] 
+                    })(
+                      <InputNumber  addonBefore={<Icon type="swap-right" />} placeholder="模拟机时间"      style={{ width: 200 }}/>
+                    )}
+                  </FormItem>
+            </Col>
+            <Col span={12}>
+                    <FormItem   {...formItemLayout} label="至">
+                    {getFieldDecorator('flightValue2')(
+                      <Input  addonBefore={<Icon type="swap-right" />} placeholder="模拟机时间"      style={{ width: 200 }}/>
+                    )}
+                  </FormItem>
+            </Col>
+      </Row>
+                    <Row gutter={40}>
+             <Col span={12}>
+                    <FormItem   {...formItemLayout} label="经历时间">
+                    {getFieldDecorator('flightTime3', {
+                          rules:[{type:"number"}] 
+                    })(
+                      <InputNumber  addonBefore={<Icon type="swap-right" />} placeholder="经历时间"      style={{ width: 200 }}/>
+                    )}
+                  </FormItem>
+            </Col>
+            <Col span={12}>
+                    <FormItem   {...formItemLayout} label="至">
+                    {getFieldDecorator('flightValue3')(
+                      <Input  addonBefore={<Icon type="swap-right" />} placeholder="经历时间"      style={{ width: 200 }}/>
+                    )}
+                  </FormItem>
+            </Col>
+      </Row>
+
         <Row>
           <Col span={24} style={{ textAlign: 'right' }}>
             <Button type="primary" htmlType="submit">搜索</Button>

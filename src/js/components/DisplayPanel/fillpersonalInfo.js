@@ -447,6 +447,16 @@ var existingflights;
 <Row>
     
 <Col span={12}>
+<FormItem formItemLayoutWithOutLabel
+          label="目前在飞机型"
+        >
+        {getFieldDecorator('current_flight', {
+          initialValue:personaldata.current_flight
+    })(
+                   <Input style={{ width: 200 }}/>
+          )}
+        </FormItem>
+
         </Col>
           <Col span={12}>
   <FormItem label="注册时间">

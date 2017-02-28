@@ -7,7 +7,6 @@ import {Card,Icon,Button,Form,Input,InputNumber,Row,Col,Select,Table,Modal} from
 import {RemoveCard,AddCardToDisplay} from "../../../Actions/pilotAction"
 import {GetWorkflows,CreateDocument} from "../../../Actions/pilotAction";
 import ConditionCheck from "./ConditionCheck"
-import {GetQueryResults} from "../../../Actions/QueryAction";
 
 const Option=Select.Option;
 
@@ -56,24 +55,37 @@ export default class DocumentPanel extends React.Component {
               key: 'target_level',
             }];
 
+            console.log(this.props.targetdata);
 
-    if(props.auth.token.authorized == true)
-    {
-      user = props.pilotinfo.Pilot;
-    }
-    this.state={
-      user:user,
-      workflows:props.pilotinfo.Workflows,
-      documents:props.pilotinfo.Documents,
-      columns:columns,
-      visible:false,
-      conditions:[]
-    }
+            if(this.props.targetdata)
+            {
+            this.state={
+                user:this.props.targetdata,
+               workflows:props.pilotinfo.Workflows,
+                documents:this.props.targetdata.Workflows,
+                columns:columns,
+                visible:false,
+                displaymode:true,
+                conditions:[]
+              }
+            }
+          else  if(props.auth.token.authorized == true)
+              {
+                user = props.pilotinfo.Pilot;
+                 this.state={
+                user:user,
+                workflows:props.pilotinfo.Workflows,
+                documents:props.pilotinfo.Documents,
+                columns:columns,
+             displaymode:false,
+                visible:false,
+                conditions:[]
+              }
+              }
+   
   }
 
   GetCheck(){
-
-
    if(this.state.apply_workflow==null)
 {Modal.info({title:"请选择申请流程",content:"请选择申请流程"})
   return;
@@ -109,13 +121,10 @@ export default class DocumentPanel extends React.Component {
     this.setState({visible:false})
   }
 
-  componentWillMount()
-  {
-    this.props.dispatch(GetQueryResults(""));
-  }
-
    componentWillReceiveProps(nextProps)
   {
+
+    if(this.state.displaymode==false)
     if(nextProps.Documents)
     {
       const {Documents} = nextProps;
@@ -172,7 +181,18 @@ getWorkflowDetail(e){
       })
       const workflowoptions = workflows.map((workflow)=>{
         return <Option value={workflow.workflow_id} key={workflow.workflow_id}>{workflow.title}</Option>
-      })      
+      }) 
+      let shenqing=<div></div>
+      if(this.state.displaymode==false)
+      {
+
+
+         shenqing= <Select  style={{ width: 200 }}  placeholder="选择一个流程" onChange={this.onChangeApply.bind(this)}>
+                    {workflowoptions}
+                    </Select>
+      }
+
+
         return (
 				<div class="workFlowDetailPanel">
 
@@ -180,15 +200,16 @@ getWorkflowDetail(e){
           <Row>
             <Col span={8}>{user.name} |  {user.level.current_level} </Col>
               <Col span={8}>
-                  <Select  style={{ width: 200 }}  placeholder="选择一个流程" onChange={this.onChangeApply.bind(this)}>
-                    {workflowoptions}
-                    </Select>
+              {shenqing}
             </Col>
-            <Col span={8}><Button type="primary" onClick={this.GetCheck.bind(this)}>申请</Button></Col>
+            <Col span={8}>
+
+ {   this.state.displaymode?<div></div>:<Button type="primary" onClick={this.GetCheck.bind(this)}>申请</Button> }
+            </Col>
           </Row>
-
+<div  class="margin-top10">
         <Table columns= {this.state.columns} dataSource={documents} />
-
+</div>
 				</Card>
 
          <ConditionCheck

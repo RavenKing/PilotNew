@@ -9,8 +9,9 @@ var Pilot = new Schema({
     name:String,
     password:String,
     role:String,
+    current_flight:{type:String,default:"320"},
     level:{
-      current_level:String,
+      current_level:{type:String,default:"F0"},
       target_level:String
     },
     flightinfo:{
