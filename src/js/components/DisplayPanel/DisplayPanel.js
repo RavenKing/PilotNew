@@ -23,7 +23,7 @@ import Stepdetail from "./Stepdetail";
 import CompanyOverview from "./CompanyOverview";
 import NotificationPanel from "./NotificationPanel";
 import QueryPanel from "./Query/QueryPanel";
-
+import Pilotpanel from "./Pilotpanel"
 
 import UpdatePanel from "./updateFlight/updatePanel";
 
@@ -310,6 +310,12 @@ export default class DisplayPanel extends React.Component {
             return <NotificationPanel   key ={one.cardid} cardid ={one.cardid}   />
             break;
           }
+          case "pilotpanel":
+          {
+            return <Pilotpanel key={one.cardid} cardid = {one.cardid} />
+            break;
+          }
+
           case "updatePanel":
           {
 

@@ -127,6 +127,7 @@ BackToQuery(){
         querystring=querystring+string;
         }
       }
+      console.log("search string is",querystring);
       this.props.dispatch(GetQueryResults(querystring));
     });
   }

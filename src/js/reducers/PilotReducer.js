@@ -11,7 +11,8 @@ export default function Pilot (
    Companys:[],
    Levels:{},
    updateFlightNew:[],
-   message:[]
+   message:[],
+   documentId:""
   }, action
 ) {
   switch (action.type) {
@@ -23,7 +24,8 @@ export default function Pilot (
     payload.status = state.status;
     payload.cardid = (new Date().getTime()+ Math.floor(Math.random() * 999999)).toString(31);
     displayarray.push(payload)
-    return {...state,display:displayarray}
+    const documentId = payload.documentId;
+    return {...state,display:displayarray,documentId:documentId}
     }
     case "FETCH_PILOT_INFO":{
       return {...state,Pilot:action.payload}
@@ -68,6 +70,44 @@ export default function Pilot (
       return {...state,message:newMessage}
     }
 
+    case "UPDATE_MESSAGE2":{
+
+      const message_id = action.payload.message_id;
+      const description = action.payload.description;
+      var newMessage = state.message.filter((mes,i)=>{
+        if(mes.message_id == message_id)
+        {
+          mes.description = description;
+        }
+        return mes;
+
+      })
+      return {...state,message:newMessage}
+    }
+
+    case "UPDATE_DOCUMENT":
+    {
+      const steps = action.payload.steps;
+      const documentId = action.payload.documentId;
+      var documents = state.Documents;
+      documents.map((document,i)=>{
+        if(document.documentId == documentId)
+          document.steps = steps;
+      })
+      return {...state,Documents:documents};
+    }
+
+    case "UPDATE_DOCUMENT1":
+    {
+      const status = action.payload.status;
+      const documentId = action.payload.documentId;
+      var documents = state.Documents;
+      documents.map((document,i)=>{
+        if(document.documentId == documentId)
+          document.status = status;
+      })
+      return {...state,Documents:documents};
+    }
 
     case "CHANGE_TO_MODIFY":{
       return {...state,status:"MODIFY",activeworkflow:action.payload}

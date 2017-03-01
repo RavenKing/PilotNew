@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {Card,Icon,Timeline,Button,Checkbox,Menu,Dropdown} from "antd";
+import {Card,Icon,Timeline,Button,Checkbox,Menu,Dropdown,Modal} from "antd";
 import {connect} from "react-redux"
 import { setCardDragable,handleFocus,setAreaDropable} from "../../interactScript";
 
-import {RemoveCard,ChangeStyle,ChangeToModify,SubmitMessage} from "../../Actions/pilotAction"
+import {RemoveCard,ChangeStyle,ChangeToModify,SubmitMessage,FetchMessage} from "../../Actions/pilotAction"
 
 @connect((store)=>{    
     return {
@@ -25,8 +25,12 @@ export default class WorkFlowDetail extends React.Component {
         })
         this.setState({
           inspector:inspector,
-          choseninspector:{name:"选择检查员"}
+          choseninspector:{name:"选择检查员"},
+          info:""
         });
+    this.props.dispatch(FetchMessage());
+        console.log("this.props+++++++++++++++++++++++++++++++",this.props);
+
   }
 
 	componentDidMount(){
@@ -56,9 +60,10 @@ export default class WorkFlowDetail extends React.Component {
       });
 	}
 
-  onChange()
+  onChange(one)
   {
-    console.log("哎呀呀，有人点我");
+    console.log("哎呀呀，有人点我",one);
+    this.setState({info:one.name})
   }
   ChooseIns(e)
   {
@@ -80,32 +85,63 @@ export default class WorkFlowDetail extends React.Component {
   SubmitForIns()
   {
     const time = Number(new Date());
+    var status = "inprocess"
     var message = {
+      documentId:this.props.pilotinfo.documentId,
       message_id:this.props.pilotinfo.Pilot.cert_id + this.props.workflowid+time,
+      message_key:this.props.pilotinfo.Pilot.cert_id+this.props.workflowid+status+this.state.info,
       workflowid:this.props.workflowid,
-      descriptoion:"",
+      description:this.state.info,
       applier:this.props.pilotinfo.Pilot.name,
       applierId:this.props.pilotinfo.Pilot.cert_id,
       owner:this.state.choseninspector.cert_id,
+      last:"false",
       action:"",
-      status:"inprocess"
+      status:status
     }
-    this.props.dispatch(SubmitMessage(message));
+    var messages = this.props.pilotinfo.message;
+    var flag = true;
+    messages.map((mes,i)=>
+    {
+      if(mes.message_key == message.message_key)
+      {
+        flag = false;
+      }
+    })
+    if(flag==true){
+      if(!this.state.choseninspector.cert_id)
+      {
+        const modal = Modal.success({
+                title: '请选择监察员',
+                content: '请选择监察员',
+               });
+      }
+      else{
+       this.props.dispatch(SubmitMessage(message));
+       this.props.dispatch(FetchMessage());
+     }}
+     else
+     {
+      const modal = Modal.success({
+                title: '请勿重复提交',
+                content: '请勿重复提交',
+               });
+     }
+     flag = true;
   }
     
     render() {
         var workflowid = this.props.workflowid;
         // console.log("this.props",this.props);
-        const {Workflows} =this.props.pilotinfo; 
-        const targetdata = Workflows.filter((workflow)=>{
-          if(workflow.workflow_id == workflowid)
+        const {Workflows} =this.props.pilotinfo;
+        var documents = this.props.pilotinfo.Documents;
+        const targetdata = documents.filter((doc)=>{
+          if(doc.workflow_id == workflowid && doc.cert_id == this.props.pilotinfo.Pilot.cert_id)
           {
-            return workflow;
+            return doc;
           }
         })
         var inspector = this.state.inspector;
-        console.log("pilots are",inspector);
-        console.log("this.state is",this.state);
         const menu = (
     <Menu onClick={this.ChooseIns.bind(this)}>
     {inspector.map((ins,i)=>{
@@ -115,8 +151,6 @@ export default class WorkFlowDetail extends React.Component {
 );
         var steps = targetdata[0].steps;
         var title = targetdata[0].title;
-        console.log("targetdata is ",targetdata[0])
-        console.log("this.props",this.props);
         // console.log(" let us see what is in steps",setps);
         return (
         <div  class="workFlowDetailPanel">  
@@ -124,14 +158,31 @@ export default class WorkFlowDetail extends React.Component {
           <Timeline>
            {
             steps.map((one,i)=>{
-            return <Timeline.Item key={i}>
-            { one.name }
+            console.log("one is",one);
+            console.log("one.status ==",one.status);
+            if(one.status == "processing")
+            {
+            return (<Timeline.Item key={i}>
+            { one.name }<Checkbox align ="right" onChange={this.onChange.bind(this,one)}></Checkbox>
             {one.courses.map((course,j)=>
               <div>
-                 {course.title}<Icon type="download" key ={j}/> <Checkbox align ="right" onChange={this.onChange.bind(this)}></Checkbox>
+                 {course.title}<Icon type="download" key ={j}/> 
               </div>
               )}
             </Timeline.Item>
+            )
+            }
+            else{
+              return(<Timeline.Item key={i}>
+            { one.name }
+            {one.courses.map((course,j)=>
+              <div>
+                 {course.title}<Icon type="download" key ={j}/> 
+              </div>
+              )}
+            </Timeline.Item>
+            )
+            }
             })
            }
 				  </Timeline>

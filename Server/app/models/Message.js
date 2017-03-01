@@ -10,6 +10,8 @@ var Message = new Schema({
     description:String,
     type:String,
     applier:String,
+    message_key:String,
+    documentId:String,
     owner:String,
     status:String,
     action:String,

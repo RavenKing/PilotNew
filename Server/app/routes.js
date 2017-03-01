@@ -44,8 +44,8 @@ var xlstojson = require("xlsx-to-json-lc");
         });
     app.put('/api/documents',function(req,res)
     {
-        var query = req.body.target;
-        var updatepart = req.body.updatepart;
+        var query = req.body.data.target;
+        var updatepart = req.body.data.updatepart;
         console.log("updatepart:",req.body.updatepart);
         Document.findOneAndUpdate(query,updatepart,function(err,data)
             {
