@@ -67,24 +67,15 @@ var xlstojson = require("xlsx-to-json-lc");
 
 // pilots operations
 
-         app.post('/api/pilots/query', function(req, res) {
+app.post('/api/pilots/query', function(req, res) {
      var data = req.body.data;
-     console.log(data);
      var newquery = JSON.parse(data);
-     console.log(newquery);
-
      Pilot.find(newquery,function(err,pilots){
             if (err)
                     res.send(err);
          res.json(pilots);
-
      })
-
      });
-
-
-
-
      app.get('/api/pilots', function(req, res) {
             Pilot.find(req.query,function(err, pilots) {
                 // if there is an error retrieving, send the error. 
@@ -93,10 +84,7 @@ var xlstojson = require("xlsx-to-json-lc");
                     res.send(err);
                 res.json(pilots); // return all nerds in JSON format
             });
-
             });
-
-
       app.post('/api/pilots', function(req, res) {
         var newOne = new Pilot(req.body);
         console.log("req.body is",req.body);

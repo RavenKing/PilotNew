@@ -156,7 +156,6 @@ BackToQuery(){
 
   handleSearch = (e) => {
   const form = this.form;
-  alert("what")
     e.preventDefault();
   form.validateFields((err, values) => {
     let querystring = '{'
