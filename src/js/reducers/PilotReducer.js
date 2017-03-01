@@ -12,7 +12,7 @@ export default function Pilot (
    Levels:{},
    updateFlightNew:[],
    message:[],
-   LevelInfo:{}
+   LevelInfo:{},
    documentId:""
   }, action
 ) {
