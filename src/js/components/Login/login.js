@@ -118,8 +118,7 @@ export default class Login extends React.Component {
       
       
           <div className="login">
-            <p id="km-title">国航晋升系统<span class="logo"><img src="../../img/sangtuosi.jpg" width="100px" height="100px" /></span></p>
-
+            <p id="km-title">国航晋升系统       <span class="logo"><img src="../../img/sangtuosi.jpg" width="25px" height="25px" /></span></p>
             <Tabs defaultActiveKey="1"  activeKey={this.state.tab_key} className="login-tab" onChange={this.callback.bind(this)}>
               <TabPane  tab="登录" key="1">           
 

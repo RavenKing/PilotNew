@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import { setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
 
+import {GetQueryResults}  from "../../../Actions/QueryAction"
 import {Card,Icon,Button,Form,Input,InputNumber,Row,Col,Select,Table,Modal} from "antd";
 import {RemoveCard,AddCardToDisplay} from "../../../Actions/pilotAction"
 import {GetWorkflows,CreateDocument,GetDocumnts} from "../../../Actions/pilotAction";
@@ -158,7 +159,7 @@ export default class DocumentPanel extends React.Component {
 
   componentWillMount()
   {
-    this.props.dispatch(GetQueryResults(""));
+    this.props.dispatch(GetQueryResults("{}"));
     this.props.dispatch(GetDocumnts());
   }
 

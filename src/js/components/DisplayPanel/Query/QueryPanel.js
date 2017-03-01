@@ -219,7 +219,8 @@ BackToQuery(){
          querystring = querystring + '}';
      let paradata= JSON.parse(querystring);
      console.log(paradata);
-       this.props.dispatch(GetQueryResults(querystring)); 
+       this.props.dispatch(GetQueryResults(querystring));
+       console.log("querystring",querystring); 
     });
   }
 saveFormRef(form){
