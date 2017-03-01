@@ -16,6 +16,9 @@ li {
   -webkit-transition: background 3s;
   transition: background 3s;
 }
+.logo{
+
+}
 
 .content-0 {
   background: #135058 !important;
@@ -197,6 +200,18 @@ li {
  
 }
 
+
+.query-panel {
+
+  position: absolute;
+  width:1000px;
+  box-shadow: 1px 2px 10px rgba(22, 22, 22, 0.5);
+  z-index: 1;
+  transition: border-radius .3s, box-shadow .3s, filter .3s, -webkit-filter .3s;
+ 
+}
+
+
 .data-card:hover, .line-card:hover, .pie-card:hover , .create-obj-card:hover, .upload-card:hover, .detail-panel:hover, .create-panel:hover, .edit-panel:hover, .main-panel:hover{
   position: absolute;
   box-shadow: 0px 2px 20px rgba(100, 255, 255, 0.7);
@@ -281,17 +296,18 @@ li {
   background-color: rgba(255,255,255,0.3);
 }
 
-.course-item ,.data-item, .data-title {
+.data-item, .data-title {
   display: block;
 }
 
-.course-item,.data-item {
+.data-item {
   margin: 10px;
   padding: 3px 10px;
   border-color: #fff;
   color: #fff;
-}
+  font-size: 20px!important;
 
+}
 
 .data-item:hover {
   border-color: #57c5f7;
@@ -464,7 +480,9 @@ li {
   margin-bottom: 15px;
   
 }
-
+.margin-top10{
+  margin-top: 10px;
+}
 /*create Panel */
 
 
@@ -657,34 +675,14 @@ li.placeholder {
 {
   width:300px;
 }
-.step-card
-{
-  width:870px;
-  box-shadow: 1px 2px 10px rgba(22, 22, 22, 0.5);
-  margin-left:auto;
-  z-index: 3;
-  transition: border-radius .3s, box-shadow .3s, filter .3s, -webkit-filter .3s;
-  margin-right: auto;
-  margin-left:auto;
-  margin-top: 30px;
-}
-.triangle-down {
-    width: 0;
-    height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-top: 50px solid #fff;
-    margin-right: auto;
-    margin-left:auto;
-    margin-top: 10px;
+
+.hrstyle{
+   height:2px;border:none;border-top:2px dotted #185598;
 }
 
-
-.change-panel {
-  width: auto;
-  height: 2960px;
-  font-size: 20px;
-  -webkit-transition: background .3s, opacity .3s, filter .3s, -webkit-filter .3s;
-  transition: background .3s, opacity .3s, filter .3s, -webkit-filter .3s;
-  z-index: 0;
+#components-form-demo-advanced-search .ant-advanced-search-form {
+  padding: 24px;
+  background: #fbfbfb;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
 }
