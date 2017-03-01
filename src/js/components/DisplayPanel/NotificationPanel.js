@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
-import {RemoveCard,AddCardToDisplay,FetchMessage,UpdateMessage,UpdateMessage1,UpdateMessage2,updateDocument,updateDocument1} from "../../Actions/pilotAction"
+import {RemoveCard,AddCardToDisplay,FetchMessage,UpdateMessage,UpdateMessage1,UpdateMessage2,updateDocument,updateDocument1,GetDocumnts} from "../../Actions/pilotAction"
 import {GetQueryResults} from "../../Actions/QueryAction";
 import {Table,Card,Icon} from "antd";
 
@@ -21,6 +21,7 @@ export default class NotificationPanel extends React.Component {
     componentWillMount(){
       this.props.dispatch(FetchMessage());
       this.props.dispatch(GetQueryResults("?"));
+      this.props.dispatch(GetDocumnts());
     } 
 
     componentDidMount() {

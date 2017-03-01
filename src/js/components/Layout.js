@@ -59,7 +59,7 @@ this.props.dispatch(GetCompanyAll());
 this.props.dispatch(GET_ALL_COURSES());
 this.props.dispatch(GetLevels());
 this.props.dispatch(InitialWorkflows());
-this.props.dispatch(GetDocumnts("?cert_id=001"));
+this.props.dispatch(GetDocumnts("?cert_id="+auth.token.user.cert_id));
   /*
 const {auth} = this.props;
 

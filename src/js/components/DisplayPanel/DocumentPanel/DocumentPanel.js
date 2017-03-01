@@ -5,7 +5,7 @@ import { setCardDragable,setAreaDropable,handleFocus} from "../../../interactScr
 
 import {Card,Icon,Button,Form,Input,InputNumber,Row,Col,Select,Table,Modal} from "antd";
 import {RemoveCard,AddCardToDisplay} from "../../../Actions/pilotAction"
-import {GetWorkflows,CreateDocument} from "../../../Actions/pilotAction";
+import {GetWorkflows,CreateDocument,GetDocumnts} from "../../../Actions/pilotAction";
 import ConditionCheck from "./ConditionCheck"
 
 const Option=Select.Option;
@@ -155,13 +155,21 @@ export default class DocumentPanel extends React.Component {
     this.setState({visible:false})
   }
 
+
+  componentWillMount()
+  {
+    this.props.dispatch(GetQueryResults(""));
+    this.props.dispatch(GetDocumnts());
+  }
+
    componentWillReceiveProps(nextProps)
   {
+    console.log("next props ",nextProps);
 
     if(this.state.displaymode==false)
-    if(nextProps.Documents)
+    if(nextProps.pilotinfo.Documents)
     {
-      const {Documents} = nextProps;
+      const {Documents} = nextProps.pilotinfo;
       this.setState({documents:Documents});
     }
   }
@@ -215,6 +223,9 @@ getWorkflowDetail(record,e){
         if(document.cert_id == this.props.pilotinfo.Pilot.cert_id)
           return document;
       })
+
+      console.log("Aaaaaaaaaaaaaaaaaaadocuments is",documents);
+
       const workflowoptions = workflows.map((workflow)=>{
         return <Option value={workflow.workflow_id} key={workflow.workflow_id}>{workflow.title}</Option>
       }) 
