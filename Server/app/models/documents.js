@@ -8,6 +8,7 @@ var Document = new Schema({
     workflow_id:String,
     title:String,
     status:String,
+    documentId:String,
     start_date:Date,
     end_date:Date,
     previous_level: String,

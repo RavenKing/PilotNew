@@ -231,6 +231,74 @@ export function UpdateMessage1(data1)
   }
 }
 
+export function UpdateMessage2(data1)
+{
+  var data={
+    "target":{"message_id":data1.message_id},
+    "updatepart":{"description":data1.description}
+  }
+
+  return dispatch =>{
+    axios.put("http://localhost:8083/api/message",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+             dispatch({type:"UPDATE_MESSAGE2",payload:data1})
+  })
+  }
+}
+
+
+
+export function updateDocument(data)
+{
+  var data={
+    "target":{"documentId":data.documentId},
+    "updatepart":{"steps":data.steps}
+  }
+
+  return dispatch =>{
+    axios.put("http://localhost:8083/api/documents",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+             dispatch({type:"UPDATE_DOCUMENT",payload:data})
+  })
+  }
+}
+
+export function updateDocument1(data)
+{
+  var data={
+    "target":{"documentId":data.documentId},
+    "updatepart":{"status":data.status}
+  }
+
+  return dispatch =>{
+    axios.put("http://localhost:8083/api/documents",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+             dispatch({type:"UPDATE_DOCUMENT1",payload:data})
+  })
+  }
+}
+
 export function DeleteCompany(data)
 {
 

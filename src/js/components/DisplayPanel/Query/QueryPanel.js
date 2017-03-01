@@ -220,7 +220,6 @@ BackToQuery(){
      let paradata= JSON.parse(querystring);
      console.log(paradata);
        this.props.dispatch(GetQueryResults(querystring)); 
-
     });
   }
 saveFormRef(form){

@@ -54,6 +54,11 @@ class CollectionCreateForm1 extends React.Component{
 
     render(){
     // console.log("this.props",this.props);
+    console.log("this.props here",this.props.pilot.Levels.entries);
+    var levels = this.props.pilot.Levels.entries;
+    var optionChoice = levels.map((level,i)=>{
+      return <Option key={i} value = {level.level}>{level.level}</Option>
+    })
     const { visible, onCancel, onCreate, form ,initdata} = this.props;
     const { getFieldDecorator, getFieldValue } = form;
 
@@ -192,8 +197,7 @@ class CollectionCreateForm1 extends React.Component{
               initialValue:initdata?initdata.previous_level:""
             })(
                 <Select style={{width:200}}>
-                <Option value="F0">F0</Option>
-                <Option value="F1">F1</Option>
+                {optionChoice}
               </Select>
             )}
           </FormItem> <FormItem label="目标等级">
@@ -202,8 +206,7 @@ class CollectionCreateForm1 extends React.Component{
               initialValue:initdata?initdata.target_level:""
             })(
                 <Select style={{width:200}}>
-                <Option value="F1">F1</Option>
-                <Option value="F2">F2</Option>
+                {optionChoice}
               </Select>
             )}
           </FormItem>

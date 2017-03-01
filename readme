@@ -1,2 +1,47 @@
-New version for Pilot
+Pilot Training System
+
+Using:
+Frontend:React,redux,webpack,babel,antd,interect.js and others.
+Backend:Nodejs+MongoDB
+
+1.install mongodb,
+If you don’t have one, Please use homebrew to install(Mac system).
+You can find homebrew at brew.sh
+2.install node.js
+3.install all related modules by command: npm install
+4.start db
+5.enter folder server and type command: node server.js
+6.back to the root folder to this pj, then type: npm run dev
+Then you can check your home page at localhost:8080
+
+When you get into the home page.
+1.you should register a admin account
+2.login with this account.
+
+Function description:
+This system is not based on their own training process.
+We developed an platform based system for customer to set up their own training systems.
+So what you should do when you first logon this system is:
+
+1.you should create courses.
+2.the training unit is course, some courses make steps and some steps make an workflow.
+
+eg. If you would like to set up a React based application development.
+Then you could set up courses like : 1.react 2.redux 3.node.js 4. Mongoldb
+Then create a step called front end with 1. React 2.redux 
+ Create another step called backend with 3.node.js 4.MongoDB
+
+Then create a workflow with both front end and backend called Build a Simple React Application.
+
+We also have a admin process.
+We have 4 roles in this system.
+Admin: set up the whole training system
+For other users:
+Pilot->Inspector->Auditpersong
+When a student finished a training workflow, His Inspector would be informed at the notification panel.
+Also, After inspecting, His Audit manager would be informed and the Audit Manager is the last person who have authorizaiton to decide whether this training succeed or failed. 
+If you have any question for this project please contact me.
+
+
+
 

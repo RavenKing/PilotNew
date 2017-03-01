@@ -32,8 +32,13 @@ export default class DocumentPanel extends React.Component {
               title: '流程ID',
               dataIndex: 'workflow_id',
               key: 'workflow_id',
-              render: (text,record) => <a href="#" onClick={this.getWorkflowDetail.bind(this)} rel={record.workflow_id} >{text}</a>,
+              render: (text,record) => <a href="#" onClick={this.getWorkflowDetail.bind(this,record)} rel={record.workflow_id} >{text}</a>,
             }, {
+              title: 'documentID',
+              dataIndex: 'documentId',
+              key: 'documentId',
+            }, 
+            {
               title: '流程标题',
               dataIndex: 'title',
               key: 'title',
@@ -96,6 +101,7 @@ export default class DocumentPanel extends React.Component {
            })
     this.setState({visible:true,conditions:targetWorkflow[0].conditions});
   }
+
   SubmitDocument(){    
 
     if(this.state.apply_workflow==null)
@@ -105,19 +111,47 @@ export default class DocumentPanel extends React.Component {
       if(workflow.workflow_id == this.state.apply_workflow)
           return workflow;
            })
+    var targetworkflow = targetWorkflow[0];
+    var steps = targetworkflow.steps;
+    steps = steps.map((step,i)=>{
+      if(i == 0)
+      var newStep = {
+        courses:step.courses,
+        name:step.name,
+        sequence:step.sequence,
+        status:"processing"
+      }
+      else
+        var newStep = {
+        courses:step.courses,
+        name:step.name,
+        sequence:step.sequence,
+        status:"ready"
+      }
+      return newStep;
+     })
+    var documentId = Number(new Date());
     let newDocument={
       cert_id:this.state.user.cert_id,
       workflow_id:this.state.apply_workflow,
+      documentId:documentId,
       title:targetWorkflow[0].title,
       start_date:Date.now(),
-      steps:targetWorkflow[0].steps,
+      steps:steps,
       previous_level: targetWorkflow[0].previous_level,
       target_level:targetWorkflow[0].target_level,  
       status:"进行中"
-        } 
-   
-    this.props.dispatch(CreateDocument(newDocument));
+    }
 
+    var documents = this.state.documents;
+    var flag = true;
+    documents.map((doc,i)=>{
+      if(doc.cert_id == this.state.user.cert_id && doc.workflow_id == this.state.apply_workflow)
+        flag = false;
+    })
+    if(flag)
+      this.props.dispatch(CreateDocument(newDocument));
+    flag = true;
     this.setState({visible:false})
   }
 
@@ -142,9 +176,11 @@ export default class DocumentPanel extends React.Component {
 
   }
 
-getWorkflowDetail(e){
+getWorkflowDetail(record,e){
+  console.log("documentId is ",record.documentId);
    var data = {
         type:"workflowdetails",
+        documentId:record.documentId,
         workflowid:e.target.rel,
         cardid:Math.random()*10000000
       }
