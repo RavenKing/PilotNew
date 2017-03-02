@@ -112,10 +112,7 @@ onCancel()
 {
   this.setState({visible:false})
 }
-
-
   render() {
-    console.log(this.state.list)
         return (
         <div className="detail-panel">  
         <Card title="申请状态列表" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
