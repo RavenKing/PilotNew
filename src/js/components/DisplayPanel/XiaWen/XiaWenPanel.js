@@ -57,11 +57,24 @@ export default class XiaWenPanel extends React.Component {
                 }
           ];
           const {query} =this.props;
+          var lists = query.AllDocuments;
+          console.log("lists are",lists);
+          for(let i = 0;i<lists.length;i++)
+          {
+            let j = 0;
+            if (lists[i].status == "已完成")
+            {
+              var temp = lists[j];
+              lists[j] = lists[i];
+              lists[i] = temp;
+            }
+            j++;
+          }
         this.state={ 
         columns:columns,
         visible:false,
         editdata:null,
-        list:query.AllDocuments
+        list:lists
       }
   }
 
