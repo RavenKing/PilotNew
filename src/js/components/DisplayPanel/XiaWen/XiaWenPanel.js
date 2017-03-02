@@ -111,6 +111,8 @@ onCreate()
     this.props.dispatch(updateDocumentXiaWen(this.state.target));
     this.props.dispatch(UPDATE_PILOT_DATA_LEVEL(this.state.target.cert_id,
       {level:{current_level:this.state.target.target_level}}));
+    //message target 
+
 
 
     notification['success']({
