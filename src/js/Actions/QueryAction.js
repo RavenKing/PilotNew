@@ -94,3 +94,24 @@ return dispatch =>{
   }
 
 }
+
+export function UPDATE_PILOT_DATA_LEVEL(cert_id,pilot_data)
+{
+
+  var data={
+
+    "target":{"cert_id":cert_id},
+    "updatepart":pilot_data
+  }
+   return dispatch=>{
+axios.put("http://localhost:8083/api/pilots",{
+       data:data,
+       headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        }
+    })
+    .then(function (response,err) {
+     })
+   }
+}

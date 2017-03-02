@@ -2,9 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
-import {RemoveCard,AddCardToDisplay,CreateNewCourse,EditCourse,DeleteCourse} from "../../../Actions/pilotAction"
-import {Button,Table,Card,Icon,Form,Modal,Popconfirm} from "antd";
-import {GetAllDocuments,updateDocumentXiaWen} from "../../../Actions/QueryAction";
+import {RemoveCard,AddCardToDisplay} from "../../../Actions/pilotAction"
+import {Button,Table,Card,Icon,Form,Modal,Popconfirm,notification } from "antd";
+import {GetAllDocuments,updateDocumentXiaWen,UpdateLevel,UPDATE_PILOT_DATA_LEVEL} from "../../../Actions/QueryAction";
 import XiaWenModal from "./XiaWenModal";
 import moment from 'moment';
 
@@ -96,12 +96,22 @@ onCreate()
     this.state.target.xiawen_name=xiawenname;
     this.state.target.xiawen_date=xiawendate.format('YYYY-MM-DD');
     this.props.dispatch(updateDocumentXiaWen(this.state.target));
+    this.props.dispatch(UPDATE_PILOT_DATA_LEVEL(this.state.target.cert_id,
+      {level:{current_level:this.state.target.target_level}}));
+
+
+    notification['success']({
+      message: '完成',
+    description: '身份证为：'+this.state.target.cert_id+'已经升级为'+this.state.target.target_level,
+})
     this.setState({visible:false,target:null})
     form.resetFields();
     });
 }
 onCancel()
-{}
+{
+  this.setState({visible:false})
+}
 
 
   render() {
