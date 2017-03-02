@@ -170,6 +170,8 @@ if(role == "INS")
 }
 if(role == "AUD")
 {
+      Role = "审查员";
+
   if(pilot.status == "INIT")
     {
       topfive1=PilotDataBlock;
