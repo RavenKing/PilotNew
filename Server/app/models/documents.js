@@ -13,7 +13,9 @@ var Document = new Schema({
     end_date:Date,
     previous_level: String,
     target_level:String,  
-    steps:[Schema.Types.Mixed] 
+    steps:[Schema.Types.Mixed],
+    xiawen_name:String,
+    xiawen_date:Date
 })
 
 module.exports=mongoose.model('Document',Document,'Documents');

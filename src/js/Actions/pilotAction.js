@@ -77,6 +77,27 @@ axios.put("http://localhost:8083/api/pilots",{
    }
 }
 
+export function UPDATE_OTHER_PILOT_DATA(cert_id,pilot_data)
+{
+
+  var data={
+
+    "target":{"cert_id":cert_id},
+    "updatepart":pilot_data
+  }
+   return dispatch=>{
+axios.put("http://localhost:8083/api/pilots",{
+       data:data,
+       headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        }
+    })
+    .then(function (response,err) {  
+     })
+   }
+}
+
 
 export function UPDATE_PILOT_FLIGHT(target)
 {
@@ -276,6 +297,7 @@ export function updateDocument(data)
   })
   }
 }
+
 
 export function updateDocument1(data)
 {
@@ -686,9 +708,6 @@ axios.get("http://localhost:8083/api/documents"+cert_id,{
           dispatch({type:"GET_USER_DOCUMENTS",payload:response.data})
        })
    }
-
-
-
 }
 
 

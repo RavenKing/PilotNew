@@ -20,7 +20,6 @@ export default class PersonnalPanel extends React.Component {
   {
       super(props)
       let persondata = {};
-      let own = true;
       if(this.props.person)
       {
             persondata = this.props.person
@@ -29,7 +28,7 @@ export default class PersonnalPanel extends React.Component {
       const {pilotinfo} = this.props;
       const {Pilot} = pilotinfo;
         persondata = Pilot;
-        own=false;
+        if(persondata.level)
         this.props.dispatch(GetCurrentLevelInfo(persondata.level.current_level));
       }
       this.state={
@@ -68,7 +67,7 @@ export default class PersonnalPanel extends React.Component {
 
 
     render() {
-
+      const {auth} =this.props;
       const {Companys}= this.props.pilotinfo;
       const {Levels,LevelInfo} = this.props.pilotinfo;
       var progressdata=50;
@@ -86,6 +85,7 @@ export default class PersonnalPanel extends React.Component {
             <Progress percent={progressdata} />
              <PersonalForm personaldata={this.state.persondata} 
                   companys={Companys}
+                  role={auth.user.ROLE}
                   levels={Levels}
                   disabled={false}
                   update_data={this.update_pilot_data.bind(this)}     

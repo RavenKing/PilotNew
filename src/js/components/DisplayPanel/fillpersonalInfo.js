@@ -160,6 +160,36 @@ componentWillMount() {
     //set not working
     let number = getFieldValue('keys');
 
+    //xiawen panel
+
+let xiawenpanel=<div></div>
+
+
+if(this.props.role=='ADM'||this.props.role=='AUD')
+{
+  xiawenpanel= (<Row>
+      <Col span={12}>
+          <FormItem label="下文名称">
+          {getFieldDecorator('xiawen_name', {
+            //initialValue:personaldata.name
+          })(
+            <Input addonBefore={<Icon type="book" />} placeholder="下文名称"      style={{ width: 200 }}/>
+          )}
+        </FormItem>
+  </Col>
+  <Col span={12}>
+       <FormItem label="下文时间">
+          {getFieldDecorator('xiawen_date', {
+            //initialValue:personaldata.cert_id
+          })(
+             <DatePicker format = 'YYYY-MM-DD' style={{ width: 200 }} />
+          )}
+        </FormItem>
+  </Col>
+</Row> )
+}
+
+
     // levels setup
     if(levels)
     {
@@ -577,29 +607,7 @@ var existingflights;
           </Button>        
         </FormItem>
 
-<Row>
-      <Col span={12}>
-          <FormItem label="下文名称">
-          {getFieldDecorator('xiawen_name', {
-            //initialValue:personaldata.name
-          })(
-            <Input addonBefore={<Icon type="book" />} placeholder="下文名称"      style={{ width: 200 }}/>
-          )}
-        </FormItem>
-  </Col>
-  <Col span={12}>
-       <FormItem label="下文时间">
-          {getFieldDecorator('xiawen_date', {
-            //initialValue:personaldata.cert_id
-          })(
-             <DatePicker format = 'YYYY-MM-DD' style={{ width: 200 }} />
-          )}
-        </FormItem>
-    
-
-  </Col>
-
-</Row>        
+{xiawenpanel}       
 
 
 <Row>

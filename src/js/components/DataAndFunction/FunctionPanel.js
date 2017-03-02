@@ -1,8 +1,6 @@
 import React from "react";
 import { Button } from "antd";
 import FunctionItem from "./FunctionItem";
-import { ShowMainPanel,ShowEditPanel,ShowCreatePanel } from "../../Actions/KnowledgeAction";
-
 
 
 export default class FunctionPanel extends React.Component {

@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Button,Card,Icon,Col,Row } from "antd";
 import { Link } from "react-router";
-import CreatePanel from "../CreatePanel/CreatePanel";
 //pilot 
 import {AddCardToDisplay,GET_PILOT_DATA} from "../../Actions/pilotAction"
 import { setAreaDropable } from "../../interactScript";
@@ -30,7 +29,7 @@ import UpdatePanel from "./updateFlight/updatePanel";
 // fill info panel
 import FillInfoPanel from "./fillPersonalInfoPanel";
 import LevelPanel from "./levels/LevelCard";
-
+import XiaWenPanel from "./XiaWen/XiaWenPanel"
 
 @connect((store)=>{    
     return {
@@ -193,12 +192,12 @@ export default class DisplayPanel extends React.Component {
               props.dispatch(AddCardToDisplay(cardinfo))
 
                   }
-                  else if(data_id==12)
+                  else if(data_id==11)
                   {
                     var cardinfo = {
                         x:x,
                         y:y,
-                        type:"AuthorizationPanel"
+                        type:"XiaWenPanel"
                     }
               props.dispatch(AddCardToDisplay(cardinfo))
 
@@ -332,6 +331,12 @@ export default class DisplayPanel extends React.Component {
             return <UpdatePanel   key ={one.cardid} cardid ={one.cardid}   />
             break;
           }
+          case "XiaWenPanel":
+          {
+            return <XiaWenPanel key={one.cardid} cardid={one.cardid} />
+            break;
+          }
+
           }
           });
 

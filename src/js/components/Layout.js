@@ -18,6 +18,7 @@ import DataPanel from "./DataAndFunction/DataPanel";
 import FunctionPanel from "./DataAndFunction/FunctionPanel";
 import DisplayPanel from "./DisplayPanel/DisplayPanel"
 
+import {GetAllDocuments} from "../Actions/QueryAction";
 
 //
 import {GET_PILOT_DATA,GetCompanyAll,GET_ALL_COURSES,GetLevels,GetWorkflows,InitialWorkflows,GetDocumnts} from "../Actions/pilotAction";
@@ -33,23 +34,6 @@ import {GET_PILOT_DATA,GetCompanyAll,GET_ALL_COURSES,GetLevels,GetWorkflows,Init
 export default class Layout extends React.Component {
 
 
-
-
-  componentWillUpdate(nextProps,nextState){
-  /*  const {auth} = this.props;
- const {user} = auth.token ; 
-    const {articles} = nextProps;
-    if(articles.refresh ==true)
-    {
-      setTimeout(function(){
-
-this.props.dispatch(fetchArticles(user))
-      }.bind(this),1000)
-      }
-*/
-  }
-
-
   componentWillMount()
   {
 const {auth} = this.props;
@@ -60,12 +44,8 @@ this.props.dispatch(GET_ALL_COURSES());
 this.props.dispatch(GetLevels());
 this.props.dispatch(InitialWorkflows());
 this.props.dispatch(GetDocumnts("?cert_id="+auth.token.user.cert_id));
-  /*
-const {auth} = this.props;
+this.props.dispatch(GetAllDocuments());
 
-const {user} = auth.token ; 
-this.props.dispatch(fetchArticles(user))*/
-//this.props.dispatch(GET_PILOT_DATA())
 
   }
 
@@ -76,7 +56,7 @@ this.props.dispatch(fetchArticles(user))*/
          <div id="wrapper">
 
           <DataPanel> </DataPanel>
-          <DisplayPanel articles = {this.props.articles}> </DisplayPanel>      
+          <DisplayPanel> </DisplayPanel>      
           <FunctionPanel> 
           </FunctionPanel>
           </div>

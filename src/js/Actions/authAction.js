@@ -103,10 +103,9 @@ export function personalInfoRegister(data){
     
     axios.post("http://localhost:8083/api/pilots",{
         cert_id:cert_id,
-        
         name:name,
         password:password,
-        role:'ADM'
+        role:'Pilot'
     },config).then(function(response){
       if(response.status == 200){
         const modal = Modal.success({

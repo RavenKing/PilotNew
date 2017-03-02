@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
-import {RemoveCard,AddCardToDisplay,UPDATE_PILOT_DATA} from "../../../Actions/pilotAction";
+import {RemoveCard,AddCardToDisplay,UPDATE_OTHER_PILOT_DATA} from "../../../Actions/pilotAction";
 import {GetQueryResults,DeletePilot,GetWorkFlowById} from "../../../Actions/QueryAction";
 import {Button,Table,Card,Icon,Form,Modal,Select,notification } from "antd";
 import AnalysisFlight from "./AnalysisFlight"
@@ -89,7 +89,7 @@ export default class QueryPanel extends React.Component {
   }
 handleSelect(record,selected)
 {
-  this.props.dispatch(UPDATE_PILOT_DATA(record.cert_id,{role:selected.key}));
+  this.props.dispatch(UPDATE_OTHER_PILOT_DATA(record.cert_id,{role:selected.key}));
   notification["success"]({
     message: '成功更新',
     description: record.name+"已经提升为"+selected.label,

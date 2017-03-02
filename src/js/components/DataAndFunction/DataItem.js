@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { Button,Badge  } from "antd";
 import { Link } from "react-router";
 import { connect} from "react-redux"; 
-import { AddCard }  from "../../Actions/KnowledgeAction";
 import { setNodeDragable } from "../../interactScript";
 
 

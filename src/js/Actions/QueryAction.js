@@ -4,8 +4,6 @@ import axios from "axios"
 
 export function DeletePilot(cert_id)
 {
-
-
 return dispatch=>{
 
     axios.delete("http://localhost:8083/api/pilots",{
@@ -19,11 +17,7 @@ return dispatch=>{
     dispatch({type:"DELETE_PILOT",payload:cert_id})  
     })
   }
-
-
 }
-
-
 export function GetQueryResults(data)
 {
 
@@ -62,8 +56,41 @@ axios.get("http://localhost:8083/api/documents?cert_id="+cert_id.toString(),{
           dispatch({type:"GET_TARGET_WORKFLOWS",payload:paydata})
        })
    }
+}
 
+export function GetAllDocuments()
+{
+  
+ return dispatch=>{
+axios.get("http://localhost:8083/api/documents",{
+       headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        }
+    })
+    .then(function (response,err) {
+          console.log(response.data)
+          dispatch({type:"GET_ALL_DOCUMENTS",payload:response.data})
+       })
+   }
+}
 
-
+//kevin
+export function updateDocumentXiaWen(data)
+{
+var data = {target:{"documentId":data.documentId},"updatepart":{xiawen_name:data.xiawen_name,xiawen_date:data.xiawen_date}}
+return dispatch =>{
+    axios.put("http://localhost:8083/api/documents",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+             dispatch({type:"UPDATE_QUERY_DOCUMENT",payload:data})
+             })
+  }
 
 }

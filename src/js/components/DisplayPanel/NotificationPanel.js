@@ -20,7 +20,7 @@ export default class NotificationPanel extends React.Component {
 
     componentWillMount(){
       this.props.dispatch(FetchMessage());
-      this.props.dispatch(GetQueryResults("?"));
+      this.props.dispatch(GetQueryResults("{}"));
       this.props.dispatch(GetDocumnts());
     } 
 
@@ -66,6 +66,7 @@ export default class NotificationPanel extends React.Component {
       if(user.role =="AUD")
         return user;
     })
+    console.log(users);
     var aud = auds[0];
 
     var targetdoc = documents.filter((doc,i)=>{
