@@ -29,8 +29,6 @@ export default class WorkFlowDetail extends React.Component {
           info:""
         });
     this.props.dispatch(FetchMessage());
-        console.log("this.props+++++++++++++++++++++++++++++++",this.props);
-
   }
 
 	componentDidMount(){
@@ -62,7 +60,6 @@ export default class WorkFlowDetail extends React.Component {
 
   onChange(one)
   {
-    console.log("哎呀呀，有人点我",one);
     this.setState({info:one.name})
   }
   ChooseIns(e)

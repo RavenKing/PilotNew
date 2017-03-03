@@ -69,7 +69,7 @@ export default class QueryPanel extends React.Component {
                     <span className="ant-divider" />
                      <Select labelInValue defaultValue={{ key: record.role?record.role:"Pilot" }} style={{ width: 120 }} onChange={this.handleSelect.bind(this,record)}>
                             <Option value="Pilot">飞行员</Option>
-                            <Option value="INS">检查员</Option>
+                            <Option value="INS">监察员</Option>
                             <Option value="AUD">审查员</Option>
                             <Option value="ADM">管理员</Option>
                           </Select>
