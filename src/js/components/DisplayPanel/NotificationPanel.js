@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux"
-
+import moment from 'moment'
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
 import {RemoveCard,AddCardToDisplay,FetchMessage,UpdateMessage,UpdateMessage1,UpdateMessage2,updateDocument,updateDocument1,GetDocumnts} from "../../Actions/pilotAction"
@@ -193,11 +193,6 @@ export default class NotificationPanel extends React.Component {
         }
       },
       {
-        title:"消息编号",
-        dataIndex:'message_id',
-        key:'message_id'
-      },
-      {
         title: ' 流程名称',
         dataIndex: 'workflowid',
         key: 'workflowid',
@@ -210,10 +205,15 @@ export default class NotificationPanel extends React.Component {
         dataIndex: 'applier',
         key: 'applier',
       },
+      {
+        title:'消息时间',
+        dataIndex:'creationdate',
+        key:'creationdate',
+
+      },
       { 
         title: '操作' , key: 'action', 
         render: (text,record) =>{
-          console.log("record++++++++++++",record);
           if(this.props.pilotinfo.Pilot.role == "Pilot" || record.status == "rej" || record.status == "fin")
             return "";
           else
@@ -247,6 +247,23 @@ export default class NotificationPanel extends React.Component {
           mineMessages[j] = temp;
           j++;
           }
+      }
+      console.log("mineMessages are",mineMessages);
+      if(mineMessages)
+     { 
+      for(let i = mineMessages.length-1;i>0;i--)
+      { 
+        for(let j = i;j>0;j--)
+        {
+        if(mineMessages[j].creationdate > mineMessages[j-1].creationdate)
+        {
+          console.log(".....++++++0-----")
+          var temp = mineMessages[j];
+          mineMessages[j] = mineMessages[j-1];
+          mineMessages[j-1] = temp;
+        }
+       }
+        }
       }
       const data = mineMessages;
         return (
