@@ -65,10 +65,16 @@ export default class DocumentPanel extends React.Component {
 
             if(this.props.targetdata)
             {
-            this.state={
+              const {query} = this.props;
+              console.log(query)
+              var documents = query.pilots.filter((one)=>{
+                if(one.cert_id==this.props.targetdata.cert_id)
+                return one.Workflows;
+              })
+                this.state={
                 user:this.props.targetdata,
                workflows:props.pilotinfo.Workflows,
-                documents:this.props.targetdata.Workflows,
+                documents:documents?documents[0].Workflows:[],
                 columns:columns,
                 visible:false,
                 displaymode:true,
@@ -159,8 +165,10 @@ export default class DocumentPanel extends React.Component {
 
   componentWillMount()
   {
+    if(this.state.displaymode==false){
     this.props.dispatch(GetQueryResults("{}"));
     this.props.dispatch(GetDocumnts());
+  }
   }
 
    componentWillReceiveProps(nextProps)
@@ -217,16 +225,17 @@ getWorkflowDetail(record,e){
 
     render() {
       const {user} = this.state;
-      console.log("this.state is +++++",this.state);
       const {workflows} = this.state;
       var documents = this.state.documents;
+      console.log(documents);
+      if(documents==null)
+      {
+        documents=[]
+      }
       documents = documents.filter((document,i)=>{
-        if(document.cert_id == this.props.pilotinfo.Pilot.cert_id)
+        if(document.cert_id == user.cert_id)
           return document;
       })
-
-      console.log("Aaaaaaaaaaaaaaaaaaadocuments is",documents);
-
       const workflowoptions = workflows.map((workflow)=>{
         return <Option value={workflow.workflow_id} key={workflow.workflow_id}>{workflow.title}</Option>
       }) 

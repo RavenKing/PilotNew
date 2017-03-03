@@ -102,13 +102,13 @@ getWorkFlowDetail(record)
 {
 
   this.props.dispatch(GetWorkFlowById(record.cert_id));
-
-
        var cardinfo ={
                       type:"displaypromotion",
                       targetdata:record
                     }
+    setTimeout(function(){
     this.props.dispatch(AddCardToDisplay(cardinfo));
+                    }.bind(this),1000)
 
 
 
