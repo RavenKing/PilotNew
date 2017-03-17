@@ -6,7 +6,7 @@ import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../.
 
 import {RemoveCard,AddCardToDisplay,FetchMessage,UpdateMess,updateDocument,updateDocument1,GetDocumnts} from "../../Actions/pilotAction"
 import {GetQueryResults} from "../../Actions/QueryAction";
-import {Table,Card,Icon,Tag} from "antd";
+import {Table,Card,Icon,Tag,notification} from "antd";
 
 
 @connect((store)=>{    
@@ -213,6 +213,12 @@ else
         updateDoc.steps = steps;
         console.log("doc is ",updateDoc);
         this.props.dispatch(updateDocument(updateDoc));
+         notification["success"]({
+            message: '该阶段完成',
+            description: record.description+"已经完成，"+"已经通知飞行员准备下一个阶段",
+          });
+
+
       }
       //不存在ready这个状态表示当前processing的状态是最后一个状态，通过则完成了
       else
@@ -233,6 +239,10 @@ else
         updateDoc.steps = steps;
         console.log("doc is ",updateDoc);
         this.props.dispatch(updateDocument(updateDoc));
+        notification["success"]({
+            message: '阶段完成',
+            description: "所有阶段已经完成"+"已经通知审核员"+aud.name+"审核",
+          });
       }
     }
 
@@ -253,6 +263,11 @@ else
     }
    this.props.dispatch(UpdateMess(newMessage));
     this.props.dispatch(updateDocument1(updateDoc))
+ notification["success"]({
+    message: '整个流程完成',
+    description: record.applier+"已经完成整个流程"+record.workflowid+"等待管理员填写下文信息",
+  });
+
     }
   }
 
@@ -299,7 +314,7 @@ else
           j++;
           }
       }
-      console.log("mineMessages are",mineMessages);
+    //  console.log("mineMessages are",mineMessages);
       if(mineMessages)
      { 
       for(let i = mineMessages.length-1;i>0;i--)
