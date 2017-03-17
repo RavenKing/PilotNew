@@ -94,6 +94,8 @@ export default class WorkFlowDetail extends React.Component {
       owner:this.state.choseninspector.cert_id,
       last:"false",
       action:"",
+      approverName:this.state.choseninspector.name,
+      approverId:this.state.choseninspector.cert_id,
       status:status
     }
     var messages = this.props.pilotinfo.message;

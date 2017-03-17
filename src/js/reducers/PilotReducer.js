@@ -45,21 +45,25 @@ export default function Pilot (
     }
 
     case "UPDATE_MESSAGE":{
+      console.log(action.payload);
 
       const message_id = action.payload.message_id;
-      const owner = action.payload.owner;
-      var newMessage = state.message.filter((mes,i)=>{
+      var newMessage = []
+       state.message.filter((mes)=>{
         if(mes.message_id == message_id)
         {
-          mes.owner = owner;
+  
+            newMessage.push(action.payload)
+            return;
         }
-        return mes;
+          newMessage.push(mes)
 
       })
+      console.log(newMessage)
       return {...state,message:newMessage}
     }
 
-    case "UPDATE_MESSAGE1":{
+ /*   case "UPDATE_MESSAGE1":{
 
       const message_id = action.payload.message_id;
       const status = action.payload.status;
@@ -88,7 +92,7 @@ export default function Pilot (
       })
       return {...state,message:newMessage}
     }
-
+*/
     case "UPDATE_DOCUMENT":
     {
       const steps = action.payload.steps;

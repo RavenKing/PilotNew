@@ -484,7 +484,7 @@ app.post('/api/pilots/query', function(req, res) {
 //message
 
         app.get('/api/message', function(req, res) {
-            Message.find(function(err, messages) {
+            Message.find(req.query,function(err, messages) {
                 // if there is an error retrieving, send the error. 
                                 // nothing after res.send(err) will execute
                 if (err)
@@ -512,11 +512,11 @@ app.post('/api/pilots/query', function(req, res) {
     {
         var query = req.body.data.target;
         var updatepart = req.body.data.updatepart;
-        Message.findOneAndUpdate(query,updatepart,function(err,data)
+        Message.findOneAndUpdate(query,updatepart,{new:true},function(err,data)
             {
                if(err)
                             res.send(err);
-                        res.send("update success");
+                        res.json(data);
             }
             );
     });

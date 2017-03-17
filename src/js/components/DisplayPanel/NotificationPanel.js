@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import moment from 'moment'
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
-import {RemoveCard,AddCardToDisplay,FetchMessage,UpdateMessage,UpdateMessage1,UpdateMessage2,updateDocument,updateDocument1,GetDocumnts} from "../../Actions/pilotAction"
+import {RemoveCard,AddCardToDisplay,FetchMessage,UpdateMess,updateDocument,updateDocument1,GetDocumnts} from "../../Actions/pilotAction"
 import {GetQueryResults} from "../../Actions/QueryAction";
 import {Table,Card,Icon,Tag} from "antd";
 
@@ -23,16 +23,11 @@ export default class NotificationPanel extends React.Component {
   {
     super(props)
     const {token} = this.props.auth;
-
-
- const columns =[
-      {
-        title: '申请人',
-        dataIndex: 'applier',
-        key: 'applier',
-      },
-     {
-        title: '课程状态',
+let columns = [];
+if(token.user.ROLE=="Pilot")
+{
+columns = [
+    {   title: '状态',
         dataIndex: 'status',
         key: 'status',
         render:(text,record)=>{
@@ -60,11 +55,51 @@ export default class NotificationPanel extends React.Component {
         dataIndex:'creationdate',
         key:'creationdate',
 
+      }];
+
+
+}
+else
+{  columns =[
+      {
+        title: '申请人',
+        dataIndex: 'applier',
+        key: 'applier',
+      },
+     {
+        title: '状态',
+        dataIndex: 'status',
+        key: 'status',
+        render:(text,record)=>{
+          if(text=="inprocess")
+            return <Tag color="blue">审核中</Tag>
+          else if(text == "fin"||text=="finish")
+            return <Tag color="green">审核通过</Tag>
+          else if(text == "rej")
+            return <Tag color="red">审核被拒绝</Tag>
+          else if (text == "xiawen")
+            return <Tag color="green">已下文</Tag>
+        }
+      },
+      {
+        title: ' 流程名称',
+        dataIndex: 'workflowid',
+        key: 'workflowid',
+      }, {
+        title: '描述',
+        dataIndex: 'description',
+        key: 'description',
+      },
+      {
+        title:'消息时间',
+        dataIndex:'creationdate',
+        key:'creationdate',
+
       },
       { 
         title: '操作' , key: 'action', 
         render: (text,record) =>{
-          if(this.props.pilotinfo.Pilot.role == "Pilot" || record.status == "rej" || record.status == "fin")
+          if(record.status == "rej" || record.status == "fin")
             return "";
           else
             return(
@@ -76,13 +111,21 @@ export default class NotificationPanel extends React.Component {
     )},
       }];
 
+}
       this.state={columns:columns}
   }
 
 
 
     componentWillMount(){
-      this.props.dispatch(FetchMessage());
+      console.log(this.props.auth.token)
+      const {token} =this.props.auth;
+
+      if(token.user.ROLE == 'Pilot')
+      {this.props.dispatch(FetchMessage(token.user.cert_id));
+      }
+      else
+        this.props.dispatch(FetchMessage());
       this.props.dispatch(GetQueryResults("{}"));
       this.props.dispatch(GetDocumnts());
     } 
@@ -124,9 +167,9 @@ export default class NotificationPanel extends React.Component {
       if(doc.documentId == documentId)
         return doc;
     })
-    console.log("targetdoc",targetdoc);
+ //  console.log("targetdoc",targetdoc);
     var steps = targetdoc[0].steps;
-    console.log("steps are,",steps);
+  //  console.log("steps are,",steps);
 
     var flag = false;
     steps.map((step,i)=>{
@@ -142,10 +185,16 @@ export default class NotificationPanel extends React.Component {
        const newMessage ={
           message_id:messageId,
           owner:applierId,
-          description:record.description+"已完成，请准备下一阶段"
+          description:record.description+"已完成，请准备下一阶段",
+          approveTime:Date.now()
         }
-        this.props.dispatch(UpdateMessage(newMessage))
+
+        this.props.dispatch(UpdateMess(newMessage));
+
+ /*       this.props.dispatch(UpdateMessage(newMessage))
         this.props.dispatch(UpdateMessage2(newMessage))
+ */
+
         steps = steps.filter((step,i)=>{
           if(step.status == "processing")
             step.status = "finish"
@@ -173,7 +222,8 @@ export default class NotificationPanel extends React.Component {
           message_id:messageId,
           owner:aud.cert_id
         }
-        this.props.dispatch(UpdateMessage(newMessage))
+        
+        this.props.dispatch(UpdateMess(newMessage));
         steps = steps.filter((step,i)=>{
           if(step.status == "processing")
             step.status = "finish"
@@ -185,6 +235,8 @@ export default class NotificationPanel extends React.Component {
         this.props.dispatch(updateDocument(updateDoc));
       }
     }
+
+
     if(this.props.pilotinfo.Pilot.role == "AUD")
     {
       const documentId = record.documentId;
@@ -199,9 +251,7 @@ export default class NotificationPanel extends React.Component {
       documentId:documentId,
       status:"已完成"
     }
-
-
-    this.props.dispatch(UpdateMessage1(newMessage))
+   this.props.dispatch(UpdateMess(newMessage));
     this.props.dispatch(updateDocument1(updateDoc))
     }
   }
@@ -218,13 +268,9 @@ export default class NotificationPanel extends React.Component {
     const newMessage = {
       message_id:messageId,
       owner:applier,
-    }
-    this.props.dispatch(UpdateMessage(newMessage))
-    const newMessage1 = {
-      message_id:messageId,
       status:"rej"
     }
-    this.props.dispatch(UpdateMessage1(newMessage1))
+        this.props.dispatch(UpdateMess(newMessage));
   }
 
   render() {

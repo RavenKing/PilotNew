@@ -207,11 +207,18 @@ export function SubmitMessageForXiaWen(data)
 }
 
 
-export function FetchMessage()
+export function FetchMessage(cert_id)
 {
+
+  let url = "http://localhost:8083/api/message";
+  if(cert_id)
+  {
+    url = url + "?applierId=" + cert_id;
+  }
+  
   return dispatch=>{
-    axios.get("http://localhost:8083/api/message",{
-                           headers:{
+    axios.get(url,{
+                   headers:{
                       'X-My-Custom-Header': 'Header-Value',
                       'content-type':'application/json'
                       }
@@ -225,6 +232,32 @@ export function FetchMessage()
   }
 }
 
+
+
+
+export function UpdateMess(para)
+{
+var data={
+    "target":{"message_id":para.message_id},
+    "updatepart":para
+  }
+  return dispatch =>{
+    axios.put("http://localhost:8083/api/message",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+               
+               dispatch({type:"UPDATE_MESSAGE",payload:response.data})
+
+              })
+  }
+}
+/*
 export function UpdateMessage(data1)
 {
   var data={
@@ -247,6 +280,8 @@ export function UpdateMessage(data1)
   })
   }
 }
+*/
+/*
 
 export function UpdateMessage1(data1)
 {
@@ -291,7 +326,7 @@ export function UpdateMessage2(data1)
   })
   }
 }
-
+*/
 
 
 export function updateDocument(data)

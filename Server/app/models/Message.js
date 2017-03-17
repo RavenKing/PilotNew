@@ -16,7 +16,10 @@ var Message = new Schema({
     status:String,
     action:String,
     applierId:String,
-    creationdate:{type:Date,default:Date.now}
+    creationdate:{type:Date,default:Date.now},
+    approverName:String,
+    approverId:String,
+    approveTime:Date
 })
 
 module.exports=mongoose.model('Message',Message,'Message');

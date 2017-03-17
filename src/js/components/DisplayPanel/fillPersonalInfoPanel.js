@@ -70,7 +70,7 @@ export default class PersonnalPanel extends React.Component {
       const {auth} =this.props;
       const {Companys}= this.props.pilotinfo;
       const {Levels,LevelInfo} = this.props.pilotinfo;
-      var progressdata=50;
+      var progressdata=0;
       if(LevelInfo.flight_base)
       {
         progressdata = parseInt(this.state.persondata.flightinfo.flightTotalTime / LevelInfo.flight_base)

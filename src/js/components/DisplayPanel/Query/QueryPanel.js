@@ -32,6 +32,10 @@ export default class QueryPanel extends React.Component {
               dataIndex: 'company',
               key: 'company',
             }, {
+              title: '身份证',
+              dataIndex: 'cert_id',
+              key: 'cert_id',
+            },{
               title: '部门',
               dataIndex: 'department',
               key: 'department',
