@@ -93,17 +93,6 @@ export default class NotificationPanel extends React.Component {
 
       }
 
-    WorkFlowDetail(e){
-      console.log(e.target.rel)
-      console.log("workflow detail view")
-      var data = {
-        type:"workflowdetail",
-        workflowid:e.target.rel,
-        cardid:Math.random()*10000000
-      }
-      this.props.dispatch(AddCardToDisplay(data))
-
-    }
 
   RemoveCard()
   {
@@ -129,7 +118,6 @@ export default class NotificationPanel extends React.Component {
       if(user.role =="AUD")
         return user;
     })
-    console.log(users);
     var aud = auds[0];
 
     var targetdoc = documents.filter((doc,i)=>{
