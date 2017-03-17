@@ -1,22 +1,85 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux"
-
+import moment from 'moment'
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../interactScript";
 
 import {RemoveCard,AddCardToDisplay,FetchMessage,UpdateMessage,UpdateMessage1,UpdateMessage2,updateDocument,updateDocument1,GetDocumnts} from "../../Actions/pilotAction"
 import {GetQueryResults} from "../../Actions/QueryAction";
-import {Table,Card,Icon} from "antd";
+import {Table,Card,Icon,Tag} from "antd";
 
 
 @connect((store)=>{    
     return {
+       auth:store.auth,
         pilotinfo:store.pilotinfo,
         query:store.query
     };
     
 })
 export default class NotificationPanel extends React.Component { 
+
+  constructor(props)
+  {
+    super(props)
+    const {token} = this.props.auth;
+
+
+ const columns =[
+      {
+        title: '申请人',
+        dataIndex: 'applier',
+        key: 'applier',
+      },
+     {
+        title: '课程状态',
+        dataIndex: 'status',
+        key: 'status',
+        render:(text,record)=>{
+          if(text=="inprocess")
+            return <Tag color="blue">审核中</Tag>
+          else if(text == "fin")
+            return <Tag color="green">审核通过</Tag>
+          else if(text == "rej")
+            return <Tag color="red">审核被拒绝</Tag>
+          else if (text == "xiawen")
+            return <Tag color="green">已下文</Tag>
+        }
+      },
+      {
+        title: ' 流程名称',
+        dataIndex: 'workflowid',
+        key: 'workflowid',
+      }, {
+        title: '描述',
+        dataIndex: 'description',
+        key: 'description',
+      },
+      {
+        title:'消息时间',
+        dataIndex:'creationdate',
+        key:'creationdate',
+
+      },
+      { 
+        title: '操作' , key: 'action', 
+        render: (text,record) =>{
+          if(this.props.pilotinfo.Pilot.role == "Pilot" || record.status == "rej" || record.status == "fin")
+            return "";
+          else
+            return(
+        <span>
+      <a href="#" onClick={this.Agree.bind(this,record)} rel={record.message_id} >通过|</a>
+      <a href="#" onClick={this.Disagree.bind(this)}rel={record.message_id} > 拒绝</a>
+      <span className="ant-divider" />
+    </span>
+    )},
+      }];
+
+      this.state={columns:columns}
+  }
+
+
 
     componentWillMount(){
       this.props.dispatch(FetchMessage());
@@ -178,53 +241,7 @@ export default class NotificationPanel extends React.Component {
 
   render() {
 
-      const columns =[
-      {
-        title: '课程状态',
-        dataIndex: 'status',
-        key: 'status',
-        render:(text,record)=>{
-          if(text=="inprocess")
-            return "审核中"
-          else if(text == "fin")
-            return "审核通过"
-          else if(text == "rej")
-            return "审核被拒绝"
-        }
-      },
-      {
-        title:"消息编号",
-        dataIndex:'message_id',
-        key:'message_id'
-      },
-      {
-        title: ' 流程名称',
-        dataIndex: 'workflowid',
-        key: 'workflowid',
-      }, {
-        title: '描述',
-        dataIndex: 'description',
-        key: 'description',
-      },{
-        title: '申请人',
-        dataIndex: 'applier',
-        key: 'applier',
-      },
-      { 
-        title: '操作' , key: 'action', 
-        render: (text,record) =>{
-          console.log("record++++++++++++",record);
-          if(this.props.pilotinfo.Pilot.role == "Pilot" || record.status == "rej" || record.status == "fin")
-            return "";
-          else
-            return(
-        <span>
-      <a href="#" onClick={this.Agree.bind(this,record)} rel={record.message_id} >通过|</a>
-      <a href="#" onClick={this.Disagree.bind(this)}rel={record.message_id} > 拒绝</a>
-      <span className="ant-divider" />
-    </span>
-    )},
-      }];
+
 
       const messages = this.props.pilotinfo.message;
 
@@ -248,12 +265,29 @@ export default class NotificationPanel extends React.Component {
           j++;
           }
       }
+      console.log("mineMessages are",mineMessages);
+      if(mineMessages)
+     { 
+      for(let i = mineMessages.length-1;i>0;i--)
+      { 
+        for(let j = i;j>0;j--)
+        {
+        if(mineMessages[j].creationdate > mineMessages[j-1].creationdate)
+        {
+          console.log(".....++++++0-----")
+          var temp = mineMessages[j];
+          mineMessages[j] = mineMessages[j-1];
+          mineMessages[j-1] = temp;
+        }
+       }
+        }
+      }
       const data = mineMessages;
         return (
         <div className="detail-panel">  
         <Card title="通知列表" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
         <h1>处理的请求</h1>
-        <Table columns={columns} dataSource={data}  />
+        <Table columns={this.state.columns} dataSource={data}  />
         </Card>
         </div>
       );
