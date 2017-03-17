@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
 
-import {RemoveCard,AddCardToDisplay,SubmitMessage} from "../../../Actions/pilotAction"
+import {RemoveCard,AddCardToDisplay,SubmitMessageForXiaWen} from "../../../Actions/pilotAction"
 import {Button,Table,Card,Icon,Form,Modal,Popconfirm,notification } from "antd";
 import {GetAllDocuments,updateDocumentXiaWen,UpdateLevel,UPDATE_PILOT_DATA_LEVEL} from "../../../Actions/QueryAction";
 import XiaWenModal from "./XiaWenModal";
@@ -59,18 +59,6 @@ export default class XiaWenPanel extends React.Component {
           ];
           const {query} =this.props;
           var lists = query.AllDocuments;
-          console.log("lists are",lists);
-          for(let i = 0;i<lists.length;i++)
-          {
-            let j = 0;
-            if (lists[i].status == "已完成")
-            {
-              var temp = lists[j];
-              lists[j] = lists[i];
-              lists[i] = temp;
-            }
-            j++;
-          }
         this.state={ 
         columns:columns,
         visible:false,
@@ -80,17 +68,18 @@ export default class XiaWenPanel extends React.Component {
   }
 
 AddXiaWen(record){
-
-  // this.setState({visible:true,
-  //                  target:record
-  //                 })
+console.log(record);
+   this.setState({visible:true,
+                    target:record
+                  })
   const message = {
     workflowid:record.workflow_id,
     description:"恭喜您完成训练，下文已经完成",
-    owner:record.cert_id
+    owner:record.cert_id,
+    status:"xiawen",
+    applierId:record.cert_id
   }
-  this.props.dispatch(SubmitMessage(message));
-  console.log("record is",record);
+  this.props.dispatch(SubmitMessageForXiaWen(message));
 
 }
   RemoveCard()

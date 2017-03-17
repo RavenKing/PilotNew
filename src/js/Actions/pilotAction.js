@@ -189,6 +189,24 @@ export function SubmitMessage(data)
   }
 }
 
+
+export function SubmitMessageForXiaWen(data)
+{
+  return dispatch=>{
+      axios.post("http://localhost:8083/api/message",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+                   })
+  }
+}
+
+
 export function FetchMessage()
 {
   return dispatch=>{
