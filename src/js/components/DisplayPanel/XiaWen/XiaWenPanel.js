@@ -25,6 +25,9 @@ export default class XiaWenPanel extends React.Component {
             title: '飞行员证件号',
             dataIndex: 'cert_id',
             key: 'cert_id',
+          },{title: '飞行员',
+            dataIndex: 'pilotName',
+            key: 'pilotName',
           }, {
             title: '流程名',
             dataIndex: 'title',

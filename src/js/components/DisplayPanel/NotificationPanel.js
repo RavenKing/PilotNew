@@ -185,6 +185,7 @@ else
        const newMessage ={
           message_id:messageId,
           owner:applierId,
+          status:'fin',
           description:record.description+"已完成，请准备下一阶段",
           approveTime:Date.now()
         }

@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import { setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
 
 import {GetQueryResults}  from "../../../Actions/QueryAction"
-import {Card,Icon,Button,Form,Input,InputNumber,Row,Col,Select,Table,Modal} from "antd";
+import {Card,Icon,Button,Form,Input,InputNumber,Row,Col,Select,Table,Modal,Popconfirm} from "antd";
 import {RemoveCard,AddCardToDisplay} from "../../../Actions/pilotAction"
 import {GetWorkflows,CreateDocument,GetDocumnts} from "../../../Actions/pilotAction";
 import ConditionCheck from "./ConditionCheck"
@@ -34,10 +34,6 @@ export default class DocumentPanel extends React.Component {
               dataIndex: 'workflow_id',
               key: 'workflow_id',
               render: (text,record) => <a href="#" onClick={this.getWorkflowDetail.bind(this,record)} rel={record.workflow_id} >{text}</a>,
-            }, {
-              title: 'documentID',
-              dataIndex: 'documentId',
-              key: 'documentId',
             }, 
             {
               title: '流程标题',
@@ -59,14 +55,22 @@ export default class DocumentPanel extends React.Component {
               title: '目标等级',
               dataIndex: 'target_level',
               key: 'target_level',
+            },{
+              title:'操作',
+              key:'action',
+              render: (record) =>(
+        <span>
+        <Popconfirm title="确定取消申请?"  onConfirm={this.CancelDocument.bind(this,record.course_id)}>
+        <a>取消申请</a>
+        </Popconfirm>
+        </span>
+                )
+
+
             }];
-
-            console.log(this.props.targetdata);
-
             if(this.props.targetdata)
             {
               const {query} = this.props;
-              console.log(query)
               var documents = query.pilots.filter((one)=>{
                 if(one.cert_id==this.props.targetdata.cert_id)
                 return one.Workflows;
@@ -96,6 +100,16 @@ export default class DocumentPanel extends React.Component {
               }
    
   }
+
+
+//CancelDocument
+
+CancelDocument(){
+
+
+
+  
+}
 
   GetCheck(){
    if(this.state.apply_workflow==null)
@@ -140,6 +154,7 @@ export default class DocumentPanel extends React.Component {
     var documentId = Number(new Date());
     let newDocument={
       cert_id:this.state.user.cert_id,
+      pilotName:this.state.user.name,
       workflow_id:this.state.apply_workflow,
       documentId:documentId,
       title:targetWorkflow[0].title,
@@ -255,7 +270,8 @@ getWorkflowDetail(record,e){
 
         <Card title="晋升现状"  extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)}/>}>
           <Row>
-            <Col span={8}>{user.name} |  {user.level.current_level} </Col>
+            <Col span={8}>
+            {user.name} | 您的目前等级为: {user.level.current_level} </Col>
               <Col span={8}>
               {shenqing}
             </Col>

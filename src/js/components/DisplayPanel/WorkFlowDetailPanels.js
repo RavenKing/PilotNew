@@ -4,7 +4,7 @@ import {Card,Icon,Timeline,Button,Checkbox,Menu,Dropdown,Modal} from "antd";
 import {connect} from "react-redux"
 import { setCardDragable,handleFocus,setAreaDropable} from "../../interactScript";
 
-import {RemoveCard,ChangeStyle,ChangeToModify,SubmitMessage,FetchMessage} from "../../Actions/pilotAction"
+import {RemoveCard,ChangeStyle,ChangeToModify,SubmitMessage,FetchMessage,GetTargetCourse} from "../../Actions/pilotAction"
 
 @connect((store)=>{    
     return {
@@ -26,7 +26,8 @@ export default class WorkFlowDetail extends React.Component {
         this.setState({
           inspector:inspector,
           choseninspector:{name:"选择检查员"},
-          info:""
+          info:"",
+          showFileList:false
         });
     this.props.dispatch(FetchMessage());
   }
@@ -128,9 +129,44 @@ export default class WorkFlowDetail extends React.Component {
      }
      flag = true;
   }
-    
+
+  /// Files modal
+    showFiles(course)
+    {
+      console.log(course);
+
+      // get Documents List
+      this.props.dispatch(GetTargetCourse(course))
+      this.setState({showFileList:true})
+    }
+    onClose()
+    {
+      this.setState({showFileList:false});
+    }
+
+    //
     render() {
         var workflowid = this.props.workflowid;
+        const {courseList} = this.props.pilotinfo;
+        var wenjianxiazai = <div>无</div>
+       if(courseList)
+                    {
+                      if(courseList.loading==false)
+                      {
+                        const {data} = courseList;
+                        if(data[0].attachments.length>0)
+                        {
+                          //return "文件列表"
+                        wenjianxiazai=  data[0].attachments.map((url)=>{
+                      return ( <div><a href={url.url}>{url.name}</a>
+                              </div>
+                               )
+                            })
+                        }
+                      }
+
+                    }
+
         // console.log("this.props",this.props);
         const {Workflows} =this.props.pilotinfo;
         var documents = this.props.pilotinfo.Documents;
@@ -157,15 +193,17 @@ export default class WorkFlowDetail extends React.Component {
           <Timeline>
            {
             steps.map((one,i)=>{
-            console.log("one is",one);
-            console.log("one.status ==",one.status);
-            if(one.status == "processing")
+             if(one.status == "processing")
             {
             return (<Timeline.Item key={i}>
             { one.name }<Checkbox align ="right" onChange={this.onChange.bind(this,one)}></Checkbox>
             {one.courses.map((course,j)=>
               <div>
-                 {course.title}<Icon type="download" key ={j}/> 
+                 {course.title}
+                  <a href="#" onClick={this.showFiles.bind(this,course)}>文件下载
+                 <Icon type="download" key ={j}/> 
+                  </a>
+
               </div>
               )}
             </Timeline.Item>
@@ -176,7 +214,10 @@ export default class WorkFlowDetail extends React.Component {
             { one.name }
             {one.courses.map((course,j)=>
               <div>
-                 {course.title}<Icon type="download" key ={j}/> 
+                 {course.title}<a href="#" onClick={this.showFiles.bind(this,course)}>文件下载
+                 <Icon type="download" key ={j}/> 
+                  </a>
+
               </div>
               )}
             </Timeline.Item>
@@ -193,6 +234,19 @@ export default class WorkFlowDetail extends React.Component {
           </Dropdown>
           <Button type = "primary" onClick={this.SubmitForIns.bind(this)}>提交检察员</Button>
 		      </Card>
+          <Modal
+            visible={this.state.showFileList}
+            title="文件列表"
+            onCancel={this.onClose.bind(this)}
+            data={courseList}
+            >
+            {
+             wenjianxiazai
+            }
+
+      </Modal>
+
+
         </div>
       );
   }

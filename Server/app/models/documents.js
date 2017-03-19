@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 
 var Document = new Schema({
     cert_id: String,
+    pilotName:String,
     workflow_id:String,
     title:String,
     status:String,

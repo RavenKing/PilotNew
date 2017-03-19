@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import Login from "./components/Login/login"
-import Drag from "./components/Drag"
 import requireAuth from "./requireAuth";
 import  ReactHighCharts  from "react-highcharts";
 

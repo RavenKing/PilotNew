@@ -518,11 +518,27 @@ export function GET_ALL_COURSES(){
      })
   
     }
-
-
-
 }
 
+export function GetTargetCourse(data){
+
+   return dispatch=>{
+
+  dispatch({type:"GETING_TARGET_COURCE",payload:{loading:true}})  
+
+    axios.get("http://localhost:8083/api/courses?course_id="+data.course_id,{
+       headers:{
+        'X-My-Custom-Header': 'Header-Value',
+        'content-type':'application/json'
+        }
+    })
+    .then(function (response,err) {
+      console.log(response)
+        dispatch({type:"GETING_TARGET_COURCE",payload:{loading:false,data:response.data}})    
+     })
+  
+    }
+}
 export function CreateNewCourse(data){
 
       return dispatch=>{

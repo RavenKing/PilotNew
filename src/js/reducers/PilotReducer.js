@@ -13,7 +13,8 @@ export default function Pilot (
    updateFlightNew:[],
    message:[],
    LevelInfo:{},
-   documentId:""
+   documentId:"",
+   courseList:{}
   }, action
 ) {
   switch (action.type) {
@@ -174,12 +175,16 @@ export default function Pilot (
       return {...state,Companys:newCompanys}
     }
 //couses reducer
+
+case "GETING_TARGET_COURCE":{
+ return {...state,courseList:action.payload}
+}
+
+
 case "FETCH_COURSES_ALL":{
         
 
     return {...state,Courses:action.payload}
-
-
 
             }
 
