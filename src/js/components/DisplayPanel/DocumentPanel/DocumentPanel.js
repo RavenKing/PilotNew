@@ -143,7 +143,7 @@ CancelDocument(record){
   }
 
   SubmitDocument(){    
-
+    console.log(this.state.apply_workflow);
     if(this.state.apply_workflow==null)
       return;
 
@@ -187,7 +187,7 @@ CancelDocument(record){
     var documents = this.state.documents;
     var flag = true;
     documents.map((doc,i)=>{
-      if(doc.cert_id == this.state.user.cert_id && doc.workflow_id == this.state.apply_workflow)
+      if(doc.cert_id == this.state.user.cert_id && doc.workflow_id == this.state.apply_workflow&&doc.status!="已取消")
         flag = false;
     })
     if(flag)

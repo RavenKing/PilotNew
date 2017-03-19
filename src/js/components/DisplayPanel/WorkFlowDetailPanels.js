@@ -146,6 +146,8 @@ export default class WorkFlowDetail extends React.Component {
 
     //
     render() {
+
+
         var workflowid = this.props.workflowid;
         const {courseList} = this.props.pilotinfo;
         var wenjianxiazai = <div>无</div>
@@ -171,7 +173,7 @@ export default class WorkFlowDetail extends React.Component {
         const {Workflows} =this.props.pilotinfo;
         var documents = this.props.pilotinfo.Documents;
         const targetdata = documents.filter((doc)=>{
-          if(doc.workflow_id == workflowid && doc.cert_id == this.props.pilotinfo.Pilot.cert_id)
+          if(doc.documentId == this.props.documentId)
           {
             return doc;
           }

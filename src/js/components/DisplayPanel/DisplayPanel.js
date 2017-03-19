@@ -264,12 +264,12 @@ export default class DisplayPanel extends React.Component {
             }
           case "workflowdetail":
             { 
-              return <WorkFlowDetailPanel key={one.cardid} cardid={one.cardid} workflowid = {one.workflowid}/>     
+              return <WorkFlowDetailPanel key={one.cardid} cardid={one.cardid} workflowid = {one.workflowid} />     
                     break;
             }
           case "workflowdetails":
           {
-              return <WorkFlowDetailPanels key={one.cardid} cardid={one.cardid} workflowid = {one.workflowid}/>     
+              return <WorkFlowDetailPanels key={one.cardid} cardid={one.cardid} workflowid = {one.workflowid} documentId={one.documentId}/>     
                     break;
           }
           case "courselist":
