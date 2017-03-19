@@ -4,8 +4,8 @@ import { connect } from "react-redux"
 import { setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
 
 import {GetQueryResults}  from "../../../Actions/QueryAction"
-import {Card,Icon,Button,Form,Input,InputNumber,Row,Col,Select,Table,Modal,Popconfirm} from "antd";
-import {RemoveCard,AddCardToDisplay} from "../../../Actions/pilotAction"
+import {Card,Icon,Button,Form,Input,InputNumber,Row,Col,Select,Table,Modal,Popconfirm,message} from "antd";
+import {RemoveCard,AddCardToDisplay,updateDocument1 } from "../../../Actions/pilotAction"
 import {GetWorkflows,CreateDocument,GetDocumnts} from "../../../Actions/pilotAction";
 import ConditionCheck from "./ConditionCheck"
 
@@ -33,7 +33,8 @@ export default class DocumentPanel extends React.Component {
               title: '流程ID',
               dataIndex: 'workflow_id',
               key: 'workflow_id',
-              render: (text,record) => <a href="#" onClick={this.getWorkflowDetail.bind(this,record)} rel={record.workflow_id} >{text}</a>,
+              render: (text,record) =>
+            <a href="#" onClick={this.getWorkflowDetail.bind(this,record)} rel={record.workflow_id} >{record.workflow_id}</a>
             }, 
             {
               title: '流程标题',
@@ -58,16 +59,25 @@ export default class DocumentPanel extends React.Component {
             },{
               title:'操作',
               key:'action',
-              render: (record) =>(
-        <span>
-        <Popconfirm title="确定取消申请?"  onConfirm={this.CancelDocument.bind(this,record.course_id)}>
-        <a>取消申请</a>
-        </Popconfirm>
-        </span>
+              render: (record) =>{
+          if(record.status!="已取消")
+          {  
+
+            return     (<span>
+                    <Popconfirm title="确定取消申请?"  onConfirm={this.CancelDocument.bind(this,record)}>
+                    <a>取消申请</a>
+                    </Popconfirm>
+                    </span>
                 )
-
-
+          }
+              }
             }];
+
+
+            //set available workflows
+
+
+
             if(this.props.targetdata)
             {
               const {query} = this.props;
@@ -75,6 +85,8 @@ export default class DocumentPanel extends React.Component {
                 if(one.cert_id==this.props.targetdata.cert_id)
                 return one.Workflows;
               })
+
+
                 this.state={
                 user:this.props.targetdata,
                workflows:props.pilotinfo.Workflows,
@@ -88,9 +100,16 @@ export default class DocumentPanel extends React.Component {
           else  if(props.auth.token.authorized == true)
               {
                 user = props.pilotinfo.Pilot;
+                
+                const availableworkflows =props.pilotinfo.Workflows.filter((one)=>{
+                  if(user.level.current_level == one.previous_level)
+                    return one ;
+                }) 
+
+
                  this.state={
                 user:user,
-                workflows:props.pilotinfo.Workflows,
+                workflows:availableworkflows,
                 documents:props.pilotinfo.Documents,
                 columns:columns,
              displaymode:false,
@@ -104,10 +123,10 @@ export default class DocumentPanel extends React.Component {
 
 //CancelDocument
 
-CancelDocument(){
+CancelDocument(record){
 
-
-
+  var targetDoc={documentId:record.documentId,status:"已取消"}
+  this.props.dispatch(updateDocument1(targetDoc))
   
 }
 
@@ -209,6 +228,14 @@ CancelDocument(){
   }
 
 getWorkflowDetail(record,e){
+
+  if(record.status == "已取消")
+  {
+
+
+    message.error('已经取消，无法继续申请');
+  }
+  else{
   console.log("documentId is ",record.documentId);
    var data = {
         type:"workflowdetails",
@@ -217,6 +244,7 @@ getWorkflowDetail(record,e){
         cardid:Math.random()*10000000
       }
       this.props.dispatch(AddCardToDisplay(data))
+    }
 }
 
       onCancel(){this.setState({visible:false})}
@@ -252,8 +280,11 @@ getWorkflowDetail(record,e){
           return document;
       })
       const workflowoptions = workflows.map((workflow)=>{
-        return <Option value={workflow.workflow_id} key={workflow.workflow_id}>{workflow.title}</Option>
-      }) 
+          console.log(user.level.current_level)
+          console.log(workflow.previous_level)
+         
+            return <Option value={workflow.workflow_id} key={workflow.workflow_id}>{workflow.title}</Option>
+        }) 
       let shenqing=<div></div>
       if(this.state.displaymode==false)
       {

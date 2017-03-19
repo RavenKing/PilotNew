@@ -37,8 +37,8 @@ export default class Layout extends React.Component {
   componentWillMount()
   {
 const {auth} = this.props;
-
 //set up the data admin
+console.log(this.props.Pilot);
 this.props.dispatch(GetCompanyAll());
 this.props.dispatch(GET_ALL_COURSES());
 this.props.dispatch(GetLevels());
