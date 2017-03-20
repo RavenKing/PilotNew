@@ -157,6 +157,17 @@ componentWillMount() {
     let editdisabled = this.props.disabled;
     const {companys} = this.props;
     const {levels} = this.props;
+
+let dynamicBase=0;
+
+
+    if(personaldata.basemonth)
+    { dynamicBase = personaldata.basemonth + 6;
+    if(dynamicBase > 12 )
+    {
+      dynamicBase = dynamicBase -12
+    }
+    }
     var levelOption;
     //set not working
     let number = getFieldValue('keys');
@@ -546,7 +557,7 @@ var existingflights;
                    <InputNumber />
           )}
         </FormItem>
-
+<span>{"下个基准月为" + dynamicBase}</span>
 </Col>
 
 <Col span={12}>

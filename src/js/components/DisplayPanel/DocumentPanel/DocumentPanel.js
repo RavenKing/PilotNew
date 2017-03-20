@@ -127,10 +127,32 @@ CancelDocument(record){
 
   var targetDoc={documentId:record.documentId,status:"已取消"}
   this.props.dispatch(updateDocument1(targetDoc))
+  Modal.info({title:"该申请已取消",content:"该申请已取消"+record.documentId});
+  this.state.documents.filter((document)=>{
+    if(document.documentId == record.documentId)
+    {
+      document.status = "已取消"
+    }
+  })
   
 }
 
   GetCheck(){
+    console.log(this.props.pilotinfo);
+   const {LevelInfo} = this.props.pilotinfo;
+
+    const {user} = this.state;
+    console.log(user.level.current_level);
+    console.log(user.flightinfo.flightTotalTime)
+    if(user.flightinfo.flightTotalTime < LevelInfo.flight_base)
+    {
+
+      Modal.error({title:"无法申请/不符合条件",content:"申请不符合条件，您目前的飞行总经历时间为" +user.flightinfo.flightTotalTime+ "而下一级所需要总经历时间为："+LevelInfo.flight_base })
+      return;
+    }
+    
+
+
    if(this.state.apply_workflow==null)
 {Modal.info({title:"请选择申请流程",content:"请选择申请流程"})
   return;
@@ -280,8 +302,6 @@ getWorkflowDetail(record,e){
           return document;
       })
       const workflowoptions = workflows.map((workflow)=>{
-          console.log(user.level.current_level)
-          console.log(workflow.previous_level)
          
             return <Option value={workflow.workflow_id} key={workflow.workflow_id}>{workflow.title}</Option>
         }) 
