@@ -89,7 +89,7 @@ class CollectionCreateForm1 extends React.Component{
           required={false}
           key={'existin'+index}
         >
-          {getFieldDecorator(`condition${index}`, {
+          {getFieldDecorator(`condition${index+1}`, {
             initialValue:k,
             validateTrigger: ['onChange', 'onBlur'],
             rules: [{

@@ -116,7 +116,7 @@ export default class DisplayWorkFlow extends React.Component {
 
       this.props.dispatch(AddNewWorkFlow(newWorkflow)); 
       } 
-      else
+      if(this.state.editdata != null)
       {
       var steps = [];
       var length = values.keys.length;
@@ -125,6 +125,7 @@ export default class DisplayWorkFlow extends React.Component {
       { 
         var temp = "condition"+(i+1);
         conditions[i] = values[temp];
+        console.log("condition 11111111",conditions[i]);
         delete values[temp];
       }
       values['conditions']=conditions;

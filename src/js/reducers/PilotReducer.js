@@ -387,7 +387,7 @@ case "FETCH_COURSES_ALL":{
       }
       return workflow;
     })
-      return {...state,Companys:newCompanys}
+      return {...state,Workflows:newworkflows}
         }
         case "GET_USER_DOCUMENTS":
         {
