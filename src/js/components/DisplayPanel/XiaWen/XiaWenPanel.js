@@ -36,6 +36,13 @@ export default class XiaWenPanel extends React.Component {
             title: '状态',
             dataIndex: 'status',
             key: 'status',
+            filters: [
+                { text: '已完成', value: '已完成' },
+                { text: '已取消', value: '已取消' },
+                { text: '进行中', value: '进行中' },
+              ],
+          onFilter: (value, record) => record.status.includes(value),
+
           },
           {
             title: '下文名称',
@@ -66,7 +73,8 @@ export default class XiaWenPanel extends React.Component {
         columns:columns,
         visible:false,
         editdata:null,
-        list:lists
+        list:lists,
+        
       }
   }
 
