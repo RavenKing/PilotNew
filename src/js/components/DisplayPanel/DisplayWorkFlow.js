@@ -16,11 +16,6 @@ import ChangeWorkflowForm from "./ChangeWorkflowForm"
     
 })
 export default class DisplayWorkFlow extends React.Component { 
-
-    componentWillMount(){
-    }
-
-
     constructor(props)
     {
       super(props);

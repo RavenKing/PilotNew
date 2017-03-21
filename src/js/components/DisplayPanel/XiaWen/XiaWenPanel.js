@@ -85,7 +85,7 @@ console.log(record);
                   })
   const message = {
     workflowid:record.workflow_id,
-    description:"恭喜您完成训练，下文已经完成",
+    description:"恭喜您完成训练，下文已经完成,你已经升级为"+this.state.target.target_level,
     owner:record.cert_id,
     status:"xiawen",
     applierId:record.cert_id

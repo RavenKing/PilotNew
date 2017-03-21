@@ -6,7 +6,7 @@ import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../.
 
 import {RemoveCard,AddCardToDisplay,FetchMessage,UpdateMess,updateDocument,updateDocument1,GetDocumnts} from "../../Actions/pilotAction"
 import {GetQueryResults} from "../../Actions/QueryAction";
-import {Table,Card,Icon,Tag,notification} from "antd";
+import {Table,Card,Icon,Tag,notification,Modal} from "antd";
 
 
 @connect((store)=>{    
@@ -55,6 +55,10 @@ columns = [
         dataIndex:'creationdate',
         key:'creationdate',
 
+      },{
+        title:'审核时间',
+        dataIndex:'approveTime',
+        key:'approveTime',
       }];
 
 
@@ -95,6 +99,11 @@ else
         dataIndex:'creationdate',
         key:'creationdate',
 
+      },
+      {
+        title:'通过时间',
+        dataIndex:'approveTime',
+        key:'approveTime',
       },
       { 
         title: '操作' , key: 'action', 
@@ -214,10 +223,9 @@ else
         updateDoc.steps = steps;
         console.log("doc is ",updateDoc);
         this.props.dispatch(updateDocument(updateDoc));
-         notification["success"]({
-            message: '该阶段完成',
-            description: record.description+"已经完成，"+"已经通知飞行员准备下一个阶段",
-          });
+        
+        Modal.info({title:"该阶段完成",content:record.description+"已经完成,"+"已经通知飞行员准备下一个阶段"});
+
 
 
       }
@@ -227,7 +235,10 @@ else
         console.log("aud is ",aud);
         const newMessage = {
           message_id:messageId,
-          owner:aud.cert_id
+          owner:aud.cert_id,
+         description:record.description+"已完成，递交给审查员",
+          approveTime:Date.now()
+
         }
         
         this.props.dispatch(UpdateMess(newMessage));
@@ -240,10 +251,9 @@ else
         updateDoc.steps = steps;
         console.log("doc is ",updateDoc);
         this.props.dispatch(updateDocument(updateDoc));
-        notification["success"]({
-            message: '阶段完成',
-            description: "所有阶段已经完成"+"已经通知审核员"+aud.name+"审核",
-          });
+       
+        Modal.info({title:"阶段完成",content:"所有阶段已经完成,"+"已经通知审查员"+aud.name+"审核"})
+
       }
     }
 
@@ -256,6 +266,8 @@ else
       const newMessage = {
       message_id:messageId,
       status:"fin",
+      approveTime:Date.now()
+
     }
 
     const updateDoc = {
@@ -264,11 +276,7 @@ else
     }
    this.props.dispatch(UpdateMess(newMessage));
     this.props.dispatch(updateDocument1(updateDoc))
- notification["success"]({
-    message: '整个流程完成',
-    description: record.applier+"已经完成整个流程"+record.workflowid+"等待管理员填写下文信息",
-  });
-
+    Modal.info({title:"整个流程完成",content:record.applier+"已经完成整个流程:"+record.workflowid+",等待管理员填写下文信息"})
     }
   }
 
@@ -284,7 +292,8 @@ else
     const newMessage = {
       message_id:messageId,
       owner:applier,
-      status:"rej"
+      status:"rej",
+      approveTime:Date.now()
     }
         this.props.dispatch(UpdateMess(newMessage));
   }

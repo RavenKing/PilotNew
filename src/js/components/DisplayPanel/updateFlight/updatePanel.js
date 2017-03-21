@@ -217,7 +217,7 @@ render() {
 
       }
               return (
-              <div className="detail-panel">
+              <div className="upload-panel">
 
               <Card title="更新飞行员信息" extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
               <Spin spinning={this.state.loading}>
