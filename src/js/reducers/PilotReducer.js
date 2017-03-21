@@ -94,6 +94,8 @@ export default function Pilot (
       return {...state,message:newMessage}
     }
 */
+
+
     case "UPDATE_DOCUMENT":
     {
       const steps = action.payload.steps;

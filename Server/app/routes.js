@@ -520,6 +520,21 @@ app.post('/api/pilots/query', function(req, res) {
             }
             );
     });
+
+
+    app.delete('/api/message',function(req,res){
+        var query = req.body.target;
+                console.log(query)
+
+        Message.remove(query,function(err,data)
+            {
+               if(err)
+                            res.send(err);
+                        res.send("delete success");
+            }
+            );
+  });
+
 //end of message
 
 //upload to excel 

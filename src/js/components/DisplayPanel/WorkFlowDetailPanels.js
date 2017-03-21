@@ -171,22 +171,35 @@ export default class WorkFlowDetail extends React.Component {
         const {Workflows} =this.props.pilotinfo;
         var documents = this.props.pilotinfo.Documents;
         const targetdata = documents.filter((doc)=>{
-          if(doc.workflow_id == workflowid && doc.cert_id == this.props.pilotinfo.Pilot.cert_id)
+          if(doc.documentId == this.props.documentId)
           {
             return doc;
           }
         })
         var inspector = this.state.inspector;
-        const menu = (
-    <Menu onClick={this.ChooseIns.bind(this)}>
-    {inspector.map((ins,i)=>{
-      return (<Menu.Item key={i}> {ins.name} </Menu.Item>)
-    })}
-  </Menu>
-);
+
+
+ 
         var steps = targetdata[0].steps;
         var title = targetdata[0].title;
         // console.log(" let us see what is in steps",setps);
+        let showMenu = false;
+            steps.map((step)=>{
+              if(step.status == "processing")
+              showMenu = true
+            });
+
+let menu = <div>"所有阶段已完成，无需再次提交"</div>
+            if(showMenu)
+           menu = (
+              <Menu onClick={this.ChooseIns.bind(this)}>
+              {inspector.map((ins,i)=>{
+                return (<Menu.Item key={i}> {ins.name} </Menu.Item>)
+              })}
+            </Menu>
+          );
+
+
         return (
         <div  class="workFlowDetailPanel">  
           <Card  title={title} extra={<Icon type="cross" onClick={this.RemoveCard.bind(this)} />}>
@@ -200,7 +213,7 @@ export default class WorkFlowDetail extends React.Component {
             {one.courses.map((course,j)=>
               <div>
                  {course.title}
-                  <a href="#" onClick={this.showFiles.bind(this,course)}>文件下载
+                  |<a href="#" onClick={this.showFiles.bind(this,course)}>文件下载
                  <Icon type="download" key ={j}/> 
                   </a>
 
@@ -210,11 +223,14 @@ export default class WorkFlowDetail extends React.Component {
             )
             }
             else{
-              return(<Timeline.Item key={i}>
+              var color = "red";
+              if(one.status == "fin" || one.status=="finish")
+                color = "green";
+              return(<Timeline.Item key={i} color={color}>
             { one.name }
             {one.courses.map((course,j)=>
               <div>
-                 {course.title}<a href="#" onClick={this.showFiles.bind(this,course)}>文件下载
+                 {course.title}|<a href="#" onClick={this.showFiles.bind(this,course)}>文件下载
                  <Icon type="download" key ={j}/> 
                   </a>
 
