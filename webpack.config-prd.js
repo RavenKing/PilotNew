@@ -5,7 +5,10 @@ var path = require('path');
 module.exports = {
   context: path.join(__dirname, "src"),
   devtool:null,
-  entry: "./js/client.js",
+  entry:{
+   bundle: "./js/client.js",
+    vendor: ['react','highcharts','react-highcharts','echarts','react-echarts'],
+  } ,
   module: {
     loaders: [
       {
@@ -38,9 +41,10 @@ module.exports = {
      NODE_ENV: JSON.stringify("production") 
    }
 }),
+  new webpack.optimize.CommonsChunkPlugin('vendor',  'vendor.js'),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
+    new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false,compress:{warnings:false}}),
   ]
 };
 

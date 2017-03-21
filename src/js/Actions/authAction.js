@@ -101,7 +101,7 @@ export function personalInfoRegister(data){
     var name = data.name;    
     var password = md5(data.password);
     
-    axios.post("http://localhost:8083/api/pilots",{
+    axios.post("http://localhost:8083/api/pilotslogin",{
         cert_id:cert_id,
         name:name,
         password:password,

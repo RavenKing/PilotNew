@@ -54,7 +54,6 @@ if(this.state.ekeys)
       for(var i=0;i<this.state.ekeys;i++)
       {
 
-`field-${i}`
       var flightname = `eflight-${i}`;
       var flight_type = `eflight_type-${i}`;
       var schooltime = `eschooltime-${i}`;
@@ -86,6 +85,7 @@ if(this.state.ekeys)
     }
     values.trained_flights = flightdata;
     values.health_check = health_check;
+    console.log(values.basemonth)
     values.level={"current_level":values.current_level};
 // end of format
       values.company=this.state.newcompanyname;
@@ -160,9 +160,11 @@ componentWillMount() {
 
 let dynamicBase=0;
 
-
+  
     if(personaldata.basemonth)
-    { dynamicBase = personaldata.basemonth + 6;
+    { 
+      console.log(personaldata.basemonth)
+      dynamicBase = personaldata.basemonth + 6;
     if(dynamicBase > 12 )
     {
       dynamicBase = dynamicBase -12
@@ -205,6 +207,9 @@ var existingflights;
       existingflights=this.state.existingf.map((flight,index)=>{
         if(flight!=null)
         {
+          console.log(flight)
+          console.log(flight.train_time);
+          if(flight.planeType!=null&&flight.train_time!=null)
       return (
                       <Row>
                       <Col span={6}>

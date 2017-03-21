@@ -85,7 +85,7 @@ app.post('/api/pilots/query', function(req, res) {
                 res.json(pilots); // return all nerds in JSON format
             });
             });
-      app.post('/api/pilots', function(req, res) {
+      app.post('/api/pilotslogin', function(req, res) {
         var newOne = new Pilot(req.body);
         console.log("req.body is",req.body);
         console.log(req.body);
@@ -111,6 +111,21 @@ app.post('/api/pilots/query', function(req, res) {
 
 
         });
+
+      
+      app.post('/api/pilots', function(req, res) {
+        var newOne = new Pilot(req.body);
+        console.log("req.body is",req.body);
+        newOne.save(function(err){
+                if(err)
+                {    console.log(err);
+                    res.send(false);  
+                }
+        })
+        res.send(true);
+
+        });
+
 
   app.put('/api/pilots',function(req,res)
     {

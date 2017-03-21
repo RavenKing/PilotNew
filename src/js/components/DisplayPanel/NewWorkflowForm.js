@@ -18,27 +18,72 @@ class CollectionCreateForm1 extends React.Component{
     constructor(props)
     { 
       super(props);
+      this.state={
+        exsitingCon:[],
+        exsitingKeys:0
+      }
     }
 
-    add()
-    {
-      console.log(uuid);
-    uuid++;
+    handleSubmit(e) {
 
-    const { form } = this.props;
-    // can use data-binding to get
-    const keys = form.getFieldValue('keys');
-    const nextKeys = keys.concat(uuid);
-    // can use data-binding to set
-    // important! notify form to detect changes
-    console.log(nextKeys);
-    console.log(uuid)
-    form.setFieldsValue({
-      keys: nextKeys,
+    this.props.form.validateFields((err, values) => {
+    console.log(values)
+
+    var conditionsdata=[];
+//exsiting flights
+if(this.state.exsitingKeys)
+{
+      for(var i=0;i<this.state.exsitingKeys;i++)
+      {
+      var conValue = `econdition${i}`;
+      if(values[conValue])
+        conditionsdata.push(values[conValue]);
+      }
+}
+// end of existing flight
+//format flights 
+    for(var i =0;i<values.keys.length;i++)
+    {     
+      var condName = `condition${values.keys[i]}`;
+      if(values[condName])
+        conditionsdata.push(values[condName]);       
+         console.log(condName)
+        console.log(values[condName])
+    }
+    values.conditions = conditionsdata;
+// end of format
+
+  console.log(conditionsdata)
+        console.log("formatted:",values)
+                this.props.onCreate(values);
+    this.props.form.resetFields();
+
+        if (err) {
+        return;
+      }
+
     });
-    }
+  }
 
-    remove (k){
+
+componentWillReceiveProps(nextProps)
+{
+  if(this.state.initdata!=nextProps.initdata)
+  {
+    const {initdata} = nextProps
+          if(initdata)
+      if(initdata.conditions)
+      this.setState({
+        exsitingCon:initdata.conditions,
+        exsitingKeys:initdata.conditions.length
+      })
+  }
+
+}
+
+
+//dynamic add and delete
+  remove = (k) => {
     const { form } = this.props;
     // can use data-binding to get
     const keys = form.getFieldValue('keys');
@@ -53,18 +98,42 @@ class CollectionCreateForm1 extends React.Component{
     });
   }
 
+  add = () => {
+    uuid++;
+    const { form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue('keys');
+    const nextKeys = keys.concat(uuid);
+    // can use data-binding to set
+    // important! notify form to detect changes
+    form.setFieldsValue({
+      keys: nextKeys,
+    });
+  }
+ removee(indexx)
+  {
+
+    var newdata=this.state.exsitingCon.filter((flight,index)=>{
+
+      if(index!==indexx)
+      return  flight;
+    })
+    this.setState({
+      exsitingCon:newdata,
+      exsitingKeys:newdata.length
+    })
+  }
+
+
+
     render(){
-    // console.log("this.props",this.props);
-    console.log("this.props here",this.props.pilot.Levels.entries);
+ 
     var levels = this.props.pilot.Levels.entries;
     var optionChoice = levels.map((level,i)=>{
       return <Option key={i} value = {level.level}>{level.level}</Option>
     })
     const { visible, onCancel, onCreate, form ,initdata} = this.props;
     const { getFieldDecorator, getFieldValue } = form;
-
-    console.log("what is in initdata",initdata);
-
 
     const formItemLayout = {
       labelCol: { span: 4 },
@@ -74,68 +143,14 @@ class CollectionCreateForm1 extends React.Component{
       wrapperCol: { span: 20, offset: 4 },
     };
 
-
-   var existingConditions;
-   // console.log("let us see ",this.props.initdata);
-   if(this.props.initdata)
-   {
-      getFieldDecorator('keys', { initialValue: [] });
-      const keys = getFieldValue('keys');
-      console.log("what is in keys");
-      existingConditions = this.props.initdata.conditions.map((k, index) => {
-      return (
-        <FormItem
-          {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-          label={index === 0 ? '    ' : ''}
-          required={false}
-          key={'existin'+index}
-        >
-          {getFieldDecorator(`condition${index+1}`, {
-            initialValue:k,
-            validateTrigger: ['onChange', 'onBlur'],
-            rules: [{
-              required: true,
-              whitespace: true,
-              message: "",
-            }],
-          })(
-            <Input placeholder="请输入条件
-            " style={{ width: '60%', marginRight: 8 }} />
-          )}
-          <Icon
-            className="dynamic-delete-button"
-            type="minus-circle-o"
-            onClick={() => this.remove(k)}
-          />
-        </FormItem>
-      );
-    })}
-
-
-
-
-
-
-    getFieldDecorator('keys', { initialValue: [] });
+//dynmic 
+  getFieldDecorator('keys', { initialValue: [] });
     const keys = getFieldValue('keys');
-    var index;
-    if(this.props.initdata)
-    {
-      if(this.props.initdata.conditions)
-        index = this.props.initdata.conditions.length;
-    }
-    else{
-      index = 0;
-    }
-
-
-
-
     const formItems = keys.map((k, index) => {
       return (
         <FormItem
           {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-          label={index === 0 ? '转升条件' : ''}
+          label={index === 0 ? 'Passengers' : ''}
           required={false}
           key={k}
         >
@@ -147,8 +162,7 @@ class CollectionCreateForm1 extends React.Component{
               message: "",
             }],
           })(
-            <Input placeholder="请输入条件
-            " style={{ width: '60%', marginRight: 8 }} />
+            <Input placeholder="passenger name" style={{ width: '60%', marginRight: 8 }} />
           )}
           <Icon
             className="dynamic-delete-button"
@@ -159,6 +173,56 @@ class CollectionCreateForm1 extends React.Component{
         </FormItem>
       );
     });
+    //end of dynamic
+
+    ///exsiting
+var existingconditions
+      if(this.state.exsitingCon)
+    {if(this.state.exsitingCon.length>0)
+    {
+
+      var existingid = 0 ;
+      existingconditions=this.state.exsitingCon.map((con,index)=>{
+        console.log(con)
+        if(con!=null)
+        {
+      return ( <FormItem
+          {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+          label={index === 0 ? 'Passengers' : ''}
+          required={false}
+          key={`econd${index}`}
+        >
+          {getFieldDecorator(`econdition${index}`, {
+            initialValue:con,
+            validateTrigger: ['onChange', 'onBlur'],
+            rules: [{
+              required: true,
+              whitespace: true,
+              message: "",
+            }],
+          })(
+            <Input placeholder="condition" style={{ width: '60%', marginRight: 8 }} />
+          )}
+          <Icon
+            className="dynamic-delete-button"
+            type="minus-circle-o"
+            onClick={() => this.removee(index)}
+          />
+        </FormItem>
+                     
+                                   );
+          }
+          else
+          {
+            return <div></div>
+          }
+      
+        });
+}
+}
+
+
+    //ennd of existing
 
     return (
       <Modal
@@ -166,7 +230,7 @@ class CollectionCreateForm1 extends React.Component{
         title={initdata?"修改课程":"创建新流程"}
         okText="保存"
         onCancel={onCancel}
-        onOk={onCreate}
+        onOk={this.handleSubmit.bind(this)}
       >
         <Form vertical>
           <FormItem label="流程编号">
@@ -211,7 +275,7 @@ class CollectionCreateForm1 extends React.Component{
               </Select>
             )}
           </FormItem>
-          {existingConditions}
+          {existingconditions}
           {formItems}
           <FormItem {...formItemLayoutWithOutLabel}>
           <Button type="dashed" onClick={this.add.bind(this)} style={{ width: '60%' }}>

@@ -85,69 +85,29 @@ export default class DisplayWorkFlow extends React.Component {
     this.setState({visible:false});
   }
 
-  onCreate(){
+  onCreate(data){
+    console.log(data);
   const form = this.form;
-  form.validateFields((err, values) => {
-      console.log("values are",values);
-      if (err) {
-        return;
-      }
-      if(this.state.editdata == null)
-      {
-      var steps = [];
-      var length = values.keys.length;
-      var conditions = [];
-      for(let i = 0;i<length;i++)
-      { 
-        var temp = "condition"+(i+1);
-        conditions[i] = values[temp];
-        delete values[temp];
-      }
-      values['conditions']=conditions;
-      let newWorkflow = values;
+     
+     if(this.state.editdata)
+      {  let updatadata = {
+          target:{"workflow_id":data.workflow_id},
+          updatepart:data
+        };
+        this.props.dispatch(ChangeWorkFlow(updatadata));
+        this.setState({editdata:null})
+    }
+    else
+    {
+            var steps = [];
+      let newWorkflow = data;
       // delete newWorkflow['keys'];
       // console.log("workflows are",values);
       newWorkflow = {...newWorkflow,steps:steps};
       // console.log("what is in newWorkflow",newWorkflow);
 
-      this.props.dispatch(AddNewWorkFlow(newWorkflow)); 
-      } 
-      console.log("this.state.editdata is ",this.state.editdata);
-      if(this.state.editdata != null)
-      {
-      var steps = [];
-      var length = values.keys.length;
-      console.log("values is ",values);
-      console.log("length is",length);
-      var conditions = [];
-      for(let i = 0;i<10;i++)
-      { 
-
-        var temp = "condition"+(i+1);
-        if(values[temp]!=undefined){
-        conditions[i] = values[temp];
-        console.log("values[temp]",values[temp]);
-        console.log("condition i is",conditions[i]);
-        }
-        else
-          break;
-      }
-      values['conditions']=conditions;
-      let newWorkflow = values;
-      // delete newWorkflow['keys'];
-      console.log("workflows are",values);
-      newWorkflow = {...newWorkflow,steps:steps};
-        let updatadata = {
-          target:{"workflow_id":values.workflow_id},
-          updatepart:newWorkflow
-        };
-        this.props.dispatch(ChangeWorkFlow(updatadata));
-      }   
-
-
-
-    })
-    form.resetFields();
+this.props.dispatch(AddNewWorkFlow(newWorkflow)); 
+    }
     this.setState({ 
     visible: false });
   
