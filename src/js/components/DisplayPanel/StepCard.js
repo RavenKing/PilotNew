@@ -107,7 +107,7 @@ export default class StepCard extends React.Component {
 
       {
         this.state.course.map((course,i) => {
-            return <li key={i}>{course.course_id+" "+course.title}<Icon type="delete" id = {course.course_id }style={{float:"right"}} onClick={this.Delete.bind(this)}/></li>
+            return <li key={i}>{"课程id："+course.course_id+" |课程名："+course.title}<Icon type="delete" id = {course.course_id }style={{float:"right"}} onClick={this.Delete.bind(this)}/></li>
       })}
       </Card>           
      	);

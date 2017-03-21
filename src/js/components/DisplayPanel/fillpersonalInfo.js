@@ -174,8 +174,8 @@ let dynamicBase=0;
 
     //xiawen panel
 
-
-    // levels setup
+ // levels setup
+if(personaldata.role!="Pilot")
     if(levels)
     {
   levelOption = levels.entries.map((one)=>{
