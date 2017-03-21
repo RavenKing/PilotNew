@@ -39,6 +39,8 @@ columns = [
             return <Tag color="red">审核被拒绝</Tag>
           else if (text == "xiawen")
             return <Tag color="green">已下文</Tag>
+          else if (text == "canceled")
+            return <Tag color="red">已取消</Tag>
         }
       },
       {
@@ -83,6 +85,8 @@ else
             return <Tag color="red">审核被拒绝</Tag>
           else if (text == "xiawen")
             return <Tag color="green">已下文</Tag>
+          else if (text == "canceled")
+            return <Tag color="red">已取消</Tag>
         }
       },
       {
@@ -108,7 +112,7 @@ else
       { 
         title: '操作' , key: 'action', 
         render: (text,record) =>{
-          if(record.status == "rej" || record.status == "fin")
+          if(record.status == "rej" || record.status == "fin"||record.status == "canceled")
             return "";
           else
             return(
@@ -171,14 +175,14 @@ else
         return user;
     })
     var aud = auds[0];
-
+    console.log(documents);
     var targetdoc = documents.filter((doc,i)=>{
       if(doc.documentId == documentId)
         return doc;
     })
- //  console.log("targetdoc",targetdoc);
+   console.log("targetdoc",targetdoc);
     var steps = targetdoc[0].steps;
-  //  console.log("steps are,",steps);
+    console.log("steps are,",steps);
 
     var flag = false;
     steps.map((step,i)=>{

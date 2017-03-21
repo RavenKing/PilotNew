@@ -4,8 +4,8 @@ import { connect } from "react-redux"
 import { setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
 
 import {GetQueryResults}  from "../../../Actions/QueryAction"
-import {Card,Icon,Button,Form,Input,InputNumber,Row,Col,Select,Table,Modal,Popconfirm,message} from "antd";
-import {RemoveCard,AddCardToDisplay,updateDocument1 } from "../../../Actions/pilotAction"
+import {Card,Icon,Button,Form,Input,InputNumber,Row,Col,Select,Table,Modal,Popconfirm,message,Tag} from "antd";
+import {RemoveCard,AddCardToDisplay,updateDocument1,cancelMessage} from "../../../Actions/pilotAction"
 import {GetWorkflows,CreateDocument,GetDocumnts} from "../../../Actions/pilotAction";
 import ConditionCheck from "./ConditionCheck"
 
@@ -44,6 +44,16 @@ export default class DocumentPanel extends React.Component {
               title: '流程状态',
               dataIndex: 'status',
               key: 'status',
+              render:(text,record)=>{
+                    if(text=="进行中")
+                      return <Tag color="blue">进行中</Tag>
+                    else if(text == "已完成")
+                      return <Tag color="green">已完成</Tag>
+                    else if (text == "已下文")
+                      return <Tag color="green">已下文</Tag>
+                    else if (text == "已取消")
+                      return <Tag color="red">已取消</Tag>
+                  }
             }, {
               title: '创建时间',
               dataIndex: 'start_date',
@@ -60,7 +70,7 @@ export default class DocumentPanel extends React.Component {
               title:'操作',
               key:'action',
               render: (record) =>{
-          if(record.status!="已取消")
+          if(record.status!="已取消"||record.status!="已完成"||record.status!="已下文")
           {  
 
             return     (<span>
@@ -70,7 +80,11 @@ export default class DocumentPanel extends React.Component {
                     </span>
                 )
           }
+          else if(record.status=="已完成")
+          {
+            return "等待下文"
               }
+          }
             }];
 
 
@@ -126,7 +140,9 @@ export default class DocumentPanel extends React.Component {
 CancelDocument(record){
 
   var targetDoc={documentId:record.documentId,status:"已取消"}
+    var targetMess={documentId:record.documentId,status:"canceled",approveTime:Date.now()}
   this.props.dispatch(updateDocument1(targetDoc))
+  this.props.dispatch(cancelMessage(targetMess))
   Modal.info({title:"该申请已取消",content:"该申请已取消"+record.documentId});
   this.state.documents.filter((document)=>{
     if(document.documentId == record.documentId)
@@ -134,6 +150,8 @@ CancelDocument(record){
       document.status = "已取消"
     }
   })
+
+
   
 }
 

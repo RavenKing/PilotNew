@@ -89,7 +89,7 @@ export default class WorkFlowDetail extends React.Component {
       message_id:this.props.pilotinfo.Pilot.cert_id + this.props.workflowid+time,
       message_key:this.props.pilotinfo.Pilot.cert_id+this.props.workflowid+status+this.state.info,
       workflowid:this.props.workflowid,
-      description:this.state.info,
+      description:this.state.info+"已提交给"+this.state.choseninspector.name,
       applier:this.props.pilotinfo.Pilot.name,
       applierId:this.props.pilotinfo.Pilot.cert_id,
       owner:this.state.choseninspector.cert_id,
@@ -103,8 +103,9 @@ export default class WorkFlowDetail extends React.Component {
     var flag = true;
     messages.map((mes,i)=>
     {
-      if(mes.message_key == message.message_key)
+      if(mes.message_key == message.message_key&&mes.status!="canceled")
       {
+       if(mes.status!="rej") 
         flag = false;
       }
     })

@@ -108,10 +108,21 @@ export function personalInfoRegister(data){
         role:'Pilot'
     },config).then(function(response){
       if(response.status == 200){
-        const modal = Modal.success({
+        console.log(response);
+
+      if(response.data.result == "done")
+        {const modal = Modal.success({
               title: '注册成功 ',
               content: '请登录',
+            });}
+      else if(response.data.result == "already" )
+      {
+const modal = Modal.error({
+              title: '已有人注册 ',
+              content: '已有人注册',
             });
+
+      }
       browserHistory.push("/")                  }
       }).catch(function (error) {
     console.log("error is",error);

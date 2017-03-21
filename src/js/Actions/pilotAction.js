@@ -257,6 +257,30 @@ var data={
               })
   }
 }
+
+
+export function cancelMessage(para)
+{
+var data={
+    "target":{"documentId":para.documentId},
+    "updatepart":para
+  }
+  return dispatch =>{
+    axios.put("http://localhost:8083/api/messages",{
+                     data:data,
+                     headers:{
+                      'X-My-Custom-Header': 'Header-Value',
+                      'content-type':'application/json'
+                      }
+              })
+              .then(function(response,err)
+              {
+               
+               dispatch({type:"UPDATE_MESSAGE",payload:response.data})
+
+              })
+  }
+}
 /*
 export function UpdateMessage(data1)
 {

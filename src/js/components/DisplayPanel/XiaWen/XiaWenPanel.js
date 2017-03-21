@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
 
-import {RemoveCard,AddCardToDisplay,SubmitMessageForXiaWen} from "../../../Actions/pilotAction"
+import {RemoveCard,AddCardToDisplay,SubmitMessageForXiaWen,updateDocument1} from "../../../Actions/pilotAction"
 import {Button,Table,Card,Icon,Form,Modal,Popconfirm,notification } from "antd";
 import {GetAllDocuments,updateDocumentXiaWen,UpdateLevel,UPDATE_PILOT_DATA_LEVEL,DeleteDocument} from "../../../Actions/QueryAction";
 import XiaWenModal from "./XiaWenModal";
@@ -118,12 +118,18 @@ console.log(record);
                   })
   const message = {
     workflowid:record.workflow_id,
-    description:"恭喜您完成训练，下文已经完成,你已经升级为"+this.state.target.target_level,
+    description:"恭喜您完成训练，下文已经完成,你已经升级为"+record.target_level,
     owner:record.cert_id,
     status:"xiawen",
     applierId:record.cert_id
   }
   this.props.dispatch(SubmitMessageForXiaWen(message));
+  const newdocument ={
+    documentId:record.documentId,
+    status:"已下文"
+  }
+  this.props.dispatch(updateDocument1(newdocument));
+
 
 }
   RemoveCard()

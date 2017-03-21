@@ -88,13 +88,27 @@ app.post('/api/pilots/query', function(req, res) {
       app.post('/api/pilots', function(req, res) {
         var newOne = new Pilot(req.body);
         console.log("req.body is",req.body);
-        newOne.save(function(err){
+        console.log(req.body);
+
+
+        Pilot.findOne({cert_id:req.body.cert_id},function(err,data){
+            console.log(data);
+            if(data!=null)
+            {
+                res.json({"result":"already"})
+            }
+            else{
+             newOne.save(function(err){
                 if(err)
                 {    console.log(err);
                     res.send(false);  
                 }
         })
-        res.send(true);
+     
+        res.json({"result":"done"});
+            }   
+        })
+
 
         });
 
@@ -513,6 +527,18 @@ app.post('/api/pilots/query', function(req, res) {
         var query = req.body.data.target;
         var updatepart = req.body.data.updatepart;
         Message.findOneAndUpdate(query,updatepart,{new:true},function(err,data)
+            {
+               if(err)
+                            res.send(err);
+                        res.json(data);
+            }
+            );
+    });
+  app.put('/api/messages',function(req,res)
+    {
+        var query = req.body.data.target;
+        var updatepart = req.body.data.updatepart;
+        Message.update(query,updatepart,{new:true},function(err,data)
             {
                if(err)
                             res.send(err);
