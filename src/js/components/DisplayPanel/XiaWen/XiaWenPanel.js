@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux"
 import {setNodeDragable, setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
 
-import {RemoveCard,AddCardToDisplay,SubmitMessageForXiaWen} from "../../../Actions/pilotAction"
+import {RemoveCard,AddCardToDisplay,SubmitMessageForXiaWen,updateDocument1} from "../../../Actions/pilotAction"
 import {Button,Table,Card,Icon,Form,Modal,Popconfirm,notification } from "antd";
-import {GetAllDocuments,updateDocumentXiaWen,UpdateLevel,UPDATE_PILOT_DATA_LEVEL} from "../../../Actions/QueryAction";
+import {GetAllDocuments,updateDocumentXiaWen,UpdateLevel,UPDATE_PILOT_DATA_LEVEL,DeleteDocument} from "../../../Actions/QueryAction";
 import XiaWenModal from "./XiaWenModal";
 import moment from 'moment';
 
@@ -36,6 +36,13 @@ export default class XiaWenPanel extends React.Component {
             title: '状态',
             dataIndex: 'status',
             key: 'status',
+            filters: [
+                { text: '已完成', value: '已完成' },
+                { text: '已取消', value: '已取消' },
+                { text: '进行中', value: '进行中' },
+              ],
+          onFilter: (value, record) => record.status.includes(value),
+
           },
           {
             title: '下文名称',
@@ -51,13 +58,20 @@ export default class XiaWenPanel extends React.Component {
           title: '操作', dataIndex: '', key: 'x', render: (key,record) =>{
                   if(record.status=='已完成')
                   return (<span>
-                  <a onClick={this.AddXiaWen.bind(this,record)}>添加下文</a>
+                  <a onClick={this.AddXiaWen.bind(this,record)}>添加下文|</a>|
+                  <a onClick={this.DeleteDocument.bind(this,record)}>|删除该申请</a>
                   </span>)
                 else if(record.status == '进行中')
                 {
-                  return (<span><a>尚未完成</a></span> )
+                  return (<span><a>尚未完成|</a>
+                  <a onClick={this.DeleteDocument.bind(this,record)}>|删除该申请</a></span> )
                 }
-                 }  
+                else 
+                {
+                  return (<span><a onClick={this.DeleteDocument.bind(this,record)}>|删除该申请</a></span>)
+                }
+                 
+                }
                 }
           ];
           const {query} =this.props;
@@ -66,9 +80,36 @@ export default class XiaWenPanel extends React.Component {
         columns:columns,
         visible:false,
         editdata:null,
-        list:lists
+        list:lists,
+        deleteShow:false,
+        deleteTarget:{}
+        
       }
   }
+
+DeleteDocument(record)
+{
+  console.log(record)
+  this.setState({deleteShow:true,deleteTarget:record})
+}
+
+DeleteConfirm()
+{
+  this.props.dispatch(DeleteDocument(this.state.deleteTarget))
+     notification['success']({
+          message: '完成',
+        description: '已经删除',
+    })
+    var newdocuments=this.state.list.filter((document)=> { if(document.documentId != this.state.deleteTarget.documentId) return document;  })
+      this.setState({list:newdocuments,deleteShow:false,deleteTarget:null});
+
+}
+CancelDelete()
+{
+this.setState({deleteShow:false,deleteTarget:null})
+}
+
+
 
 AddXiaWen(record){
 console.log(record);
@@ -77,12 +118,18 @@ console.log(record);
                   })
   const message = {
     workflowid:record.workflow_id,
-    description:"恭喜您完成训练，下文已经完成",
+    description:"恭喜您完成训练，下文已经完成,你已经升级为"+record.target_level,
     owner:record.cert_id,
     status:"xiawen",
     applierId:record.cert_id
   }
   this.props.dispatch(SubmitMessageForXiaWen(message));
+  const newdocument ={
+    documentId:record.documentId,
+    status:"已下文"
+  }
+  this.props.dispatch(updateDocument1(newdocument));
+
 
 }
   RemoveCard()
@@ -143,6 +190,15 @@ onCancel()
 
         >
         </XiaWenModal>
+
+        <Modal
+        visible={this.state.deleteShow}
+        onOk={this.DeleteConfirm.bind(this)}
+        onCancel={this.CancelDelete.bind(this)}
+        >
+          确定要删除? {this.state.deleteTarget?this.state.deleteTarget.cert_id:""}的 {this.state.deleteTarget?this.state.deleteTarget.documentId:""}?
+                </Modal>
+
 
         </div>
       );

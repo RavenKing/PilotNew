@@ -18,20 +18,21 @@ class CollectionCreateForm1 extends React.Component{
     constructor(props)
     { 
       super(props);
-      this.state={
-        
-      }
     }
 
     add()
     {
+      console.log(uuid);
     uuid++;
+
     const { form } = this.props;
     // can use data-binding to get
     const keys = form.getFieldValue('keys');
     const nextKeys = keys.concat(uuid);
     // can use data-binding to set
     // important! notify form to detect changes
+    console.log(nextKeys);
+    console.log(uuid)
     form.setFieldsValue({
       keys: nextKeys,
     });
@@ -89,13 +90,13 @@ class CollectionCreateForm1 extends React.Component{
           required={false}
           key={'existin'+index}
         >
-          {getFieldDecorator(`condition${index}`, {
+          {getFieldDecorator(`condition${index+1}`, {
             initialValue:k,
             validateTrigger: ['onChange', 'onBlur'],
             rules: [{
               required: true,
               whitespace: true,
-              message: "Please input passenger's name or delete this field.",
+              message: "",
             }],
           })(
             <Input placeholder="请输入条件
@@ -143,7 +144,7 @@ class CollectionCreateForm1 extends React.Component{
             rules: [{
               required: true,
               whitespace: true,
-              message: "Please input passenger's name or delete this field.",
+              message: "",
             }],
           })(
             <Input placeholder="请输入条件

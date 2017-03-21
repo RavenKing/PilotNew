@@ -4,8 +4,8 @@ import { connect } from "react-redux"
 import { setCardDragable,setAreaDropable,handleFocus} from "../../../interactScript";
 
 import {GetQueryResults}  from "../../../Actions/QueryAction"
-import {Card,Icon,Button,Form,Input,InputNumber,Row,Col,Select,Table,Modal,Popconfirm,message} from "antd";
-import {RemoveCard,AddCardToDisplay,updateDocument1 } from "../../../Actions/pilotAction"
+import {Card,Icon,Button,Form,Input,InputNumber,Row,Col,Select,Table,Modal,Popconfirm,message,Tag} from "antd";
+import {RemoveCard,AddCardToDisplay,updateDocument1,cancelMessage} from "../../../Actions/pilotAction"
 import {GetWorkflows,CreateDocument,GetDocumnts} from "../../../Actions/pilotAction";
 import ConditionCheck from "./ConditionCheck"
 
@@ -44,6 +44,16 @@ export default class DocumentPanel extends React.Component {
               title: '流程状态',
               dataIndex: 'status',
               key: 'status',
+              render:(text,record)=>{
+                    if(text=="进行中")
+                      return <Tag color="blue">进行中</Tag>
+                    else if(text == "已完成")
+                      return <Tag color="green">已完成</Tag>
+                    else if (text == "已下文")
+                      return <Tag color="green">已下文</Tag>
+                    else if (text == "已取消")
+                      return <Tag color="red">已取消</Tag>
+                  }
             }, {
               title: '创建时间',
               dataIndex: 'start_date',
@@ -60,7 +70,7 @@ export default class DocumentPanel extends React.Component {
               title:'操作',
               key:'action',
               render: (record) =>{
-          if(record.status!="已取消")
+          if(record.status!="已取消"||record.status!="已完成"||record.status!="已下文")
           {  
 
             return     (<span>
@@ -70,7 +80,11 @@ export default class DocumentPanel extends React.Component {
                     </span>
                 )
           }
+          else if(record.status=="已完成")
+          {
+            return "等待下文"
               }
+          }
             }];
 
 
@@ -126,11 +140,37 @@ export default class DocumentPanel extends React.Component {
 CancelDocument(record){
 
   var targetDoc={documentId:record.documentId,status:"已取消"}
+    var targetMess={documentId:record.documentId,status:"canceled",approveTime:Date.now()}
   this.props.dispatch(updateDocument1(targetDoc))
+  this.props.dispatch(cancelMessage(targetMess))
+  Modal.info({title:"该申请已取消",content:"该申请已取消"+record.documentId});
+  this.state.documents.filter((document)=>{
+    if(document.documentId == record.documentId)
+    {
+      document.status = "已取消"
+    }
+  })
+
+
   
 }
 
   GetCheck(){
+    console.log(this.props.pilotinfo);
+   const {LevelInfo} = this.props.pilotinfo;
+
+    const {user} = this.state;
+    console.log(user.level.current_level);
+    console.log(user.flightinfo.flightTotalTime)
+    if(user.flightinfo.flightTotalTime < LevelInfo.flight_base)
+    {
+
+      Modal.error({title:"无法申请/不符合条件",content:"申请不符合条件，您目前的飞行总经历时间为" +user.flightinfo.flightTotalTime+ "而下一级所需要总经历时间为："+LevelInfo.flight_base })
+      return;
+    }
+    
+
+
    if(this.state.apply_workflow==null)
 {Modal.info({title:"请选择申请流程",content:"请选择申请流程"})
   return;
@@ -143,7 +183,7 @@ CancelDocument(record){
   }
 
   SubmitDocument(){    
-    console.log(this.state.apply_workflow);
+
     if(this.state.apply_workflow==null)
       return;
 
@@ -192,6 +232,10 @@ CancelDocument(record){
     })
     if(flag)
       this.props.dispatch(CreateDocument(newDocument));
+    else
+    {
+      Modal.info({title:"重复提交",content:"请勿重复提交，先完成或者取消进行中的流程"})
+    }
     flag = true;
     this.setState({visible:false})
   }
@@ -280,8 +324,6 @@ getWorkflowDetail(record,e){
           return document;
       })
       const workflowoptions = workflows.map((workflow)=>{
-          console.log(user.level.current_level)
-          console.log(workflow.previous_level)
          
             return <Option value={workflow.workflow_id} key={workflow.workflow_id}>{workflow.title}</Option>
         }) 

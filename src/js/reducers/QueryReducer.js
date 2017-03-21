@@ -19,6 +19,16 @@ export default function query (
     case "GET_ALL_DOCUMENTS":{
       return {...state,AllDocuments:action.payload}
     }
+    case "DELETE_DOCUMENT":{
+
+
+       const targetdata = action.payload;
+    var documents = state.AllDocuments.filter((document)=>{
+      if(document.documentId != targetdata.documentId) return document;  })
+    console.log(documents);
+      return {...state,AllDocuments:documents}
+
+    }
     case "UPDATE_QUERY_DOCUMENT":{
 
 

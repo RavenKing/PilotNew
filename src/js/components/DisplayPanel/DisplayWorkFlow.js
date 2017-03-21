@@ -16,11 +16,6 @@ import ChangeWorkflowForm from "./ChangeWorkflowForm"
     
 })
 export default class DisplayWorkFlow extends React.Component { 
-
-    componentWillMount(){
-    }
-
-
     constructor(props)
     {
       super(props);
@@ -75,6 +70,7 @@ export default class DisplayWorkFlow extends React.Component {
 
   }
   newWorkflow(){
+    this.setState({editdata:null});
     this.setState({visible:true});
   }
   
@@ -116,21 +112,30 @@ export default class DisplayWorkFlow extends React.Component {
 
       this.props.dispatch(AddNewWorkFlow(newWorkflow)); 
       } 
-      else
+      console.log("this.state.editdata is ",this.state.editdata);
+      if(this.state.editdata != null)
       {
       var steps = [];
       var length = values.keys.length;
+      console.log("values is ",values);
+      console.log("length is",length);
       var conditions = [];
-      for(let i = 0;i<length;i++)
+      for(let i = 0;i<10;i++)
       { 
+
         var temp = "condition"+(i+1);
+        if(values[temp]!=undefined){
         conditions[i] = values[temp];
-        delete values[temp];
+        console.log("values[temp]",values[temp]);
+        console.log("condition i is",conditions[i]);
+        }
+        else
+          break;
       }
       values['conditions']=conditions;
       let newWorkflow = values;
       // delete newWorkflow['keys'];
-      // console.log("workflows are",values);
+      console.log("workflows are",values);
       newWorkflow = {...newWorkflow,steps:steps};
         let updatadata = {
           target:{"workflow_id":values.workflow_id},
