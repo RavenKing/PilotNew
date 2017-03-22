@@ -81,6 +81,14 @@ componentWillReceiveProps(nextProps)
 
 }
 
+onCancel1()
+{
+
+  this.setState({
+        exsitingCon:[],
+        exsitingKeys:0})
+  this.props.onCancel();
+}
 
 //dynamic add and delete
   remove = (k) => {
@@ -175,6 +183,7 @@ componentWillReceiveProps(nextProps)
     });
     //end of dynamic
 
+
     ///exsiting
 var existingconditions
       if(this.state.exsitingCon)
@@ -224,12 +233,13 @@ var existingconditions
 
     //ennd of existing
 
+
     return (
       <Modal
         visible={visible}
         title={initdata?"修改课程":"创建新流程"}
         okText="保存"
-        onCancel={onCancel}
+        onCancel={this.onCancel1.bind(this)}
         onOk={this.handleSubmit.bind(this)}
       >
         <Form vertical>

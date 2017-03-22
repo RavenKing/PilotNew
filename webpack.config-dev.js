@@ -1,14 +1,11 @@
-var debug = false;
+var debug = process.env.NODE_ENV !== "production";
 var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
   context: path.join(__dirname, "src"),
-  devtool:null,
-  entry:{
-   bundle: "./js/client.js",
-    vendor: ['react','highcharts','react-highcharts','echarts','react-echarts'],
-  } ,
+  devtool: debug ? "inline-sourcemap" : null,
+  entry: "./js/client.js",
   module: {
     loaders: [
       {
@@ -36,15 +33,9 @@ module.exports = {
     }
 },
   plugins: debug ? [] : [
-  new webpack.DefinePlugin({
-  "process.env": { 
-     NODE_ENV: JSON.stringify("production") 
-   }
-}),
-  new webpack.optimize.CommonsChunkPlugin('vendor',  'vendor.js'),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false,compress:{warnings:false}}),
+    new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
   ]
 };
 

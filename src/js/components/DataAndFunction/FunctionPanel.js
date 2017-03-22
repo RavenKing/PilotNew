@@ -2,8 +2,6 @@ import React from "react";
 import { Button,Modal } from "antd";
 import FunctionItem from "./FunctionItem";
 import {connect} from "react-redux";
-import { hashHistory,Router,Link,Route,Redirect  } from "react-router";
-
 @connect((store)=>{    
     return {
       auth:store.auth,
@@ -12,6 +10,12 @@ import { hashHistory,Router,Link,Route,Redirect  } from "react-router";
 })
 export default class FunctionPanel extends React.Component {
     
+    logOut()
+    {
+window.location.reload();
+
+    }
+
 
 
     render() {
@@ -30,8 +34,8 @@ export default class FunctionPanel extends React.Component {
           displaypart = <div></div>
         return (
         <div className = "function-panel ">
-           <Button className="func-item1 ant-btn ant-btn-ghost ant-btn-lg function-button draggable" data-type="ANALYSIS" type="ghost" data-id="logout">
-                <Link to="/login">登出</Link>
+           <Button onClick={this.logOut.bind(this)} className="func-item1 ant-btn ant-btn-ghost ant-btn-lg function-button draggable" data-type="ANALYSIS" type="ghost" data-id="logout">
+                登出
               </Button>
 
           {displaypart}
