@@ -197,7 +197,7 @@ var existingconditions
         {
       return ( <FormItem
           {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-          label={index === 0 ? '条件' : ''}
+          label={index === 0 ? '已存条件' : ''}
           required={false}
           key={`econd${index}`}
         >
@@ -228,6 +228,12 @@ var existingconditions
       
         });
 }
+}
+
+if(!initdata)
+{
+  existingconditions = <div></div>
+
 }
 
 
