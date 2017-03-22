@@ -1,7 +1,9 @@
 import React from "react";
-import { Button } from "antd";
+import { Button,Modal } from "antd";
 import FunctionItem from "./FunctionItem";
 import {connect} from "react-redux";
+import { hashHistory,Router,Link,Route,Redirect  } from "react-router";
+
 @connect((store)=>{    
     return {
       auth:store.auth,
@@ -9,6 +11,9 @@ import {connect} from "react-redux";
     
 })
 export default class FunctionPanel extends React.Component {
+    
+
+
     render() {
 
       const {auth} = this.props;
@@ -25,6 +30,10 @@ export default class FunctionPanel extends React.Component {
           displaypart = <div></div>
         return (
         <div className = "function-panel ">
+           <Button className="func-item1 ant-btn ant-btn-ghost ant-btn-lg function-button draggable" data-type="ANALYSIS" type="ghost" data-id="logout">
+                <Link to="/login">登出</Link>
+              </Button>
+
           {displaypart}
                 <div class="footer">
           <img src="../../img/sangtuosi.jpg"  width="100px" height="100px" />

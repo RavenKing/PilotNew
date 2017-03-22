@@ -141,7 +141,7 @@ if(role == "Pilot")
 }
 if(role == "INS")
 {
-    Role = "监察员";
+    Role = "检查员";
 
   if(pilot.status == "INIT")
     {

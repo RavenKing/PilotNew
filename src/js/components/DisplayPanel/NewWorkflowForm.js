@@ -150,7 +150,7 @@ componentWillReceiveProps(nextProps)
       return (
         <FormItem
           {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-          label={index === 0 ? 'Passengers' : ''}
+          label={index === 0 ? '条件' : ''}
           required={false}
           key={k}
         >
@@ -162,7 +162,7 @@ componentWillReceiveProps(nextProps)
               message: "",
             }],
           })(
-            <Input placeholder="passenger name" style={{ width: '60%', marginRight: 8 }} />
+            <Input placeholder="条件" style={{ width: '60%', marginRight: 8 }} />
           )}
           <Icon
             className="dynamic-delete-button"
@@ -188,7 +188,7 @@ var existingconditions
         {
       return ( <FormItem
           {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-          label={index === 0 ? 'Passengers' : ''}
+          label={index === 0 ? '条件' : ''}
           required={false}
           key={`econd${index}`}
         >
@@ -201,7 +201,7 @@ var existingconditions
               message: "",
             }],
           })(
-            <Input placeholder="condition" style={{ width: '60%', marginRight: 8 }} />
+            <Input placeholder="条件" style={{ width: '60%', marginRight: 8 }} />
           )}
           <Icon
             className="dynamic-delete-button"
