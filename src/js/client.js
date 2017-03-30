@@ -4,7 +4,7 @@ import {Router,Route,IndexRoute,hashHistory,browserHistory} from "react-router";
 import Layout from "./components/Layout";
 import { Provider } from "react-redux";
 import store from "./store";
-
+import Init from "./components/Init/InitPage"
 import Login from "./components/Login/login"
 import requireAuth from "./requireAuth";
 import  ReactHighCharts  from "react-highcharts";
@@ -15,6 +15,7 @@ ReactDOM.render(
     <Provider store = {store}>
     <Router history={hashHistory}>
      <Route path="/login" component ={Login}> </Route>  
+     <Route path="/init" component ={Init}> </Route>  
      <Route path="/" component ={requireAuth(Layout)}> 
       </Route>
   </Router>
